@@ -88,22 +88,22 @@ const Header = () => {
                  p-6 rounded-xl absolute top-16 left-0 w-full text-white z-50"
           >
             {/* روابط التنقل */}
-            <Link href="#home" className="transition hover:text-cyan-300">
+            <Link href="/" className="transition hover:text-cyan-300">
               Home
             </Link>
             <Link
-              href="#destinations"
+              href="/Tours"
               className="transition hover:text-cyan-300"
             >
-              Destinations
+              Tours
             </Link>
-            <Link href="#about" className="transition hover:text-cyan-300">
+            <Link href="/About" className="transition hover:text-cyan-300">
               About Us
             </Link>
-            <Link href="#contact" className="transition hover:text-cyan-300">
+            <Link href="/Contact" className="transition hover:text-cyan-300">
               Contact
             </Link>
-            <Link href="#admin" className="transition hover:text-cyan-300">
+            <Link href="/Admin" className="transition hover:text-cyan-300">
               Admin
             </Link>
 
