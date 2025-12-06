@@ -24,3 +24,129 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+/* .cloud-style {
+  clip-path: path("M60,80 C100,40 180,40 220,80 C260,120 340,120 380,80 C420,40 480,40 500,80 L500,180 L0,180 L0,80 C20,40 40,40 60,80 Z");
+  border-radius: 50px;
+  box-shadow: 0 20px 40px rgba(255, 255, 255, 0.4);
+  filter: blur(0.5px);
+} */
+/* العنصر اللي عايز تغير فيه الاسكرول */
+/* Chrome, Edge, Safari */
+html::-webkit-scrollbar {
+  width: 12px; /* عرض الاسكرول */
+}
+
+html::-webkit-scrollbar-track {
+  background: #0f172a; /* لون الخلفية */
+}
+
+html::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #06b6d4, #3b82f6); /* لون أو تدرج */
+  border-radius: 10px;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #22d3ee, #60a5fa);
+}
+
+/* Firefox */
+html {
+  scrollbar-width: thin; /* رفيع */
+  scrollbar-color: #06b6d4 #0f172a; /* المقبض + الخلفية */
+}
+.react-datepicker__day--selected,
+.react-datepicker__day--in-range {
+  background: rgba(6, 182, 212, 0.6) !important; /* cyan */
+  color: #fff !important;
+  border-radius: 8px !important;
+}
+.css-voecp4-MuiInputBase-input-MuiFilledInput-input {
+  padding-top: 13px !important;
+}
+
+.css-1toxriw-MuiList-root-MuiMenu-list {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  color: #fff !important;
+}
+.css-voecp4-MuiInputBase-input-MuiFilledInput-input {
+  padding-top: 18px !important;
+  padding-bottom: 18px !important;
+}
+/* الهيدر */
+.react-datepicker__header {
+  background: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(8px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 12px 12px 0 0 !important;
+}
+
+/* الشهر والسنة */
+.react-datepicker__current-month {
+  color: #22d3ee !important; /* Cyan */
+  font-weight: bold !important;
+  font-size: 1rem !important;
+  text-shadow: 0 0 8px rgba(34, 211, 238, 0.6); /* Glow */
+}
+
+/* الأسهم */
+.react-datepicker__navigation {
+  top: 12px !important;
+  color: #fff !important;
+  opacity: 0.8;
+}
+.react-datepicker__navigation:hover {
+  opacity: 1;
+  filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.8));
+}
+/* الأيام داخل الكالندر */
+/* الأيام */
+.react-datepicker__day {
+  color: rgba(255, 255, 255, 0.986) !important; /* أبيض شفاف */
+  font-size: 1rem !important; /* حجم أكبر */
+  font-weight: 600 !important;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.651) !important; /* Glow زجاجي */
+  transition: all 0.3s ease;
+}
+
+.react-datepicker__day:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(6px) !important;
+  border-radius: 8px !important;
+  color: #22d3ee !important; /* Cyan عند hover */
+  text-shadow: 0 0 10px rgba(34, 211, 238, 0.6) !important;
+}
+
+/* الشهر والسنة */
+.react-datepicker__current-month {
+  color: #22d3ee !important;
+  font-size: 1.2rem !important;
+  font-weight: bold !important;
+  text-shadow: 0 0 10px rgba(34, 211, 238, 0.6) !important;
+}
+
+/* أسماء الأيام */
+.react-datepicker__day-name {
+  color: rgba(255, 255, 255, 0.6) !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+}
+.react-datepicker__day {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  background-image: linear-gradient(to right, rgba(255,255,255,0.9), rgba(255,255,255,0.5));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; /* يخلي الرقم متدرج شفاف */
+  text-shadow: 0 0 10px rgba(255,255,255,0.4);
+  transition: all 0.3s ease;
+}
+
+.react-datepicker__day:hover {
+  background-image: linear-gradient(to right, #22d3ee, #ffffff, #22d3ee);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 12px rgba(34,211,238,0.6);
+  transform: scale(1.1);
+}
