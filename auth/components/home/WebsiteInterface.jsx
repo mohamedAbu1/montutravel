@@ -23,6 +23,7 @@ import {
 import { useAppFun } from "@/context/AppFun";
 import { FaMapMarkerAlt, FaUsers, FaBed } from "react-icons/fa";
 import { MdCategory, MdDateRange } from "react-icons/md";
+import AppDownloadButtons from "./components/AppDownloadButtons";
 const WebsiteInterface = () => {
   const backgrounds = [
     luxorBg,
@@ -109,21 +110,47 @@ const WebsiteInterface = () => {
           />
         </motion.div>
 
-        {/* اسم الشركة */}
-        <motion.h1
-          className="text-4xl md:text-5xl lg:text-6xl font-bold uppercase text-center 
-             px-4 md:px-8 py-2 md:py-4 rounded-xl
-             shadow-lg shadow-blue-900/50
-             text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-white to-cyan-400"
-          initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 1 }}
-        >
-          flower of life
-        </motion.h1>
-
         {/* Search Interface */}
         <FormFilter />
+        <AppDownloadButtons />
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          style={{
+            background: "rgba(255,255,255,0.05)", // خلفية شفافة فاتحة
+            borderRadius: "12px",
+            marginTop: "12px",
+            border: "1px solid rgba(255,255,255,0.2)", // ✅ نفس الحدود
+            backdropFilter: "blur(8px)", // ✅ تأثير الزجاج
+          }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: { staggerChildren: 0.2 },
+            },
+          }}
+          className="flex flex-wrap gap-4 justify-center font-[Cinzel] text-[22px] lg:text-[64px] shadow-lg shadow-blue-900/40 p-6"
+        >
+          {[
+            "☥",
+            "F",
+            "L",
+            "O",
+            "W",
+            "E",
+            "R",
+            "O",
+            "F",
+            "L",
+            "I",
+            "F",
+            "E",
+            "☥",
+          ].map((char, i) => (
+            <LogoLetter key={i} char={char} />
+          ))}
+        </motion.div>
       </motion.div>
 
       {/* الكارد يظهر تحت الفورم بشكل طبيعي */}
@@ -260,3 +287,25 @@ const WebsiteInterface = () => {
 };
 
 export default WebsiteInterface;
+function LogoLetter({ char }) {
+  return (
+    <motion.span
+      variants={{
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0 },
+      }}
+      whileHover={{
+        scale: 1.2,
+        textShadow: `0 0 20px #0ff`, // ظل بنفس لون السيان
+      }}
+      style={{
+        backgroundImage: `linear-gradient(to right, #06b6d4, #fff, #22d3ee)`, // ✅ نفس الألوان
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+      }}
+      className="relative px-[8px] text-center font-extrabold border-2 border-cyan-300 rounded-lg transition-transform duration-500"
+    >
+      {char}
+    </motion.span>
+  );
+}

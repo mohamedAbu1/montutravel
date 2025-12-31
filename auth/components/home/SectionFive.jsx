@@ -39,7 +39,7 @@ const SectionFive = () => {
   const current = carsData[index];
 
   return (
-    <section className="relative w-full min-h-auto text-white overflow-hidden pt-14 pb-16">
+    <section className="hidden md:flex relative w-full min-h-auto text-white overflow-hidden pt-14 pb-16">
       {/* الخلفية */}
       <div className="absolute inset-0 -z-20">
         <Image

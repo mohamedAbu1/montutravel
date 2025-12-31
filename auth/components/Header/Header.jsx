@@ -35,27 +35,7 @@ const Header = () => {
       </div>
 
       {/* زر الموبايل */}
-      <div className="lg:hidden flex items-center">
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="text-white focus:outline-none"
-        >
-          {/* أيقونة الهامبرجر */}
-          <svg
-            className="w-7 h-7"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
-            />
-          </svg>
-        </button>
-      </div>
+    
 
       {/* القائمة للديسكتوب */}
       <nav className="hidden lg:flex gap-8 text-sm font-semibold">
@@ -77,68 +57,7 @@ const Header = () => {
       </nav>
 
       {/* القائمة للموبايل مع Animation */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.nav
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className="lg:hidden flex flex-col gap-4 bg-white/10 backdrop-blur-md 
-                 p-6 rounded-xl absolute top-16 left-0 w-full text-white z-50"
-          >
-            {/* روابط التنقل */}
-            <Link href="/" className="transition hover:text-cyan-300">
-              Home
-            </Link>
-            <Link
-              href="/Tours"
-              className="transition hover:text-cyan-300"
-            >
-              Tours
-            </Link>
-            <Link href="/About" className="transition hover:text-cyan-300">
-              About Us
-            </Link>
-            <Link href="/Contact" className="transition hover:text-cyan-300">
-              Contact
-            </Link>
-            <Link href="/Admin" className="transition hover:text-cyan-300">
-              Admin
-            </Link>
-
-            {/* فاصل مرئي */}
-            <hr className="border-white/20 my-2" />
-
-            {/* Language Switcher */}
-            <select className="bg-white/10 backdrop-blur-md border border-white/30 text-white text-sm rounded-lg px-2 py-1">
-              <option value="en">EN</option>
-              <option value="ar">AR</option>
-              <option value="fr">FR</option>
-            </select>
-
-            {/* Currency Switcher */}
-            <select className="bg-white/10 backdrop-blur-md border border-white/30 text-white text-sm rounded-lg px-2 py-1">
-              <option value="usd">USD</option>
-              <option value="eur">EUR</option>
-              <option value="egp">EGP</option>
-            </select>
-
-            {/* زر الحجز */}
-            <motion.button
-              onClick={() => setShowRegister(true)}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="bg-white/10 backdrop-blur-md border border-white/30 
-    text-white px-6 py-2 rounded-full text-sm font-bold
-    shadow-lg shadow-blue-900/40 transition-transform transform hover:scale-105"
-            >
-              Login
-            </motion.button>
-          </motion.nav>
-        )}
-      </AnimatePresence>
+     
 
       {/* Right Side: Language + Currency + CTA */}
       <div className="hidden lg:flex items-center gap-6">

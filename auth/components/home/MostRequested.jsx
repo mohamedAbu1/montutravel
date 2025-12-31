@@ -92,7 +92,7 @@ const MostRequested = () => {
   };
 
   return (
-    <section className="relative w-full min-h-auto text-white overflow-hidden pt-7 pb-7">
+    <section className="hidden md:flex relative w-full min-h-auto text-white overflow-hidden pt-7 pb-7">
       {/* خلفية */}
       <div className="absolute inset-0 -z-20">
         <Image

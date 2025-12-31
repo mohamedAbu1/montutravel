@@ -33,8 +33,8 @@ const FormFilter = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.8, duration: 0.6 }}
-      className=" bg-white/10 backdrop-blur-md p-6 rounded-2xl w-full max-w-5xl
-             flex flex-col md:flex-row md:flex-wrap gap-6 text-white
+      className="hidden bg-white/10 backdrop-blur-md p-6 rounded-2xl w-full max-w-5xl
+             md:flex flex-col md:flex-row md:flex-wrap gap-6 text-white
              border border-white/20 shadow-xl shadow-blue-900/40
              ring-1 ring-white/10"
     >
