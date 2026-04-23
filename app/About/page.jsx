@@ -169,7 +169,7 @@ const AboutPage = () => {
                 className="relative w-72 h-72 md:w-80 md:h-80 rounded-3xl overflow-hidden border border-cyan-300/60 bg-slate-900/70 shadow-[0_0_40px_rgba(34,211,238,0.75)]"
               >
                 <Image
-                  src="/assets/nile-about.webp" // ضع صورتك هنا
+                  src="/assets/WhatsApp Image 2026-04-22 at 4.52.26 PM.jpeg" // ضع صورتك هنا
                   alt="Nile Journey"
                   fill
                   className="object-cover object-center"
