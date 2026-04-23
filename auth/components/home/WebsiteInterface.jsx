@@ -130,7 +130,7 @@ const WebsiteInterface = () => {
               transition: { staggerChildren: 0.2 },
             },
           }}
-          className="flex flex-wrap gap-4 justify-center font-[Cinzel] text-[22px] lg:text-[64px] shadow-lg shadow-blue-900/40 p-6"
+          className="flex flex-wrap gap-4 justify-center font-[Cinzel] text-[22px] lg:text-[64px] shadow-lg shadow-blue-900/40 p-6 z-10"
         >
           {[
             "☥",

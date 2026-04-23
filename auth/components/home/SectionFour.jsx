@@ -1,10 +1,11 @@
-// components/GlassToursSection.jsx
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 const SectionFour = () => {
   return (
-    <section className="hidden md:flex relative w-full min-h-auto text-white overflow-hidden pt-7 pb-7">
+    <section className="hidden md:flex relative w-full text-white overflow-hidden py-16">
       {/* خلفية */}
       <div className="absolute inset-0 -z-20">
         <Image
@@ -17,30 +18,32 @@ const SectionFour = () => {
       </div>
 
       {/* طبقة شفافة */}
-      <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_bottom,rgba(10,28,47,1)_5%,rgba(10,28,47,1)_10%,rgba(10,28,47,0.95)_35%,rgba(11,33,56,0.9)_60%,rgba(11,33,56,1)_100%)]" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#0a1c2f] via-[#0b2138]/90 to-[#0b2138]" />
 
       {/* العنوان */}
-      <div className="max-w-6xl mx-auto text-center mb-12">
-        <h2 className="text-2xl sm:text-3xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-cyan-400">
+      <div className="max-w-6xl mx-auto text-center mb-14 relative z-10">
+        <h2 className="text-4xl mt-42.5 font-extrabold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-cyan-400 drop-shadow-lg">
           ADVENTURE AWAITS
         </h2>
-        <div className="flex flex-col items-center gap-1 mt-2">
-          <div className="h-[3px] w-[140px] bg-gradient-to-r from-cyan-400 via-white to-cyan-400 rounded-full"></div>
+        <div className="flex flex-col items-center gap-1 mt-4">
+          <div className="h-[3px] w-[160px] bg-gradient-to-r from-cyan-400 via-white to-cyan-400 rounded-full"></div>
           <div className="h-[3px] w-[120px] bg-gradient-to-r from-cyan-400 via-white to-cyan-400 rounded-full"></div>
-          <div className="h-[3px] w-[100px] bg-gradient-to-r from-cyan-400 via-white to-cyan-400 rounded-full"></div>
         </div>
       </div>
 
       {/* ✅ القسم المنقسم إلى عمودين */}
-      <div  style={{paddingBottom:"120px"}} className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 px-4">
-
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 px-6 items-center">
         {/* ✅ العمود الأول — زهرة اللوتس الهندسية */}
         <div className="flex items-center justify-center">
-          <div className="relative w-[260px] h-[260px] mx-auto">
-
+          <motion.div
+            initial={{ rotate: 0 }}
+            animate={{ rotate: 360 }}
+            transition={{ repeat: Infinity, duration: 60, ease: "linear" }}
+            className="relative w-[280px] h-[280px] mx-auto"
+          >
             {/* ✅ الطبقة الخارجية – 12 بتلة */}
             {[...Array(12)].map((_, i) => (
-              <div
+              <motion.div
                 key={i}
                 className="absolute left-1/2 top-1/2 w-[120px] h-[180px] 
                 bg-gradient-to-b from-cyan-300/40 to-cyan-500/10 
@@ -54,7 +57,7 @@ const SectionFour = () => {
 
             {/* ✅ الطبقة المتوسطة – 6 بتلات */}
             {[...Array(6)].map((_, i) => (
-              <div
+              <motion.div
                 key={i}
                 className="absolute left-1/2 top-1/2 w-[130px] h-[170px] 
                 bg-gradient-to-b from-cyan-200/70 to-cyan-500/20 
@@ -68,7 +71,7 @@ const SectionFour = () => {
 
             {/* ✅ الطبقة الداخلية – 6 بتلات */}
             {[...Array(6)].map((_, i) => (
-              <div
+              <motion.div
                 key={i}
                 className="absolute left-1/2 top-1/2 w-[110px] h-[130px] 
                 bg-gradient-to-b from-white/80 to-cyan-300/40 
@@ -81,18 +84,17 @@ const SectionFour = () => {
             ))}
 
             {/* ✅ مركز الزهرة */}
-            <div className="absolute left-1/2 top-1/2 w-[90px] h-[90px] 
+            <div className="absolute left-1/2 top-1/2 w-[100px] h-[100px] 
               bg-gradient-to-br from-white to-cyan-300 
-              rounded-full shadow-[0_0_25px_10px_rgba(0,255,255,0.5)] 
+              rounded-full shadow-[0_0_25px_12px_rgba(0,255,255,0.5)] 
               transform -translate-x-1/2 -translate-y-1/2">
             </div>
-
-          </div>
+          </motion.div>
         </div>
 
         {/* ✅ العمود الثاني — نصوص */}
-        <div className="flex flex-col gap-4 text-gray-200 leading-relaxed">
-          <h3 className="text-2xl font-bold text-cyan-300">Explore The Unknown</h3>
+        <div className="flex flex-col gap-6 text-gray-200 leading-relaxed">
+          <h3 className="text-3xl font-bold text-cyan-300">Explore The Unknown</h3>
 
           <p>
             Embark on a journey where every step leads to a new discovery. 
@@ -110,8 +112,11 @@ const SectionFour = () => {
             Let your heart guide you, and let the journey transform you. 
             Adventure isn't just a destination — it's a way of life.
           </p>
-        </div>
 
+          <button className="mt-4 px-6 py-3 text-lg font-semibold rounded-lg bg-gradient-to-r from-cyan-400 to-blue-500 text-white shadow-lg hover:scale-105 transition-transform duration-300">
+            Start Your Journey
+          </button>
+        </div>
       </div>
     </section>
   );
