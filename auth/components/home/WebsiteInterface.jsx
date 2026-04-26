@@ -3,12 +3,12 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import eagleLogo from "@/public/assets/Copilot_20251201_121053.webp";
-import luxorBg from "@/public/assets/bahaa-mourad-4wB6TZFvMHQ-unsplash.webp";
-import nileBg from "@/public/assets/bahaa-mourad-JQJ2MTtL_TU-unsplash.webp";
-import templeBg from "@/public/assets/eibner-saliba-3T9dDY0WqDI-unsplash.webp";
-import templeBg2 from "@/public/assets/derek-thomson-TWoL-QCZubY-unsplash.webp";
-import templeBg3 from "@/public/assets/rowan-heuvel-U6t80TWJ1DM-unsplash.webp";
-import templeBg4 from "@/public/assets/frank-mckenna-OD9EOzfSOh0-unsplash.webp";
+import luxorBg from "@/public/HomePageImage/bahaa-mourad-4wB6TZFvMHQ-unsplash.webp";
+import nileBg from "@/public/HomePageImage/bahaa-mourad-JQJ2MTtL_TU-unsplash.webp";
+import templeBg from "@/public/HomePageImage/eibner-saliba-3T9dDY0WqDI-unsplash.webp";
+import templeBg2 from "@/public/HomePageImage/derek-thomson-TWoL-QCZubY-unsplash.webp";
+import templeBg3 from "@/public/HomePageImage/rowan-heuvel-U6t80TWJ1DM-unsplash.webp";
+import templeBg4 from "@/public/HomePageImage/frank-mckenna-OD9EOzfSOh0-unsplash.webp";
 import Header from "../Header/Header";
 import FormFilter from "./components/FormFilter";
 import useWindowSize from "@/components/hook/UseWindowSize";
@@ -130,7 +130,7 @@ const WebsiteInterface = () => {
               transition: { staggerChildren: 0.2 },
             },
           }}
-          className="flex flex-wrap gap-4 justify-center font-[Cinzel] text-[22px] lg:text-[64px] shadow-lg shadow-blue-900/40 p-6 z-10"
+          className="flex flex-wrap gap-4 justify-center font-[Cinzel] text-[22px] lg:text-[52px] xl:text-[64px] shadow-lg shadow-blue-900/40 p-6 z-[-1]"
         >
           {[
             "☥",
@@ -303,7 +303,7 @@ function LogoLetter({ char }) {
         WebkitBackgroundClip: "text",
         WebkitTextFillColor: "transparent",
       }}
-      className="relative px-[8px] text-center font-extrabold border-2 border-cyan-300 rounded-lg transition-transform duration-500"
+      className="relative px-[8px] text-center font-extrabold border-2 border-cyan-300 rounded-lg transition-transform duration-500 z-[-1]"
     >
       {char}
     </motion.span>

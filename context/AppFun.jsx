@@ -9,7 +9,6 @@ const AppFun = createContext();
 export const AppFunProvider = ({ children }) => {
   const [destination, setDestination] = useState("");
   const [category, setCategory] = useState("");
-  const [travelers, setTravelers] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [showRegister, setShowRegister] = useState(false);
@@ -26,8 +25,6 @@ export const AppFunProvider = ({ children }) => {
         setDestination,
         category,
         setCategory,
-        travelers,
-        setTravelers,
         startDate,
         setStartDate,
         endDate,
