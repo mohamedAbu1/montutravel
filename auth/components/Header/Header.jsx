@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import eagleLogo from "@/public/assets/Copilot_20251201_121053.webp";
+import eagleLogo from "@/public/HomePageImage/Copilot_20251201_121053.webp";
 import Link from "next/link";
 import { useAppFun } from "@/context/AppFun";
 
