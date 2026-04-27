@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import eagleLogo from "@/public/assets/Copilot_20251201_121053.webp";
+import eagleLogo from "@/public/HomePageImage/Copilot_20251201_121053.webp";
 import luxorBg from "@/public/HomePageImage/bahaa-mourad-4wB6TZFvMHQ-unsplash.webp";
 import nileBg from "@/public/HomePageImage/bahaa-mourad-JQJ2MTtL_TU-unsplash.webp";
 import templeBg from "@/public/HomePageImage/eibner-saliba-3T9dDY0WqDI-unsplash.webp";
