@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useState } from "react";
 import eagleLogo from "@/public/HomePageImage/Copilot_20251201_121053.webp";
 import Link from "next/link";
