@@ -169,7 +169,7 @@ const CategoriesSection = () => {
         className="absolute opacity-40 pointer-events-none"
         style={{
           right: screenSize.width * 0.05, // 10% من عرض الشاشة
-          bottom: screenSize.height * 0.44, // 20% من ارتفاع الشاشة
+          bottom: screenSize.height * 0.49, // 20% من ارتفاع الشاشة
           width: "240px",
           height: "200px",
         }}
@@ -205,7 +205,7 @@ const CategoriesSection = () => {
         className="absolute scale-x-[-1] opacity-40 pointer-events-none"
         style={{
           left: screenSize.width * 0.05, // 10% من عرض الشاشة
-          bottom: screenSize.height * 0.44, // 20% من ارتفاع الشاشة
+          bottom: screenSize.height * 0.49, // 20% من ارتفاع الشاشة
           width: "240px",
           height: "200px",
         }}

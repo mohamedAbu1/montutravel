@@ -1,9 +1,9 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { MdLocationCity } from "react-icons/md";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
-
+import { useTranslation } from "react-i18next";
 const CitiesInput = ({
   selectedCities,
   confirmSelection,
@@ -12,9 +12,11 @@ const CitiesInput = ({
   cities,
   setShowCities,
   rightValue,
-  topValue
+  topValue,
 }) => {
   const { theme } = useTheme();
+  const { i18n } = useTranslation(); // ✅ اللغة الحالية
+  const normalizedLang = i18n.language.split("-")[0]; // مثل en أو ar أو fr
 
   return (
     <>
@@ -22,34 +24,30 @@ const CitiesInput = ({
       <input
         type="text"
         placeholder="City"
-        value={selectedCities.join(" - ")}
+        value={selectedCities
+          .map((c) => c.name?.[normalizedLang] || c.name?.["en"] || c.name)
+          .join(" - ")} // ✅ عرض الاسم حسب اللغة الحالية
         onFocus={() => setShowCities(true)}
         readOnly
         className={`flex-1 p-3 bg-transparent ${theme.text} ${theme.placeholder} 
                    focus:outline-none cursor-pointer`}
       />
 
-      {/* القائمة الجانبية مع أنيمشن وشفافية */}
       <AnimatePresence>
         {showCities && (
           <motion.div
             initial={{ opacity: 0, y: -20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            style={{
-              zIndex: 999,
-              right: rightValue,
-              top: topValue,
-            }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className={`flex flex-wrap gap-2 w-[400px] absolute 
+            style={{ zIndex: 999, right: rightValue, top: topValue }}
+            className={`flex flex-wrap gap-3 w-[400px] absolute 
                        ${theme.card} backdrop-blur-md border ${theme.logoBorder} 
                        rounded-xl shadow-lg z-50 p-4`}
           >
-            {cities.map((city, i) => (
+            {cities.map((city) => (
               <motion.div
-                key={i}
-                style={{ zIndex: 999 }}
+                key={city.id}
                 whileHover={{
                   scale: 1.1,
                   rotate: -2,
@@ -58,16 +56,15 @@ const CitiesInput = ({
                 onMouseDown={() => toggleCity(city)}
                 className={`px-4 py-2 rounded-lg cursor-pointer transition-all duration-300 
                   ${
-                    selectedCities.includes(city)
+                    selectedCities.some((c) => c.id === city.id || c.name === city.name)
                       ? `${theme.buttonPrimary} text-black shadow-lg`
                       : `${theme.text} ${theme.card} hover:${theme.buttonSecondary}`
                   }`}
               >
-                {city}
+                {city.name?.[normalizedLang] || city.name?.["en"] || city.name}
               </motion.div>
             ))}
 
-            {/* زر التأكيد ✅ */}
             <motion.div
               whileHover={{ scale: 1.05 }}
               onMouseDown={confirmSelection}

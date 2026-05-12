@@ -10,7 +10,7 @@ export default function Decor({ pos }) {
     typeof window !== "undefined" && window.innerWidth < 640
       ? 8
       : window.innerWidth < 1409
-      ? 25
+      ? 19
       : window.innerWidth < 1800
       ? 27
       : 27;

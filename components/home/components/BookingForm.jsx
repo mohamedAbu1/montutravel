@@ -2,28 +2,23 @@
 import { motion } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
 import { FaCalendarAlt } from "react-icons/fa";
-import { useState ,useEffect } from "react";
+import { useState, useEffect } from "react";
 import CitiesInput from "./components/CitiesInput";
 import CategoriesInput from "./components/CategoriesInput";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { addDays } from "date-fns";
-
+import { useCitiesCategories } from "@/context/CitiesCategoriesContext";
+import { useRouter } from "next/navigation";
+const encodeData = (obj) => {
+  return encodeURIComponent(JSON.stringify(obj));
+};
 export default function BookingForm({ setShowTrips }) {
   const { theme } = useTheme();
 
   const [showCities, setShowCities] = useState(false);
   const [selectedCities, setSelectedCities] = useState([]);
-  const cities = [
-    "Cairo",
-    "Alexandria",
-    "Luxor",
-    "Aswan",
-    "Giza",
-    "Sharm El-Sheikh",
-    "Hurghada",
-    "Siwa",
-  ];
+
   const toggleCity = (city) =>
     setSelectedCities((prev) =>
       prev.includes(city) ? prev.filter((c) => c !== city) : [...prev, city],
@@ -32,16 +27,8 @@ export default function BookingForm({ setShowTrips }) {
 
   const [showCategories, setShowCategories] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const categories = [
-    "Adventure",
-    "Culture",
-    "Relaxation",
-    "Luxury",
-    "Family",
-    "Nature",
-    "Historical",
-    "Wellness",
-  ];
+
+  const { cities, categories, loading } = useCitiesCategories(); // ✅ جلب البيانات من الكونتكست
   const toggleCategory = (cat) =>
     setSelectedCategories((prev) =>
       prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat],
@@ -65,18 +52,30 @@ export default function BookingForm({ setShowTrips }) {
 
   if (screenSize.width >= 1575) {
     // موبايل
-    rightValue = screenSize.width * 0.20;
+    rightValue = screenSize.width * 0.2;
     topValue = 0;
   } else if (screenSize.width >= 1000) {
     // تابلت
-     rightValue = screenSize.width * 0.36;
+    rightValue = screenSize.width * 0.36;
     topValue = 0;
-  } 
+  }
   const [arrival, setArrival] = useState(null);
   const [departure, setDeparture] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const specialDates = [];
+const router = useRouter();
 
+const handleClick = () => {
+  const queryObj = {
+    city: selectedCities.map((c) => c.displayName),   // ✅ المدن المختارة
+    category: selectedCategories.map((c) => c.displayName), // ✅ الكاتيجريز المختارة
+    price: "All",   // ✅ ثابت
+    popular: false, // ✅ ثابت
+  };
+
+  const encoded = encodeData(queryObj);
+  router.push(`/trips?data=${encoded}`);
+};
   const CustomInput = ({ value, onClick }) => (
     <div
       onClick={onClick}
@@ -172,18 +171,20 @@ export default function BookingForm({ setShowTrips }) {
       </div>
 
       {/* زر الحجز */}
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className={`w-full rounded-[6px] px-6 py-3 font-semibold tracking-wide cursor-pointer 
-                    transition-all duration-300 shadow-lg ${theme.buttonPrimary}`}
-        style={{
-          color: `${theme.subText}`,
-          border: `2px solid ${theme.logoBorder}`,
-        }}
-      >
-        EXPERIENCE THE LEGEND
-      </motion.button>
+     <motion.button
+  whileHover={{ scale: 1.05 }}
+  whileTap={{ scale: 0.95 }}
+  onClick={handleClick} // ✅ ربط الدالة
+  className={`w-full rounded-[6px] px-6 py-3 font-semibold tracking-wide cursor-pointer 
+              transition-all duration-300 shadow-lg ${theme.buttonPrimary}`}
+  style={{
+    color: `${theme.subText}`,
+    border: `2px solid ${theme.logoBorder}`,
+  }}
+>
+  EXPERIENCE THE LEGEND
+</motion.button>
+
     </motion.div>
   );
 }

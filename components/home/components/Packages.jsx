@@ -99,7 +99,7 @@ export default function Packages({ showTrips }) {
       </motion.div>
 
       {/* الكروت */}
-      <div className="relative z-[1]">
+  <div className={`relative z-[1] backdrop-blur-md p-4 border ${theme.logoBorder}  ${theme.card} rounded-[40px]`}>
         <AnimatePresence mode="wait">
           <motion.div
             key={page}
@@ -142,7 +142,7 @@ export default function Packages({ showTrips }) {
             ))}
           </motion.div>
         </AnimatePresence>
-      </div>
+      </div> 
     </motion.div>
   );
 }
