@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/purity */
-/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -24,7 +22,6 @@ const OurSection = () => {
   useEffect(() => {
     setHasMounted(true);
   }, []);
-
   if (!hasMounted) return null;
 
   const symbols = [
@@ -49,42 +46,39 @@ const OurSection = () => {
   return (
     <section
       id="section-four"
+      className={`hidden lg:flex relative w-full min-h-screen px-4 sm:py-10 md:py-12 lg:py-0 flex-col items-center justify-start ${theme.background} ${theme.text}`}
       style={{ paddingBottom: "40px", paddingTop: "20px" }}
-      className={` hidden lg:flex relative w-full min-h-screen px-4 sm:py-10 md:py-12 lg:py-0 flex-col items-center justify-start ${theme.background} ${theme.text}`}
     >
       {/* خلفية الرموز الفرعونية */}
       <div className="absolute inset-0 pointer-events-none -z-10">
         {Array.from({ length: 25 }).map((_, i) => (
-          <span
+          <motion.span
             key={i}
-            className={`absolute ${
-              themeName === "dark" ? "text-gray-700" : "text-[#c9a34a]"
-            } opacity-30 text-7xl animate-pulse`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 0.25, y: 0 }}
+            transition={{ duration: 1.2, delay: i * 0.1 }}
+            className="absolute text-7xl"
             style={{
               top: `${Math.random() * 100}%`,
               left: `${Math.random() * 100}%`,
               transform: `rotate(${Math.random() * 360}deg)`,
+              color: theme.icon,
             }}
           >
             {symbols[Math.floor(Math.random() * symbols.length)]}
-          </span>
+          </motion.span>
         ))}
       </div>
 
       <div className="w-full max-w-screen-xl flex flex-col lg:flex-row items-center justify-between gap-10 relative z-10">
-        {/* ✅ Slider with animation */}
+        {/* ✅ Slider */}
         <motion.div
           initial={{ opacity: 0, x: -100 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="w-full lg:w-1/2 rounded-3xl overflow-hidden shadow-xl"
-          style={{
-            boxShadow:
-              themeName === "dark"
-                ? "0 6px 20px rgba(201,163,74,0.4)"
-                : "0 6px 20px rgba(58,44,10,0.2)",
-          }}
+          style={{ boxShadow: theme.shadow }}
         >
           <Swiper
             modules={[Navigation, Pagination, Autoplay]}
@@ -110,7 +104,7 @@ const OurSection = () => {
                     alt={`WasetTravel Slide ${index + 1}`}
                     fill
                     className="w-full h-full object-cover rounded-lg"
-                    loading="lazy" // ✅ يفضل للصور الثانوية
+                    loading="lazy"
                   />
                 </div>
               </SwiperSlide>
@@ -118,7 +112,7 @@ const OurSection = () => {
           </Swiper>
         </motion.div>
 
-        {/* ✅ Text with animation */}
+        {/* ✅ Text */}
         <motion.div
           initial={{ opacity: 0, x: 100 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -127,87 +121,55 @@ const OurSection = () => {
           className="w-full lg:w-1/2 text-start gap-9"
           style={{ paddingLeft: "13px" }}
         >
-          <Decor pos={"top"}/>
+          <Decor pos={"top"} />
 
-          <p className="sc-p text-sm uppercase mb-2 tracking-wide"  style={{
-            WebkitTextStroke:
-              themeName === "dark" ? "1px #C2A878" : "1px #5C4B3B",
-            textShadow:
-              themeName === "dark"
-                ? "2px 2px 6px rgba(0,0,0,0.6)"
-                : "2px 2px 6px rgba(255,255,255,0.3)",
-          }}>
+          <p className="sc-p text-sm uppercase mb-2 tracking-wide text-gradient">
             {t("AboutUs")}
           </p>
 
-          <h2 className="sc-title text-3xl lg:text-4xl font-bold mb-4 leading-snug"  style={{
-            WebkitTextStroke:
-              themeName === "dark" ? "1px #C2A878" : "1px #5C4B3B",
-            textShadow:
-              themeName === "dark"
-                ? "2px 2px 6px rgba(0,0,0,0.6)"
-                : "2px 2px 6px rgba(255,255,255,0.3)",
-          }}>
+          <h2 className="sc-title text-3xl lg:text-4xl font-bold mb-4 leading-snug text-gradient">
             {t("DiscoverWasetTravel")}
           </h2>
+
           <DividerWithIcon />
 
           <p
             className="text-base mb-6 leading-relaxed"
-            style={{
-              color: themeName === "dark" ? "#ccc" : "#5c4520",
-            }}
+            style={{ color: theme.text }}
           >
             {t("At")}{" "}
-            <span
-              style={{
-                color: "#c9a34a",
-                fontWeight: 600,
-              }}
-            >
+            <span style={{ color: theme.logoBorder, fontWeight: 600 }}>
               Montu Travel
             </span>
             {t("AtP")}{" "}
-            <span
-              style={{
-                color: "#c9a34a",
-                fontWeight: 600,
-              }}
-            >
+            <span style={{ color: theme.logoBorder, fontWeight: 600 }}>
               {t("professionalguides")}
             </span>{" "}
             {t("AtPP")}
           </p>
 
-          <button
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             onClick={() => router.push("/about")}
-            style={{ cursor: "pointer" }}
-            className="w-full rounded-[4px] px-6 py-3 
-             bg-transparent backdrop-blur-md 
-             border border-[#C2A878] 
-             text-[#C2A878] font-semibold tracking-wide
-             hover:bg-[#C2A878]/20 hover:text-white 
-             transition-all duration-300 shadow-lg cursor-pointer"
+            className={`w-full rounded-[4px] px-6 py-3 font-semibold tracking-wide cursor-pointer transition-all duration-300 shadow-lg ${theme.buttonPrimary}`}
+            style={{
+              color: `${theme.subText}`,
+              border: `2px solid ${theme.logoBorder}`,
+            }}
           >
             {t("LearnMoreAboutUs")}
-          </button>
-                   <Decor pos={"bottom"}/>
+          </motion.button>
 
-
+          <Decor pos={"bottom"} />
         </motion.div>
-        {/* ✅ Slider with animation */}
         <motion.div
           initial={{ opacity: 0, x: -100 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="w-full lg:w-1/2 rounded-3xl overflow-hidden shadow-xl"
-          style={{
-            boxShadow:
-              themeName === "dark"
-                ? "0 6px 20px rgba(201,163,74,0.4)"
-                : "0 6px 20px rgba(58,44,10,0.2)",
-          }}
+          style={{ boxShadow: theme.shadow }}
         >
           <Swiper
             modules={[Navigation, Pagination, Autoplay]}
@@ -233,13 +195,25 @@ const OurSection = () => {
                     alt={`WasetTravel Slide ${index + 1}`}
                     fill
                     className="w-full h-full object-cover rounded-lg"
-                    loading="lazy" // ✅ يفضل للصور الثانوية
+                    loading="lazy"
                   />
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
         </motion.div>
+      </div>
+      <div className="absolute bottom-0 left-0 w-full h-[150px] opacity-100 pointer-events-none">
+        <Image
+          src={
+              themeName === "dark"
+                ? "/HomePageImage/1547933741.svg"
+                : "/HomePageImage/1540235872.svg"
+            }
+          alt="Decorative Style"
+          fill
+          className="object-contain"
+        />
       </div>
     </section>
   );

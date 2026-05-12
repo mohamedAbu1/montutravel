@@ -37,27 +37,16 @@ export default function MissionValues() {
       >
         <motion.div
           variants={fadeUp}
-          className={`rounded-2xl p-6 border ${
-            themeName === "dark"
-              ? "border-gold/25 bg-black/30"
-              : "border-[#c9a34a]/25 bg-white/60 backdrop-blur-sm"
-          }`}
+          className={`rounded-2xl p-6 border text-gradient`}
         >
           <h3
-            className={`about-p text-xl font-bold mb-2`} style={{
-            WebkitTextStroke:
-              themeName === "dark" ? "1px #C2A878" : "1px #5C4B3B",
-            textShadow:
-              themeName === "dark"
-                ? "2px 2px 6px rgba(0,0,0,0.6)"
-                : "2px 2px 6px rgba(255,255,255,0.3)",
-          }}
+            className={`about-p text-xl font-bold mb-2 text-gradient`} 
           >
             {t("h3")}
           </h3>
           <DividerWithIcon />
           <p
-            className={`text-center ${themeName === "dark" ? "text-white/80" : "text-[#5c4520]"}`}
+            className={`text-center text-gradient`}
           >
             {t("p2")}
           </p>
@@ -66,28 +55,17 @@ export default function MissionValues() {
 
         <motion.div
           variants={fadeUp}
-          className={`rounded-2xl p-6 border ${
-            themeName === "dark"
-              ? "border-gold/25 bg-black/30"
-              : "border-[#c9a34a]/25 bg-white/60 backdrop-blur-sm"
-          }`}
+          className={`rounded-2xl p-6 border text-gradient`}
         >
           <h3
-            className={`about-p text-xl font-bold mb-2`} style={{
-            WebkitTextStroke:
-              themeName === "dark" ? "1px #C2A878" : "1px #5C4B3B",
-            textShadow:
-              themeName === "dark"
-                ? "2px 2px 6px rgba(0,0,0,0.6)"
-                : "2px 2px 6px rgba(255,255,255,0.3)",
-          }}
+            className={`about-p text-xl font-bold mb-2 text-gradient`}
           >
             {t("h2")}
           </h3>
           <DividerWithIcon />
 
           <p
-            className={`text-center ${themeName === "dark" ? "text-white/80" : "text-[#5c4520]"}`}
+            className={`text-center text-gradient`}
           >
             {t("li")}
           </p>
@@ -96,28 +74,17 @@ export default function MissionValues() {
 
         <motion.div
           variants={fadeUp}
-          className={`rounded-2xl p-6 border ${
-            themeName === "dark"
-              ? "border-gold/25 bg-black/30"
-              : "border-[#c9a34a]/25 bg-white/60 backdrop-blur-sm"
-          }`}
+          className={`rounded-2xl p-6 border text-gradient`}
         >
           <h3
-            className={`about-p text-xl font-bold mb-2`}  style={{
-            WebkitTextStroke:
-              themeName === "dark" ? "1px #C2A878" : "1px #5C4B3B",
-            textShadow:
-              themeName === "dark"
-                ? "2px 2px 6px rgba(0,0,0,0.6)"
-                : "2px 2px 6px rgba(255,255,255,0.3)",
-          }}
+            className={`about-p text-xl font-bold mb-2 text-gradient`} 
           >
             {t("h4")}
           </h3>
           <DividerWithIcon />
 
           <p
-            className={`text-center ${themeName === "dark" ? "text-white/80" : "text-[#5c4520]"}`}
+            className={`text-center text-gradient`}
           >
             {t("p3")}
           </p>

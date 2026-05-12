@@ -15,7 +15,7 @@ const translations = {
 };
 
 export default function TripCategories({ trip, lang }) {
-  const { themeName } = useTheme();
+  const { theme } = useTheme();
   const { categories: allCategories } = useCitiesCategories();
 
   // لو اللغة مش موجودة، نرجع للإنجليزية
@@ -34,11 +34,7 @@ export default function TripCategories({ trip, lang }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className={`p-6 rounded-xl shadow-lg transition ${
-        themeName === "dark"
-          ? "bg-gradient-to-r from-gray-900 to-gray-800 text-gray-100"
-          : "bg-white/90 text-[#3a2c0a]"
-      }`}
+      className={`p-6 rounded-xl transition ${theme.card} ${theme.shadow} ${theme.text}`}
     >
       {/* العنوان */}
       <motion.h2
@@ -46,20 +42,15 @@ export default function TripCategories({ trip, lang }) {
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className={`text-2xl font-bold flex items-center gap-2 mb-4 border-b pb-2 ${
-          themeName === "dark" ? "border-gold/50" : "border-[#c9a34a]/50"
-        }`}
+        className={`text-2xl font-bold flex items-center gap-2 mb-4 border-b p-2 ${theme.title} ${theme.border}`}
       >
-        <FaTags
-          className={themeName === "dark" ? "text-[#c9a34a]" : "text-[#c9a34a]"}
-        />
+        <FaTags className={theme.icon} />
         {t.title}
       </motion.h2>
 
       {/* الكاتجريز */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {trip.trip_categories?.map((cat, idx) => {
-          // نجيب الكاتجري من allCategories بالـ id
           const catObj = allCategories.find(
             (category) => category.id === cat.category_id
           );
@@ -77,18 +68,10 @@ export default function TripCategories({ trip, lang }) {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: idx * 0.1 }}
               whileHover={{ scale: 1.05, rotate: 1 }}
-              className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer ${
-                themeName === "dark"
-                  ? "bg-black/60 hover:bg-black/80"
-                  : "bg-[#fdf6e3] hover:bg-[#f5deb3]"
-              }`}
+              className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer ${theme.card}`}
             >
-              <FaTags
-                className={`flex-shrink-0 ${
-                  themeName === "dark" ? "text-[#c9a34a]" : "text-[#c9a34a]"
-                }`}
-              />
-              <span className="text-sm md:text-base font-medium">
+              <FaTags className={theme.icon} />
+              <span className={`text-sm md:text-base font-medium ${theme.subText}`}>
                 {categoryName}
               </span>
             </motion.div>

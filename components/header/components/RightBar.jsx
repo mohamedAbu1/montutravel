@@ -1,5 +1,5 @@
 "use client";
-import { Avatar, Button, Typography, Select, MenuItem } from "@mui/material";
+import { Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import ThemeToggle from "../../ThemeToggle";
 import { useAuth } from "@/context/AuthContext";
@@ -7,16 +7,14 @@ import { useTheme } from "@/context/ThemeContext";
 import { useTranslation } from "react-i18next";
 import { usePurchase } from "@/context/PurchaseContext";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
 
 export default function RightBar({ scrolled }) {
-  const { isLoggedIn, logout, user, handleOpen } = useAuth();
-  const { themeName } = useTheme();
+  const { isLoggedIn, user } = useAuth();
+  const { theme, themeName } = useTheme();
   const { t } = useTranslation("header");
 
   const { currency, setCurrency } = usePurchase();
   const pathname = usePathname();
-  // ✅ حالة العملة
   const segments = pathname.split("/").filter(Boolean);
 
   const isHome =
@@ -31,15 +29,24 @@ export default function RightBar({ scrolled }) {
 
       {/* عرض المستخدم */}
       {isLoggedIn && user && (
-        <div className="hidden lg:flex items-center gap-2">
-          {" "}
-          <img
-            alt={`${user?.user_metadata?.name}` || "User Avatar"}
-            src={`${user?.user_metadata?.avatar}` || "/default-avatar.png"}
-            width={40}
-            height={40}
-            style={{ border: "2px solid #c9a34a", borderRadius: "50%" }}
-          />{" "}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="hidden lg:flex items-center gap-3 cursor-pointer group"
+        >
+          <div
+            className="relative w-12 h-12 rounded-full p-[2px] bg-gradient-to-r"
+            style={{
+              backgroundImage: `linear-gradient(to right, ${theme.logoGradientFrom}, ${theme.logoGradientTo})`,
+            }}
+          >
+            <img
+              alt={user?.user_metadata?.name || "User Avatar"}
+              src={user?.user_metadata?.avatar || "/default-avatar.png"}
+              className="w-full h-full rounded-full object-cover border-2 border-transparent group-hover:shadow-[0_0_12px_var(--focus-ring)] transition-all"
+            />
+          </div>
           <Typography
             variant="subtitle1"
             sx={{
@@ -47,18 +54,19 @@ export default function RightBar({ scrolled }) {
               fontWeight: "600",
               color:
                 themeName === "dark"
-                  ? "#fff"
+                  ? theme.textColor || "#fff"
                   : !isHome
-                    ? "#333"
-                    : scrolled
-                      ? "#333"
-                      : "#fff",
+                  ? theme.textColor || "#333"
+                  : scrolled
+                  ? theme.textColor || "#333"
+                  : theme.subTextColor || "#666",
+              transition: "color 0.3s ease",
             }}
+            className="group-hover:text-[var(--color-hover)]"
           >
-            {" "}
-            {user?.user_metadata?.name}{" "}
-          </Typography>{" "}
-        </div>
+            {user?.user_metadata?.name}
+          </Typography>
+        </motion.div>
       )}
     </div>
   );

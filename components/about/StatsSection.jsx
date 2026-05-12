@@ -43,31 +43,18 @@ function AnimatedStat({ stat, themeName }) {
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
-      className={`rounded-2xl p-6 text-center border ${
-        themeName === "dark"
-          ? "border-gold/30 bg-black/30"
-          : "border-[#c9a34a]/30 bg-white/70"
-      }`}
+      className={`rounded-2xl p-6 text-center border text-gradient`}
     >
       <motion.div
         animate={controls}
         initial={{ count: 0 }}
         onUpdate={(latest) => setCount(Math.floor(latest.count))}
-        className={`about-p text-3xl font-extrabold`} style={{
-            WebkitTextStroke:
-              themeName === "dark" ? "1px #C2A878" : "1px #5C4B3B",
-            textShadow:
-              themeName === "dark"
-                ? "2px 2px 6px rgba(0,0,0,0.6)"
-                : "2px 2px 6px rgba(255,255,255,0.3)",
-          }}
+        className={`about-p text-3xl font-extrabold text-gradient`} 
       >
         {count}+
       </motion.div>
       <div
-        className={`${
-          themeName === "dark" ? "text-white/70" : "text-[#5c4520]"
-        }`}
+        className={`text-gradient`}
       >
         {stat.label}
       </div>

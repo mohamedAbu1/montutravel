@@ -10,9 +10,11 @@ export default function AboutHero() {
   const { t } = useTranslation("about");
 
   return (
-    <section className="relative z-10 py-20 px-6 mt-6">
+    <section className="relative z-10 py-20 px-6 mt-12">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-12 items-center">
-         <motion.div
+        
+        {/* الصورة الأولى */}
+        <motion.div
           initial={{ opacity: 0, x: 60 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
@@ -20,12 +22,18 @@ export default function AboutHero() {
           className="relative w-full h-80 lg:h-[460px] rounded-2xl overflow-hidden shadow-2xl"
         >
           <Image
-            src={`${themeName === "dark" ? "/Aswan/pexels-radwa-magdy-1718930-28144568.webp" : "/Aswan/pexels-girlvsglobe86-300284270-32044045.webp"}`}
+            src={
+              themeName === "dark"
+                ? "/Aswan/pexels-radwa-magdy-1718930-28144568.webp"
+                : "/Nile_Cruise/5116-900x600.webp"
+            }
             alt="WasetTravel Luxury Experience"
             fill
-            className="object-cover"
+            className="object-cover scale-x-[-1]"
           />
         </motion.div>
+
+        {/* النصوص */}
         <motion.div
           initial={{ opacity: 0, x: -60 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -34,46 +42,29 @@ export default function AboutHero() {
           className="space-y-5"
         >
           <p
-            className={`about-p  uppercase tracking-widest text-sm ${themeName === "dark" ? "text-white/60" : "text-[#6b4f1d]"}`} style={{
-            WebkitTextStroke:
-              themeName === "dark" ? "1px #C2A878" : "1px #5C4B3B",
-            textShadow:
-              themeName === "dark"
-                ? "2px 2px 6px rgba(0,0,0,0.6)"
-                : "2px 2px 6px rgba(255,255,255,0.3)",
-          }}
+            className={`about-p uppercase tracking-widest text-sm text-gradient `}
           >
             {t("AboutWasetTravel")}
           </p>
+
           <DividerWithIcon />
+
           <h1
-            className={`about-title text-4xl lg:text-5xl font-extrabold leading-tight `} style={{
-            WebkitTextStroke:
-              themeName === "dark" ? "1px #C2A878" : "1px #5C4B3B",
-            textShadow:
-              themeName === "dark"
-                ? "2px 2px 6px rgba(0,0,0,0.6)"
-                : "2px 2px 6px rgba(255,255,255,0.3)",
-          }}
+            className={`about-title text-4xl lg:text-5xl font-extrabold leading-tight text-gradient`}
           >
             {t("h1")}
           </h1>
+
           <DividerWithIcon />
+
           <p
-            className={`about-p `} style={{
-            WebkitTextStroke:
-              themeName === "dark" ? "1px #C2A878" : "1px #5C4B3B",
-            textShadow:
-              themeName === "dark"
-                ? "2px 2px 6px rgba(0,0,0,0.6)"
-                : "2px 2px 6px rgba(255,255,255,0.3)",
-          }}
+            className={`about-p text-gradient`}
           >
             {t("p")}
           </p>
-          
         </motion.div>
 
+        {/* الصورة الثانية */}
         <motion.div
           initial={{ opacity: 0, x: 60 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -81,8 +72,12 @@ export default function AboutHero() {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="relative w-full h-80 lg:h-[460px] rounded-2xl overflow-hidden shadow-2xl"
         >
-         <Image
-            src={`${themeName === "dark" ? "/Aswan/pexels-radwa-magdy-1718930-28144568.webp" : "/Aswan/pexels-girlvsglobe86-300284270-32044045.webp"}`}
+          <Image
+            src={
+              themeName === "dark"
+                ? "/Aswan/pexels-radwa-magdy-1718930-28144568.webp"
+                : "/Nile_Cruise/5116-900x600.webp"
+            }
             alt="WasetTravel Luxury Experience"
             fill
             className="object-cover"

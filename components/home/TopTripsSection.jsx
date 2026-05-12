@@ -1,29 +1,40 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useTheme } from "@/context/ThemeContext";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import DividerWithIcon from "../layout/DividerWithIcon";
 import { useTrip } from "@/context/TripContext";
-import { usePurchase } from "@/context/PurchaseContext"; // ✅ استدعاء PurchaseContext
+import { usePurchase } from "@/context/PurchaseContext";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 
 const TopTripsSection = () => {
-  const { theme,themeName } = useTheme();
-  const { t ,i18n} = useTranslation("home");
+  const { theme, themeName } = useTheme();
+  const { t, i18n } = useTranslation("home");
   const router = useRouter();
   const { user } = useAuth();
-const normalizedLang = i18n.language.split("-")[0];
+  const normalizedLang = i18n.language.split("-")[0];
 
   const { trips, fetchTrips, loadingTrips } = useTrip();
-  const { currency, purchases } = usePurchase(); // ✅ جلب العملة والحجوزات
+  const { currency, purchases } = usePurchase();
+  const [screenSize, setScreenSize] = useState({ width: 0, height: 0 });
 
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenSize({ width: window.innerWidth, height: window.innerHeight });
+    };
+
+    handleResize(); // أول مرة
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   useEffect(() => {
     fetchTrips();
   }, []);
 
+  // ✅ الرموز الفرعونية للديكور
   const symbols = [
     "𓂀",
     "𓋹",
@@ -44,7 +55,7 @@ const normalizedLang = i18n.language.split("-")[0];
   ];
 
   if (loadingTrips) {
-    return <p className="text-center text-gray-500">Loading top trips...</p>;
+    return <p className="text-center">Loading top trips...</p>;
   }
 
   const topTrips = [...trips]
@@ -67,51 +78,87 @@ const normalizedLang = i18n.language.split("-")[0];
 
   return (
     <section
-      className={`hidden lg:flex w-full flex-col relative py-24 px-6 transition-colors duration-500 
-        ${theme.background}
-      `}
+      className={`hidden lg:flex w-full flex-col relative py-24 px-6 transition-colors duration-500 ${theme.background}`}
     >
+      {/* خلفية الرموز */}
       <div className="absolute inset-0 pointer-events-none">
-        {Array.from({ length: 20 }).map((_, i) => (
-          <span
+        {Array.from({ length: 25 }).map((_, i) => (
+          <motion.span
             key={i}
-            className={`absolute ${themeName === "dark" ? "text-gray-700" : "text-[#222]"} opacity-40 text-6xl animate-pulse`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 0.25, y: 0 }}
+            transition={{ duration: 1.2, delay: i * 0.1 }}
+            className="absolute text-6xl"
             style={{
               top: `${Math.random() * 100}%`,
               left: `${Math.random() * 100}%`,
               transform: `rotate(${Math.random() * 360}deg)`,
+              color: theme.icon,
             }}
           >
             {symbols[Math.floor(Math.random() * symbols.length)]}
-          </span>
+          </motion.span>
         ))}
       </div>
 
-      <div className="max-w-7xl mx-auto mb-12 text-center">
-      
-        <h2
-         className={`sc-title-first text-5xl font-extrabold tracking-wide drop-shadow-md text-left`}
+      {/* العنوان */}
+      <div className="relative flex items-center justify-center w-full mb-12">
+        {/* صورة يسار */}
+        <div
+          className="absolute -translate-y-1/2 scale-x-[-1] opacity-40 pointer-events-none"
           style={{
-            WebkitTextStroke:
-              themeName === "dark" ? "1px #C2A878" : "1px #5C4B3B",
-            textShadow:
-              themeName === "dark"
-                ? "2px 2px 6px rgba(0,0,0,0.6)"
-                : "2px 2px 6px rgba(255,255,255,0.3)",
+            left: screenSize.width * 0.05, // 10% من عرض الشاشة
+            top: screenSize.height * 0.0, // 20% من ارتفاع الشاشة
+            width: "420px",
+            height: "200px",
           }}
         >
-          <span className="inline-block transform scale-x-[-1] mr-4"> 𓅓</span>
-                   {t("TopTrips")}
+          <Image
+            src={
+              themeName === "dark"
+                ? "/HomePageImage/Temple-of-Bell-Street-2015100903.svg"
+                : "/HomePageImage/cruiseliner.svg"
+            }
+            alt="Decorative Left"
+            fill
+            className="object-contain"
+          />
+        </div>
 
-
-          <span className="inline-block ml-4"> 𓅓</span>
+        {/* النص */}
+        <h2 className="sc-title-first text-5xl font-extrabold tracking-wide drop-shadow-md text-gradient text-center">
+          <span className="inline-block transform scale-x-[-1] mr-4">𓅓</span>
+          {t("TopTrips")}
+          <span className="inline-block ml-4">𓅓</span>
+          <DividerWithIcon />
         </h2>
-        <DividerWithIcon />
+
+        {/* صورة يمين */}
+        <div
+          className="absolute -translate-y-1/2 opacity-40 pointer-events-none "
+          style={{
+            right: screenSize.width * 0.05, // 10% من عرض الشاشة
+            top: screenSize.height * 0.0, // 20% من ارتفاع الشاشة
+            width: "420px",
+            height: "200px",
+          }}
+        >
+          <Image
+            src={
+              themeName === "dark"
+                ? "/HomePageImage/Temple-of-Bell-Street-2015100903.svg"
+                : "/HomePageImage/cruiseliner.svg"
+            }
+            alt="Decorative Right"
+            fill
+            className="object-contain"
+          />
+        </div>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-8 max-w-7xl w-full mx-auto">
+      {/* الكروت */}
+      <div className="flex flex-wrap justify-center gap-8 max-w-7xl w-full mx-auto relative z-10">
         {topTrips.map((trip, i) => {
-          // ✅ تحقق إذا كان المستخدم اشترى هذه الرحلة
           const hasPurchased = purchases.some(
             (p) =>
               p.trip_id === trip.id &&
@@ -126,27 +173,23 @@ const normalizedLang = i18n.language.split("-")[0];
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.8, delay: i * 0.2 }}
               viewport={{ once: true }}
-              className="flex-1 basis-full sm:basis-[48%] lg:basis-[30%] xl:basis-[22%] relative rounded-2xl overflow-hidden group transition-all duration-500 hover:scale-[1.05] hover:shadow-2xl hover:-rotate-1"
+              className={`${theme.card} flex-1 basis-full sm:basis-[48%] lg:basis-[30%] xl:basis-[22%] relative rounded-2xl overflow-hidden group transition-all duration-500 hover:scale-[1.05] hover:shadow-2xl hover:-rotate-1`}
+              style={{ border: `2px solid ${theme.logoBorder}` }}
             >
               <div className="relative h-72">
                 <Image
                   src={trip.cover_image || "/default.jpg"}
-                  alt={trip.title?.en || "Trip image"}
+                  alt={trip.title?.[normalizedLang] || "Trip image"}
                   fill
                   className="object-cover group-hover:scale-110 transition duration-700 rounded-lg"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent group-hover:from-gold/20 transition duration-500"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
               </div>
 
               <div className="absolute inset-0 flex flex-col justify-end p-6">
-                <h3 className="trips-text text-xl font-bold tracking-wide mb-1 text-white" style={{
-            WebkitTextStroke:
-              themeName === "dark" ? "1px #C2A878" : "1px #fff",
-            textShadow:
-              themeName === "dark"
-                ? "2px 2px 6px rgba(0,0,0,0.6)"
-                : "2px 2px 6px rgba(255,255,255,0.3)",
-          }}>
+                <h3
+                  className={`trips-text text-xl font-bold tracking-wide mb-1 ${theme.title}`}
+                >
                   {trip.title?.[normalizedLang] || "Untitled Trip"}
                 </h3>
 
@@ -154,40 +197,27 @@ const normalizedLang = i18n.language.split("-")[0];
                   <span className="text-yellow-400 text-lg font-semibold">
                     ⭐ {trip.rating || "4.5"}
                   </span>
-                  <span className="text-sm opacity-80 text-white">
+                  <span className={`text-sm opacity-80 ${theme.subText}`}>
                     ({Array.isArray(trip.reviews) ? trip.reviews.length : 0}{" "}
                     {t("reviews")})
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <p
-                    className={`text-lg font-semibold ${themeName === "dark" ? "text-gold" : "text-[#c9a34a]"}`}
-                  >
+                  <p className={`text-lg font-semibold ${theme.text}`}>
                     {convertPrice(trip.price, trip.currency)} {currency}
                   </p>
-                  <button
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                     onClick={() => router.push(`/trips/${trip.id}`)}
-                    style={{ cursor: "pointer", zIndex: "1" }}
-                    className="rounded-[9px] px-3 py-2 
-             bg-transparent backdrop-blur-md 
-             border border-[#C2A878] 
-             text-[#C2A878] font-semibold tracking-wide
-             hover:bg-[#C2A878]/20 hover:text-white 
-             transition-all duration-300 shadow-lg cursor-pointer"
+                    className={`rounded-[9px] px-3 py-2 font-semibold tracking-wide cursor-pointer transition-all duration-300 shadow-lg ${theme.buttonPrimary}`}
+                    style={{ border: `2px solid ${theme.logoBorder}` }}
                   >
                     {hasPurchased ? t("Tripdetails") : t("BookNow")}
-                  </button>
+                  </motion.button>
                 </div>
               </div>
-
-              <div
-                className={`absolute inset-0 rounded-2xl border ${
-                  themeName === "dark"
-                    ? "border-gold/20 group-hover:border-gold/40"
-                    : "border-[#c9a34a]/30 group-hover:border-[#c9a34a]/60"
-                } transition-all duration-500`}
-              ></div>
             </motion.div>
           );
         })}

@@ -2,12 +2,24 @@
 import React from "react";
 import { Select, MenuItem } from "@mui/material";
 import { usePurchase } from "@/context/PurchaseContext";
+import { useTheme } from "@/context/ThemeContext";
+import { motion } from "framer-motion";
 
 export default function CurrencySelector() {
   const { currency, setCurrency } = usePurchase();
+  const { theme, themeName } = useTheme();
+
+  // ألوان مخصصة من الثيم مع fallback
+  const usdColor = theme.stone || "#C2A878";       // ذهبي
+  const eurColor = theme.sandIvory || "#E6E6E6";   // عاج رملي
 
   return (
-    <div className="fixed bottom-6 left-6 z-[99]">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6 }}
+      className="fixed bottom-6 left-6 z-[99]"
+    >
       <Select
         value={currency}
         onChange={(e) => setCurrency(e.target.value)}
@@ -15,31 +27,34 @@ export default function CurrencySelector() {
         IconComponent={() => null}
         sx={{
           padding: "8px 16px",
-          borderRadius: "12px",
+          borderRadius: "14px",
           fontWeight: "600",
-          background: "linear-gradient(to right, #1f2937, #111827)",
-          boxShadow: "0 4px 10px rgba(0,0,0,0.5)",
+          background: "rgba(255,255,255,0.15)",
+          backdropFilter: "blur(12px)",
+          border: `2px solid ${theme.logoBorder}`,
+          boxShadow: theme.shadow,
           "& .MuiSelect-select": {
-            color: "#f9fafb",
+            color: theme.inputText,
           },
           "& .MuiSelect-icon": {
-            color: "#999",
+            color: theme.iconInactive || "#999",
           },
           "& .MuiOutlinedInput-notchedOutline": {
             border: "none",
           },
           "&:hover": {
-            background: "linear-gradient(to right, #374151, #1f2937)",
+            background: theme.inputHoverBg,
+            boxShadow: "0 0 12px rgba(194,168,120,0.6)", // Glow ذهبي
           },
         }}
       >
-        <MenuItem value="USD" sx={{ color: "#c9a34a" }}>
-          $
+        <MenuItem value="USD" sx={{ color: usdColor, fontWeight: "600" }}>
+           $
         </MenuItem>
-        <MenuItem value="EUR" sx={{ color: "#e6e6e6" }}>
-          €
+        <MenuItem value="EUR" sx={{ color: eurColor, fontWeight: "600" }}>
+           €
         </MenuItem>
       </Select>
-    </div>
+    </motion.div>
   );
 }

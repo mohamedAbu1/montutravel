@@ -7,10 +7,11 @@ import { useTranslation } from "react-i18next";
 import { useCitiesCategories } from "@/context/CitiesCategoriesContext";
 import DividerWithIcon from "../layout/DividerWithIcon";
 import { useRouter } from "next/navigation";
+import EgyptianBackground from "../layout/EgyptianBackground";
 
-// دالة لتشفير الكويري
 const encodeData = (obj) => btoa(JSON.stringify(obj));
-function CategoryCard({ cat, themeName, language }) {
+
+function CategoryCard({ cat, theme, language }) {
   const [imgIndex, setImgIndex] = useState(0);
   const router = useRouter();
 
@@ -21,43 +22,36 @@ function CategoryCard({ cat, themeName, language }) {
     return () => clearInterval(interval);
   }, [cat.images]);
 
-  // هنا بنحدد الاسم المعروض حسب اللغة
   const displayName =
     typeof cat.name === "object"
       ? cat.name?.[language] || cat.name?.en || cat.name
       : cat.name;
 
-const luxuryNames = [
-  "Luxusreisen",
-  "Luxury Tours",
-  "Tours de lujo",
-  "Voyages de luxe",
-  "Tour di lusso",
-  "豪华旅游"
-];
+  const luxuryNames = [
+    "Luxusreisen",
+    "Luxury Tours",
+    "Tours de lujo",
+    "Voyages de luxe",
+    "Tour di lusso",
+    "豪华旅游",
+  ];
 
-
-const handleClick = () => {
-  const queryObj = {
-    city: "all",
-    category: [displayName],
-    price: luxuryNames.includes(displayName) ? "Luxury" : "All",
-    popular: false,
+  const handleClick = () => {
+    const queryObj = {
+      city: "all",
+      category: [displayName],
+      price: luxuryNames.includes(displayName) ? "Luxury" : "All",
+      popular: false,
+    };
+    const encoded = encodeData(queryObj);
+    router.push(`/trips?data=${encoded}`);
   };
-  const encoded = encodeData(queryObj);
-  router.push(`/trips?data=${encoded}`);
-};
+
   return (
     <div
       onClick={handleClick}
-      className={`relative rounded-2xl overflow-hidden group cursor-pointer h-[320px]
-        transition-all duration-500 hover:scale-[1.06] hover:shadow-2xl
-        ${
-          themeName === "dark"
-            ? "bg-[#1a1a1a] border border-gold/20 shadow-lg"
-            : "bg-[#fff8e1] border border-[#c9a34a]/30 shadow-md"
-        }
-      `}
+      className={`relative overflow-hidden group cursor-pointer h-[320px] transition-all duration-500 hover:scale-[1.06] hover:shadow-2xl ${theme.card}`}
+      style={{ border: `1px solid ${theme.logoBorder}` }}
     >
       <AnimatePresence mode="sync">
         <motion.div
@@ -84,19 +78,10 @@ const handleClick = () => {
       </AnimatePresence>
 
       <div
-        className={`absolute inset-0 bg-gradient-to-t ${
-          themeName === "dark" ? "from-black/60" : "from-[#fdf6e3]/70"
-        } via-transparent to-transparent flex items-end justify-center pb-4`}
+        className={`absolute inset-0 ${theme.overlay} flex items-end justify-center pb-4`}
       >
         <p
-          className={`trips-text text-lg font-bold tracking-wide drop-shadow-lg `} style={{
-            WebkitTextStroke:
-              themeName === "dark" ? "1px #C2A878" : "1px #5C4B3B",
-            textShadow:
-              themeName === "dark"
-                ? "2px 2px 6px rgba(0,0,0,0.6)"
-                : "2px 2px 6px rgba(255,255,255,0.3)",
-          }}
+          className={`trips-text text-lg font-bold tracking-wide drop-shadow-lg ${theme.title}`}
         >
           {displayName}
         </p>
@@ -110,14 +95,21 @@ const CategoriesSection = () => {
   const { t, i18n } = useTranslation("home");
   const { categories, loading } = useCitiesCategories();
   const [index, setIndex] = useState(0);
-  const getLangKey = (lang) => lang.split("-")[0];
-  const normalizedLang = getLangKey(i18n.language);
-  // هنا بتاخد اللغة كاملة زي "zh-CN"
-  const langKey = i18n.language;
-
+  const normalizedLang = i18n.language.split("-")[0];
 
   const looped = [...categories, ...categories];
   const cardWidth = 220;
+  const [screenSize, setScreenSize] = useState({ width: 0, height: 0 });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenSize({ width: window.innerWidth, height: window.innerHeight });
+    };
+
+    handleResize(); // أول مرة
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -126,16 +118,11 @@ const CategoriesSection = () => {
     return () => clearInterval(interval);
   }, [categories.length]);
 
-  const handleDragEnd = (event, info) => {
-    const offset = info.offset.x;
-    const direction = offset > 0 ? -1 : 1;
-    const newIndex = Math.min(
-      Math.max(index + direction, 0),
-      categories.length - 1,
-    );
-    setIndex(newIndex);
-  };
+  if (loading) {
+    return <p className="text-center">Loading categories...</p>;
+  }
 
+  // ✅ الرموز الفرعونية للديكور
   const symbols = [
     "𓂀",
     "𓋹",
@@ -155,65 +142,87 @@ const CategoriesSection = () => {
     "𓎟",
   ];
 
-  if (loading) {
-    return <p className="text-center text-gray-500">Loading categories...</p>;
-  }
-
   return (
     <section
-      className={` hidden lg:flex flex-col py-24 px-6 w-full mx-auto relative transition-colors duration-500
-      ${theme.background}
-      `}
+      className={`hidden lg:flex flex-col py-24 px-6 w-full mx-auto relative transition-colors duration-500 ${theme.background} `}
     >
-      <div className="absolute inset-0 pointer-events-none">
-        {Array.from({ length: 25 }).map((_, i) => (
-          <span
+      {/* خلفية الرموز */}
+      <div className="absolute inset-0 flex flex-wrap justify-center items-center opacity-10 pointer-events-none">
+        {symbols.map((sym, i) => (
+          <motion.span
             key={i}
-            className={`absolute ${
-              themeName === "dark" ? "text-gray-700" : "text-[#222]"
-            } opacity-60 text-7xl animate-pulse`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 0.3, y: 0 }}
+            transition={{ duration: 1, delay: i * 0.1 }}
+            className="text-6xl m-6"
             style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              transform: `rotate(${Math.random() * 360}deg)`,
+              color: theme.icon,
             }}
           >
-            {symbols[Math.floor(Math.random() * symbols.length)]}
-          </span>
+            {sym}
+          </motion.span>
         ))}
       </div>
-
-      <div className="max-w-7xl mx-auto mb-10 text-start">
-        <h2
-         className={`sc-title-first text-5xl font-extrabold tracking-wide drop-shadow-md text-left`}
-          style={{
-            WebkitTextStroke:
-              themeName === "dark" ? "1px #C2A878" : "1px #5C4B3B",
-            textShadow:
+      <EgyptianBackground />
+      {/* العنوان */}
+      <div
+        className="absolute opacity-40 pointer-events-none"
+        style={{
+          right: screenSize.width * 0.05, // 10% من عرض الشاشة
+          bottom: screenSize.height * 0.44, // 20% من ارتفاع الشاشة
+          width: "240px",
+          height: "200px",
+        }}
+      >
+        <Image
+          src={
               themeName === "dark"
-                ? "2px 2px 6px rgba(0,0,0,0.6)"
-                : "2px 2px 6px rgba(255,255,255,0.3)",
-          }}
-        >
-          <span className="inline-block transform scale-x-[-1] mr-4"> 𓅓</span>
-          {t("ExploreCategories")}
-          <span className="inline-block ml-4">{" "}𓅓</span>
-        </h2>
-
-        <p className="sc-p-first mt-4 text-lg opacity-80 text-start"  style={{
-            WebkitTextStroke:
-              themeName === "dark" ? "1px #C2A878" : "1px #5C4B3B",
-            textShadow:
-              themeName === "dark"
-                ? "2px 2px 6px rgba(0,0,0,0.6)"
-                : "2px 2px 6px rgba(255,255,255,0.3)",
-          }}>
-          {t("Discover")}
-        </p>
-        <DividerWithIcon />
+                ? "/HomePageImage/Temple-of-Bell-Street-2015100903.svg"
+                : "/HomePageImage/johnny_automatic_ocean_liner.svg"
+            }
+          alt="Decorative Style"
+          fill
+          className="object-contain"
+        />
       </div>
 
-      <div className="relative overflow-hidden w-full max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto mb-10 text-start relative z-10">
+        <h2 className="sc-title-first text-5xl font-extrabold tracking-wide drop-shadow-md text-gradient">
+          <span className="inline-block transform scale-x-[-1] text-gradient mr-4">
+            𓅓
+          </span>
+          {t("ExploreCategories")}
+          <span className="inline-block ml-4 text-gradient">𓅓</span>
+        </h2>
+
+        <p className="sc-p-first mt-4 text-lg opacity-80 text-start text-gradient">
+          {t("Discover")}
+        </p>
+
+        <DividerWithIcon />
+      </div>
+      <div
+        className="absolute scale-x-[-1] opacity-40 pointer-events-none"
+        style={{
+          left: screenSize.width * 0.05, // 10% من عرض الشاشة
+          bottom: screenSize.height * 0.44, // 20% من ارتفاع الشاشة
+          width: "240px",
+          height: "200px",
+        }}
+      >
+        <Image
+           src={
+              themeName === "dark"
+                ? "/HomePageImage/Temple-of-Bell-Street-2015100903.svg"
+                : "/HomePageImage/johnny_automatic_ocean_liner.svg"
+            }
+          alt="Decorative Style"
+          fill
+          className="object-contain"
+        />
+      </div>
+      {/* الكروت */}
+      <div className="relative overflow-hidden w-full max-w-7xl mx-auto z-10">
         <motion.div
           className="flex h-full"
           drag="x"
@@ -221,7 +230,6 @@ const CategoriesSection = () => {
           whileTap={{ cursor: "grabbing" }}
           animate={{ x: -index * cardWidth }}
           transition={{ duration: 0.8, ease: "easeInOut" }}
-          onDragEnd={handleDragEnd}
         >
           {looped.map((cat, i) => (
             <div
@@ -230,6 +238,7 @@ const CategoriesSection = () => {
             >
               <CategoryCard
                 cat={cat}
+                theme={theme}
                 themeName={themeName}
                 language={normalizedLang}
               />

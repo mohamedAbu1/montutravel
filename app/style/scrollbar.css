@@ -1,5 +1,5 @@
 /* =========================
-   Scrollbar Styles
+   Scrollbar Styles (Theme-based)
    ========================= */
 ::-webkit-scrollbar {
   width: 8px;              /* عرض الشريط */
@@ -12,10 +12,10 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #C9A34A !important;     /* اللون الذهبي */
+  background: var(--sub-text) !important;     /* اللون من الثيم */
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #C9A34A;                /* نفس اللون عند hover */
+  background: var(--color-hover) !important; /* اللون عند hover من الثيم */
 }

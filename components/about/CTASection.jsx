@@ -34,39 +34,28 @@ export default function CTASection() {
       >
         <motion.h4
           variants={fadeUp}
-          className={`about-p text-xl font-semibold mb-3`}  style={{
-            WebkitTextStroke:
-              themeName === "dark" ? "1px #C2A878" : "1px #5C4B3B",
-            textShadow:
-              themeName === "dark"
-                ? "2px 2px 6px rgba(0,0,0,0.6)"
-                : "2px 2px 6px rgba(255,255,255,0.3)",
-          }}
+          className={`about-p text-xl font-semibold mb-3 text-gradient`}  
         >
           {t("h6")}
         </motion.h4>
 
         <motion.p
           variants={fadeUp}
-          className={`${themeName === "dark" ? "text-white/80" : "text-[#5c4520]"} mb-6`}
+          className={`text-gradient mb-6`}
         >
           {t("p5")}
         </motion.p>
 
-        <motion.a
-          variants={fadeUp}
-          href="/contact"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="w-full rounded-[4px] px-6 py-3 
-             bg-transparent backdrop-blur-md 
-             border border-[#C2A878] 
-             text-[#C2A878] font-semibold tracking-wide
-             hover:bg-[#C2A878]/20 hover:text-white 
-             transition-all duration-300 shadow-lg cursor-pointer"
-        >
-          {t("a")}
-        </motion.a>
+      <motion.a
+  variants={fadeUp}
+  href="/contact"
+  whileHover={{ scale: 1.05 }}
+  whileTap={{ scale: 0.95 }}
+  className="btn-gradient w-full rounded-[4px] px-6 py-3 font-semibold tracking-wide shadow-lg cursor-pointer"
+>
+  {t("a")}
+</motion.a>
+
       </motion.div>
     </motion.section>
   );

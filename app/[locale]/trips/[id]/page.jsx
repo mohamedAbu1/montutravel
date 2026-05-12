@@ -19,18 +19,18 @@ import TripReviews from "./components/TripReviews";
 import ChatWidget from "@/components/layout/ChatWidget";
 import { useAuth } from "@/context/AuthContext";
 import PurchaseButton from "./components/PurchaseButton";
-import CancelButton from "./components/CancelButton"; // ✅ زر جديد للإلغاء
+import CancelButton from "./components/CancelButton";
 import TripVideo from "./components/TripVideo";
-import { usePurchase } from "@/context/PurchaseContext"; // ✅ جلب الحجوزات
+import { usePurchase } from "@/context/PurchaseContext";
 import AccessibilityInfo from "./components/components/AccessibilityInfo";
 
 export default function TripPage({ params }) {
   const { id } = use(params);
   const { trips, fetchTrips, getTripById, loadingTrips } = useTrip();
   const { lang } = useLanguage();
-  const { themeName } = useTheme();
+  const { theme, themeName } = useTheme();
   const { user } = useAuth();
-  const { purchases } = usePurchase(); // ✅ جلب الحجوزات
+  const { purchases } = usePurchase();
 
   useEffect(() => {
     if (!trips.length) {
@@ -40,10 +40,9 @@ export default function TripPage({ params }) {
 
   const trip = getTripById(id);
   if (!trip) {
-    return <p>Trip not found</p>;
+    return <p className={`${theme.text}`}>Trip not found</p>;
   }
 
-  // تحقق إذا كان المستخدم اشترى الرحلة ولم يقم بإلغائها
   const hasActivePurchase = purchases.some(
     (p) =>
       p.trip_id === trip.id &&
@@ -52,52 +51,51 @@ export default function TripPage({ params }) {
   );
 
   return (
-    <main
-      className={`min-h-screen ${
-        themeName === "dark"
-          ? "bg-gradient-to-b from-black via-gray-900 to-black text-gold"
-          : "bg-gradient-to-b from-[#fdf6e3] via-[#f5deb3] to-[#fdf6e3] text-[#3a2c0a]"
-      }`}
-    >
+    <main className={`min-h-screen relative ${theme.background} ${theme.text}`}>
       <Header />
       <EgyptianBackground />
 
       <div
         style={{ paddingTop: "110px" }}
-        className="max-w-7xl mx-auto p-6 relative z-10 grid gap-8 
+        className="max-w-7xl mx-auto pt-9 p-6 relative z-10 grid gap-8 
              grid-cols-1 lg:grid-cols-2 auto-rows-min"
       >
         <EgyptianBackground />
 
+        {/* ✅ العنوان */}
         <div className="col-span-1 lg:col-span-3">
-          <TripHeader trip={trip} lang={lang} />
+          <TripHeader trip={trip} lang={lang} theme={theme} />
         </div>
 
+        {/* ✅ معلومات الرحلة */}
         <div className="col-span-3 flex flex-row gap-8">
           <div className="col-span-3 flex flex-col gap-2.5">
-            <TripInfo trip={trip} lang={lang} />
-            <TripCities trip={trip} lang={lang} />
-            <TripCategories trip={trip} lang={lang} />
+            <TripInfo trip={trip} lang={lang} theme={theme} />
+            <TripCities trip={trip} lang={lang} theme={theme} />
+            <TripCategories trip={trip} lang={lang} theme={theme} />
           </div>
-          <TripVideo trip={trip} lang={lang} />
-          <AccessibilityInfo theme="dark" />
+          <TripVideo trip={trip} lang={lang} theme={theme} />
+          <AccessibilityInfo theme={themeName} />
         </div>
 
+        {/* ✅ المميزات */}
         <div className="col-span-3 flex flex-row gap-8">
-          <TripIncludes trip={trip} lang={lang} />
+          <TripIncludes trip={trip} lang={lang} theme={theme} />
         </div>
 
+        {/* ✅ الجدول */}
         <div className="col-span-1 lg:col-span-3">
-          <TripItinerary trip={trip} lang={lang} />
+          <TripItinerary trip={trip} lang={lang} theme={theme} />
         </div>
 
+        {/* ✅ المراجعات + الأزرار */}
         <div className="col-span-1 lg:col-span-3">
-          <TripReviews trip={trip} lang={lang} />
+          <TripReviews trip={trip} lang={lang} theme={theme} />
           {user &&
             (hasActivePurchase ? (
-              <CancelButton trip={trip} /> // ✅ زر إلغاء الحجز
+              <CancelButton trip={trip} theme={theme} />
             ) : (
-              <PurchaseButton trip={trip} /> // ✅ زر شراء الرحلة
+              <PurchaseButton trip={trip} theme={theme} />
             ))}
         </div>
       </div>

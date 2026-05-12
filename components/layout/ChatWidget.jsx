@@ -73,7 +73,7 @@ export default function ChatWidget({ setShowEmojiPicker, showEmojiPicker }) {
       sendMessage({
         user_id: user.id,
         user_name: "Admin",
-        user_image: "https://dxpbyrcbklqrjlytmkum.supabase.co/storage/v1/object/public/avatars/technical-writer-digital-avatar-generative-ai_934475-9098.webp", // صورة افتراضية للأدمن
+        user_image: "/default-admin.png",
         content: "Welcome to our premium transfer service ✨🚘",
         sender_type: "admin",
         status: "sent",
@@ -117,12 +117,10 @@ export default function ChatWidget({ setShowEmojiPicker, showEmojiPicker }) {
           onClick={() => setOpen(!open)}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
-             className="fixed rounded-[9px] bottom-6 right-6 px-6 py-3 bg-transparent backdrop-blur-md 
-                   border border-[#C2A878] text-[#C2A878] font-semibold tracking-wide 
-                   hover:bg-[#C2A878]/20 hover:text-white transition-all duration-300 
-                   shadow-lg cursor-pointer"
+          className={`fixed bottom-6 right-6 px-6 py-3 rounded-lg transition-all duration-300 shadow-lg 
+            ${theme.buttonPrimary}`}
         >
-          <FaComments size={22} color="#fff" />
+          <FaComments size={22} />
         </motion.button>
       )}
 
@@ -132,7 +130,8 @@ export default function ChatWidget({ setShowEmojiPicker, showEmojiPicker }) {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 50 }}
-            className={`fixed overflow-x-hidden bottom-20 right-6 w-110 h-125 rounded-xl shadow-xl flex flex-col z-50 ${theme.card} ${theme.text}`}
+            className={`fixed bottom-20 right-6 w-[28rem] h-[32rem] rounded-xl shadow-xl flex flex-col z-50 
+              ${theme.card} ${theme.text}`}
           >
             <EgyptianBackground />
             <ChatHeader onClose={() => setOpen(false)} theme={theme} />
@@ -155,7 +154,8 @@ export default function ChatWidget({ setShowEmojiPicker, showEmojiPicker }) {
                       placeholder="Enter pickup location"
                       value={from}
                       onChange={(e) => setFrom(e.target.value)}
-                      className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-yellow-500 focus:outline-none"
+                      className={`w-full p-3 rounded-lg border focus:ring-2 focus:outline-none 
+                        ${theme.text}`}
                     />
                   </div>
                   <div>
@@ -165,7 +165,8 @@ export default function ChatWidget({ setShowEmojiPicker, showEmojiPicker }) {
                       placeholder="Enter destination"
                       value={to}
                       onChange={(e) => setTo(e.target.value)}
-                      className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-yellow-500 focus:outline-none"
+                      className={`w-full p-3 rounded-lg border focus:ring-2 focus:outline-none 
+                        ${theme.text}`}
                     />
                   </div>
                 </div>
@@ -181,7 +182,8 @@ export default function ChatWidget({ setShowEmojiPicker, showEmojiPicker }) {
                     });
                     setBookingMode(false);
                   }}
-                  className="mt-6 w-full px-4 py-3 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-bold rounded-lg shadow-md hover:scale-105 transition-transform flex items-center justify-center gap-2"
+                  className={`mt-6 w-full px-4 py-3 rounded-lg shadow-md transition-transform flex items-center justify-center gap-2 
+                    ${theme.buttonPrimary}`}
                 >
                   <span>Send Request</span> 🚘
                 </button>

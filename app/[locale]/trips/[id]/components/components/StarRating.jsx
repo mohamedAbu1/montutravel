@@ -1,7 +1,7 @@
 "use client";
 import { FaStar } from "react-icons/fa";
 
-export default function StarRating({ rating, setRating, hover, setHover, themeName }) {
+export default function StarRating({ rating, setRating, hover, setHover, theme }) {
   return (
     <div className="flex gap-2 mb-4">
       {[...Array(5)].map((_, index) => {
@@ -11,11 +11,7 @@ export default function StarRating({ rating, setRating, hover, setHover, themeNa
             key={starValue}
             size={28}
             className={`cursor-pointer transition ${
-              starValue <= (hover || rating)
-                ? themeName === "dark"
-                  ? "text-yellow-400"
-                  : "text-[#c9a34a]"
-                : "text-gray-400"
+              starValue <= (hover || rating) ? theme.icon : "text-gray-400"
             }`}
             onClick={() => setRating(starValue)}
             onMouseEnter={() => setHover(starValue)}

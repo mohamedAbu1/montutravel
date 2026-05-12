@@ -22,7 +22,7 @@ const translations = {
 };
 
 export default function TripItinerary({ trip, lang }) {
-  const { themeName } = useTheme();
+  const { theme } = useTheme();
   const t = translations[lang] || translations.en;
 
   // ✅ تقسيم الأيام إلى مجموعات كل مجموعة فيها يومين
@@ -43,11 +43,7 @@ export default function TripItinerary({ trip, lang }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className={`p-6 rounded-xl shadow-lg transition ${
-        themeName === "dark"
-          ? "bg-gradient-to-r from-gray-900 to-gray-800 text-gray-100"
-          : "bg-white/90 text-[#3a2c0a]"
-      }`}
+      className={`p-6 rounded-xl transition ${theme.card} ${theme.shadow} ${theme.text}`}
     >
       {/* العنوان */}
       <motion.h2
@@ -55,17 +51,13 @@ export default function TripItinerary({ trip, lang }) {
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className={`text-2xl font-bold flex items-center gap-2 mb-6 border-b pb-2 ${
-          themeName === "dark" ? "border-gold/50" : "border-[#c9a34a]/50"
-        }`}
+        className={`text-2xl font-bold flex items-center gap-2 mb-6 border-b p-2 ${theme.title} ${theme.border}`}
       >
         <motion.div
           animate={{ rotate: [0, 10, -10, 0] }}
           transition={{ duration: 3, repeat: Infinity }}
         >
-          <FaCalendarAlt
-            className={themeName === "dark" ? "text-gold" : "text-[#c9a34a]"}
-          />
+          <FaCalendarAlt className={theme.icon} />
         </motion.div>
         {t.title}
       </motion.h2>
@@ -85,17 +77,9 @@ export default function TripItinerary({ trip, lang }) {
             whileInView={{ opacity: 1, scale: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: dayIdx * 0.2 }}
-            className={`rounded-lg p-4 shadow-md transition ${
-              themeName === "dark"
-                ? "bg-black/60 hover:bg-black/80"
-                : "bg-[#fdf6e3] hover:bg-[#f5deb3]"
-            }`}
+            className={`rounded-lg p-4 transition ${theme.card} ${theme.shadow}`}
           >
-            <h3
-              className={`text-lg font-semibold mb-3 ${
-                themeName === "dark" ? "text-gold" : "text-[#3a2c0a]"
-              }`}
-            >
+            <h3 className={`text-lg font-semibold mb-3 ${theme.title}`}>
               Day {day.day_number}
             </h3>
             <ul className="space-y-3">
@@ -106,20 +90,14 @@ export default function TripItinerary({ trip, lang }) {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: actIdx * 0.1 }}
-                  className="flex items-center gap-3 text-sm md:text-base"
+                  className={`flex items-center gap-3 text-sm md:text-base ${theme.subText}`}
                 >
                   <motion.div
                     whileHover={{ scale: 1.2, rotate: 15 }}
                     transition={{ type: "spring", stiffness: 300 }}
                     className="flex items-center gap-2 font-bold"
                   >
-                    <FaClock
-                      className={
-                        themeName === "dark"
-                          ? "text-yellow-300"
-                          : "text-[#c9a34a]"
-                      }
-                    />
+                    <FaClock className={theme.icon} />
                     <span>{formatTime(act.time)}</span>
                   </motion.div>
                   <span>
@@ -142,12 +120,8 @@ export default function TripItinerary({ trip, lang }) {
             style={{ cursor: "pointer" }}
             className={`px-3 py-1 rounded-full font-bold transition ${
               currentPage === idx
-                ? themeName === "dark"
-                  ? "bg-[#c9a34a] text-black"
-                  : "bg-[#c9a34a] text-white"
-                : themeName === "dark"
-                  ? "bg-gray-700 text-gold hover:bg-gray-600"
-                  : "bg-gray-200 text-[#3a2c0a] hover:bg-gray-300"
+                ? `${theme.buttonPrimary}`
+                : `${theme.buttonSecondary}`
             }`}
           >
             {idx + 1}

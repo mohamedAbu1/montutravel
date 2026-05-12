@@ -38,7 +38,7 @@ export default function Home() {
         items-center
         justify-center
         min-h-screen font-sans
-        bg-white
+     
         transition-colors duration-300
         overflow-hidden
       `}

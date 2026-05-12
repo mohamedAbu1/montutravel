@@ -1,5 +1,5 @@
 /* =========================
-   MUI Inputs & Components
+   MUI Inputs & Components (Theme-based)
    ========================= */
 
 /* إزالة الـ focus الافتراضي */
@@ -26,7 +26,7 @@
   border-color: var(--color-hover) !important;
 }
 .MuiOutlinedInput-root.Mui-focused {
-  box-shadow: 0 0 12px rgba(201, 163, 74, 0.4) !important;
+  box-shadow: 0 0 12px var(--focus-ring) !important;
 }
 .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-color: var(--color-hover) !important;
@@ -34,7 +34,7 @@
 
 /* Input Text */
 .MuiInputBase-input {
-  color:  #b9972f !important;
+  color: var(--title) !important; /* بدل اللون الذهبي الثابت */
   caret-color: var(--color) !important;
   font-size: 18px !important;
   font-weight: 500 !important;
@@ -55,24 +55,24 @@
 
 /* Calendar Icon */
 .MuiInputAdornment-root .MuiSvgIcon-root {
-  color: var(--color) !important;
+  color: var(--icon) !important;
   transition: all 0.3s ease !important;
   border-radius: 50% !important;
   padding-right: 6px !important;
 }
 .MuiInputAdornment-root .MuiSvgIcon-root:hover {
-  background: rgba(201, 163, 74, 0.15) !important;
-  color: var(--color-hover) !important;
+  background: var(--input-hover-bg) !important;
+  color: var(--icon-hover) !important;
   transform: scale(1.2) !important;
 }
 
 /* Picker Popper */
 .MuiPaper-root {
-  border: 1px solid #b9972f !important;
-  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid var(--border) !important;
+  background: var(--input-glass-bg) !important;
   backdrop-filter: blur(12px) !important;
   border-radius: 22px !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25) !important;
+  box-shadow: var(--shadow) !important;
   animation: fade 0.4s ease-out;
 }
 
@@ -91,7 +91,7 @@
   background: var(--color) !important;
   color: var(--input-text) !important;
   font-weight: 800 !important;
-  box-shadow: 0 0 10px rgba(201, 163, 74, 0.5);
+  box-shadow: 0 0 10px var(--focus-ring) !important;
 }
 
 /* Menu Items */
@@ -104,15 +104,15 @@
   color: var(--input-text) !important;
 }
 .MuiMenuItem-root:hover {
-  background: linear-gradient(to right, #fff3e0, #ffe0b2) !important;
+  background: var(--input-hover-bg) !important;
   color: var(--color-hover) !important;
   transform: scale(1.05);
 }
 .MuiMenuItem-root.Mui-selected {
-  background: linear-gradient(to right, #c9a34a, #b9972f) !important;
+  background: linear-gradient(to right, var(--title), var(--color-hover)) !important;
   color: #fff !important;
   font-weight: 600 !important;
 }
 .MuiMenuItem-root.Mui-selected:hover {
-  background: linear-gradient(to right, #b9972f, #a67c00) !important;
+  background: linear-gradient(to right, var(--color-hover), var(--heading)) !important;
 }

@@ -5,11 +5,12 @@ import Image from "next/image";
 import { useTheme } from "@/context/ThemeContext";
 import { motion } from "framer-motion";
 import { sites } from "@/constants/images";
-import reactStringReplace from "react-string-replace"; // ✅ المكتبة الجديدة
+import reactStringReplace from "react-string-replace";
 
 export default function TripHeader({ trip, lang }) {
-  const { themeName } = useTheme();
+  const { theme, themeName } = useTheme();
   const [activeIndex, setActiveIndex] = useState(0);
+
   // ✅ تغيير تلقائي كل 3 ثواني
   useEffect(() => {
     if (!trip?.gallery_images || trip.gallery_images.length === 0) return;
@@ -23,7 +24,7 @@ export default function TripHeader({ trip, lang }) {
 
   if (!trip?.gallery_images || trip.gallery_images.length === 0) {
     return (
-      <div className="text-center py-10">
+      <div className={`text-center py-10 ${theme.text}`}>
         No photos are available for this trip.
       </div>
     );
@@ -32,12 +33,11 @@ export default function TripHeader({ trip, lang }) {
   // ✅ الكلمات المراد تمييزها
   const searchWords = sites.map((site) => site.name);
 
-const tripDescription =
+  const tripDescription =
     typeof trip?.description?.[lang] === "string"
       ? trip.description[lang]
       : trip?.description?.en || "";
 
-  // ✅ بناء Regex لكل الكلمات مرة واحدة
   const regex = new RegExp(`(${searchWords.join("|")})`, "gi");
 
   const highlightedText = reactStringReplace(tripDescription, regex, (match, i) => (
@@ -52,11 +52,7 @@ const tripDescription =
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className={`w-full p-6 rounded-xl shadow-lg transition ${
-        themeName === "dark"
-          ? "bg-gradient-to-r from-gray-950 to-gray-950 text-gray-100"
-          : "bg-white/90 text-[#3a2c0a]"
-      }`}
+      className={`w-full p-6 rounded-xl ${theme.card} ${theme.shadow} ${theme.text}`}
     >
       {/* العنوان */}
       <motion.h1
@@ -64,14 +60,15 @@ const tripDescription =
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.1 }}
-        className={`sc-title-first text-3xl font-extrabold mb-6 border-b pb-3`} style={{
-            WebkitTextStroke:
-              themeName === "dark" ? "1px #C2A878" : "1px #5C4B3B",
-            textShadow:
-              themeName === "dark"
-                ? "2px 2px 6px rgba(0,0,0,0.6)"
-                : "2px 2px 6px rgba(255,255,255,0.3)",
-          }}
+        className={`sc-title-first text-3xl font-extrabold mb-6 border-b pb-3 text-gradient`}
+        style={{
+          WebkitTextStroke:
+            themeName === "dark" ? "1px #C2A878" : "1px #5C4B3B",
+          textShadow:
+            themeName === "dark"
+              ? "2px 2px 6px rgba(0,0,0,0.6)"
+              : "2px 2px 6px rgba(255,255,255,0.3)",
+        }}
       >
         {trip.title?.[lang] || trip.title?.en}
       </motion.h1>
@@ -98,7 +95,7 @@ const tripDescription =
         />
 
         {trip.gallery_images[activeIndex].name && (
-          <div className="absolute bottom-4 left-4 text-xl font-bold px-4 py-2 rounded bg-black/50 text-white">
+          <div className={`absolute bottom-4 left-4 text-xl font-bold px-4 py-2 rounded ${theme.overlay} ${theme.text}`}>
             {trip.gallery_images[activeIndex].name?.[lang] ||
               trip.gallery_images[activeIndex].name?.en}
           </div>
@@ -110,14 +107,9 @@ const tripDescription =
         {trip.gallery_images.map((img, index) => (
           <div
             key={index}
-            className={`relative w-[150px] h-[100px] rounded-lg cursor-pointer border-2`}
+            className={`relative w-[150px] h-[100px] rounded-lg cursor-pointer border-2 ${theme.border}`}
             style={{
-              borderColor:
-                index === activeIndex
-                  ? themeName === "dark"
-                    ? "#FFD700"
-                    : "#c9a34a"
-                  : "transparent",
+              borderColor: index === activeIndex ? theme.logoBorder : "transparent",
             }}
             onClick={() => setActiveIndex(index)}
           >
@@ -129,7 +121,7 @@ const tripDescription =
             />
 
             {img.name && (
-              <div className="absolute bottom-2 left-2 text-xs font-bold bg-black/50 text-white px-2 py-1 rounded">
+              <div className={`absolute bottom-2 left-2 text-xs font-bold ${theme.overlay} ${theme.text} px-2 py-1 rounded`}>
                 {img.name?.[lang] || img.name?.en}
               </div>
             )}
@@ -143,7 +135,7 @@ const tripDescription =
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.7, delay: 0.3 }}
-        className="leading-relaxed text-lg mt-6 text-center"
+        className={`leading-relaxed text-lg mt-6 text-center ${theme.subText}`}
       >
         {highlightedText}
       </motion.div>

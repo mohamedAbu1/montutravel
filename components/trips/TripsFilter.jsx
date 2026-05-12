@@ -12,7 +12,7 @@ import { motion } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
 import Divider from "@/components/layout/Divider";
 import { usePurchase } from "@/context/PurchaseContext";
-import { useQueryFilters } from "@/context/QueryContext"; // ✅ استخدام الكويري كونتكست
+import { useQueryFilters } from "@/context/QueryContext";
 
 export default function TripsFilter({ allCities, allCategories, loading }) {
   const { i18n, t } = useTranslation("trips");
@@ -20,13 +20,11 @@ export default function TripsFilter({ allCities, allCategories, loading }) {
   const { themeName } = useTheme();
   const { currency } = usePurchase();
 
-  // ✅ القيم من الكويري كونتكست
   const { city, category, price, popular, updateValue } = useQueryFilters();
 
   if (loading)
     return <p className="text-center text-gray-500">{t("Loading")}</p>;
 
-  // ✅ أسعار بالدولار كـ base
   const rangesUSD = [
     { label: "0 - 199", value: "Economy" },
     { label: "200 - 599", value: "Standard" },
@@ -35,7 +33,6 @@ export default function TripsFilter({ allCities, allCategories, loading }) {
 
   const conversionRate = 0.85;
 
-  // ✅ إضافة خيار All
   const priceRanges = [
     { label: t("All"), value: "All" },
     ...(currency === "EUR"
@@ -69,18 +66,16 @@ export default function TripsFilter({ allCities, allCategories, loading }) {
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
       variants={fadeUp}
-      className={`p-6 rounded-xl shadow-lg transition ${
-        themeName === "dark"
-          ? "bg-gradient-to-br from-[#0a0a0a] via-[#111] to-[#1a1a1a] text-[#b5892e] border border-[#c9a34a]/40 "
-          : "bg-white/0 border border-[#c9a34a]/30 text-[#1a1a1a]"
+      className={`filter-card ${
+        themeName === "dark" ? "card-dark" : "card-light"
       }`}
     >
-      <h3 className="text-xl font-bold mb-6 text-[#c9a34a]">{t("Filters")}</h3>
+      <h3 className="filter-title">{t("Filters")}</h3>
 
       <div className="flex flex-col gap-8">
         {/* المدن */}
         <div>
-          <label className="flex items-center gap-2 font-semibold mb-3 text-[#c9a34a]">
+          <label className="filter-label">
             <FaMapMarkerAlt /> {t("Cities")} :
           </label>
           <div className="grid grid-cols-2 gap-2 ml-6">
@@ -92,11 +87,11 @@ export default function TripsFilter({ allCities, allCategories, loading }) {
               return (
                 <label
                   key={cityObj.id ?? cityName}
-                  className="flex items-center gap-2 cursor-pointer hover:text-[#c9a34a] transition"
+                  className="filter-option"
                 >
                   <input
                     type="checkbox"
-                    className="accent-[#c9a34a] cursor-pointer"
+                    className="filter-input"
                     checked={
                       city === "all"
                         ? true
@@ -117,7 +112,7 @@ export default function TripsFilter({ allCities, allCategories, loading }) {
 
         {/* الكاتجري */}
         <div>
-          <label className="flex items-center gap-2 font-semibold mb-3 text-[#c9a34a]">
+          <label className="filter-label">
             <FaTags /> {t("Categories")} :
           </label>
           <div className="grid grid-cols-2 gap-2 ml-6">
@@ -127,11 +122,11 @@ export default function TripsFilter({ allCities, allCategories, loading }) {
               return (
                 <label
                   key={cat.id ?? categoryName}
-                  className="flex items-center gap-2 cursor-pointer hover:text-[#c9a34a] transition"
+                  className="filter-option"
                 >
                   <input
                     type="checkbox"
-                    className="accent-[#c9a34a] cursor-pointer"
+                    className="filter-input"
                     checked={
                       category === "all"
                         ? true
@@ -152,21 +147,18 @@ export default function TripsFilter({ allCities, allCategories, loading }) {
 
         {/* السعر */}
         <div>
-          <label className="flex items-center gap-2 font-semibold mb-3 text-[#c9a34a]">
+          <label className="filter-label">
             {currency === "USD" ? <FaDollarSign /> : <FaEuroSign />}{" "}
             {t("PriceRange")} :
           </label>
           <div className="flex flex-col gap-2 ml-6">
             {priceRanges.map((range) => (
-              <label
-                key={range.value}
-                className="flex items-center gap-2 cursor-pointer hover:text-[#c9a34a] transition"
-              >
+              <label key={range.value} className="filter-option">
                 <input
                   type="radio"
                   name="priceRange"
-                  className="accent-[#c9a34a] cursor-pointer"
-                  checked={price === range.value} // ✅ هنا لو price = "All" يتحدد تلقائيًا
+                  className="filter-input"
+                  checked={price === range.value}
                   onChange={() => updateValue("price", range.value)}
                 />
                 {range.label}
@@ -179,11 +171,11 @@ export default function TripsFilter({ allCities, allCategories, loading }) {
 
         {/* الأكثر طلباً */}
         <div>
-          <label className="flex items-center gap-2 font-semibold cursor-pointer text-[#c9a34a] hover:text-[#c9a34a] transition">
+          <label className="filter-label cursor-pointer">
             <FaFire /> {t("MostPopular")}
             <input
               type="checkbox"
-              className="ml-2 accent-[#c9a34a] cursor-pointer"
+              className="ml-2 filter-input"
               checked={popular === true}
               onChange={(e) => updateValue("popular", e.target.checked)}
             />

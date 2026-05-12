@@ -12,7 +12,7 @@ const encodeQuery = (queryObj) => {
 };
 
 export default function NavBar({ scrolled }) {
-  const { themeName } = useTheme();
+  const { theme, themeName } = useTheme();
   const pathname = usePathname();
   const { t } = useTranslation("header");
 
@@ -37,7 +37,6 @@ export default function NavBar({ scrolled }) {
         if (item === "home") {
           path = "/";
         } else if (item === "trips") {
-          // ✅ القيم الافتراضية كل مرة
           const encoded = encodeQuery({
             city: "all",
             category: "all",
@@ -65,24 +64,24 @@ export default function NavBar({ scrolled }) {
               href={`/${langPrefix}${path}`}
               className={`relative group px-4 py-2 rounded-lg transition-all duration-300 ${
                 isActive
-                  ? "bg-gradient-to-r from-[#C2A878] to-[#A68B5B] text-white font-bold shadow-md scale-105 border-b-4 border-[#8C7C5A]"
+                  ? `bg-gradient-to-r from-[${theme.logoGradientFrom}] to-[${theme.logoGradientTo}] text-white font-bold shadow-md scale-105 border-b-4 border-[${theme.logoBorder}]`
                   : themeName === "dark"
-                  ? "text-gray-200 hover:text-[#C2A878]"
-                  : normalizedPath !== "/"
-                  ? "text-gray-800 hover:text-[#8C7C5A] font-semibold"
+                  ? `${theme.text} hover:${theme.icon}`
                   : scrolled
-                  ? "text-gray-800 hover:text-[#8C7C5A]"
-                  : "text-gray-200 hover:text-[#8C7C5A]"
+                  ? `${theme.text} hover:${theme.heading}`
+                  : `${theme.subText} hover:${theme.iconHover}`
               }`}
             >
               <span>{t(item)}</span>
               <span
-                className={`absolute left-0 -bottom-1 h-[3px] bg-[#C2A878] rounded-full transition-all duration-300 ${
+                className={`absolute left-0 -bottom-1 h-[3px] ${theme.stone} rounded-full transition-all duration-300 ${
                   isActive ? "w-full" : "w-0 group-hover:w-full"
                 }`}
               />
               {isActive && (
-                <span className="absolute -top-2 -right-2 w-3 h-3 bg-[#A68B5B] rounded-full shadow-md animate-pulse"></span>
+                <span
+                  className={`absolute -top-2 -right-2 w-3 h-3 ${theme.iconHover} rounded-full shadow-md animate-pulse`}
+                ></span>
               )}
             </Link>
           </motion.div>

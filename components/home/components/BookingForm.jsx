@@ -2,19 +2,16 @@
 import { motion } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
 import { FaCalendarAlt } from "react-icons/fa";
-import { useState } from "react";
+import { useState ,useEffect } from "react";
 import CitiesInput from "./components/CitiesInput";
 import CategoriesInput from "./components/CategoriesInput";
-
-// استيراد DatePicker و الأدوات المساعدة
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { addDays } from "date-fns";
 
-export default function BookingForm() {
+export default function BookingForm({ setShowTrips }) {
   const { theme } = useTheme();
 
-  // المدن
   const [showCities, setShowCities] = useState(false);
   const [selectedCities, setSelectedCities] = useState([]);
   const cities = [
@@ -33,7 +30,6 @@ export default function BookingForm() {
     );
   const confirmCities = () => setShowCities(false);
 
-  // الفئات
   const [showCategories, setShowCategories] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const categories = [
@@ -51,31 +47,47 @@ export default function BookingForm() {
       prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat],
     );
   const confirmCategories = () => setShowCategories(false);
+  const [screenSize, setScreenSize] = useState({ width: 0, height: 0 });
 
-  // التواريخ
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenSize({ width: window.innerWidth, height: window.innerHeight });
+    };
+
+    handleResize(); // أول مرة
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // منطق التحكم في القيم حسب حجم الشاشة
+  let rightValue = screenSize.width * 0.19;
+  let topValue = 0;
+
+  if (screenSize.width >= 1575) {
+    // موبايل
+    rightValue = screenSize.width * 0.20;
+    topValue = 0;
+  } else if (screenSize.width >= 1000) {
+    // تابلت
+     rightValue = screenSize.width * 0.36;
+    topValue = 0;
+  } 
   const [arrival, setArrival] = useState(null);
   const [departure, setDeparture] = useState(null);
   const [startDate, setStartDate] = useState(null);
-  const specialDates = []; // لو عندك أيام خاصة ممكن تضيفها هنا
+  const specialDates = [];
 
-  // مكون مخصص للإنبت (شفاف واحترافي)
   const CustomInput = ({ value, onClick }) => (
     <div
       onClick={onClick}
-      className="flex w-[325px] items-center border border-[#C2A878] rounded-[10px] 
-             bg-[rgba(255,255,255,0.08)] backdrop-blur-md px-6 cursor-pointer 
-             shadow-[0_0_15px_rgba(194,168,120,0.3)] hover:shadow-[0_0_25px_rgba(194,168,120,0.6)] 
-             transition-all duration-300 relative overflow-hidden"
+      className={`flex w-[325px] items-center rounded-[10px] px-6 cursor-pointer 
+                  backdrop-blur-md border ${theme.logoBorder} shadow-md hover:shadow-lg 
+                  transition-all duration-300 relative overflow-hidden ${theme.card}`}
     >
-      {/* أيقونة التقويم */}
-      <FaCalendarAlt className="text-[#C2A878] mr-3 text-xl drop-shadow-[0_0_6px_rgba(194,168,120,0.7)]" />
-
-      {/* النص */}
-      <span className="flex-1 p-2 text-white/90 tracking-wide font-medium">
+      <FaCalendarAlt className={`mr-3 text-xl ${theme.iconHover}`} />
+      <span className={`flex-1 p-2 tracking-wide font-medium ${theme.text}`}>
         {value || "Select Date"}
       </span>
-
-      {/* لمعة ذهبية خفيفة */}
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[rgba(194,168,120,0.15)] to-transparent opacity-0 hover:opacity-100 transition-opacity duration-500"></div>
     </div>
   );
@@ -85,12 +97,14 @@ export default function BookingForm() {
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 2 }}
-      className={`mt-6 ${theme.card} shadow-lg flex flex-col gap-4 w-[80%] max-w-4xl p-6 
-                  bg-transparent backdrop-blur-md border border-white/20 rounded-xl relative`}
+      className={`mt-6 ${theme.card} shadow-lg flex flex-col flex-wrap gap-4 w-[80%] max-w-4xl p-6 
+                  backdrop-blur-md border ${theme.logoBorder} rounded-xl relative`}
     >
       <div className="flex flex-row flex-wrap gap-5 flex-1">
         {/* Cities */}
-        <div className="flex items-center flex-1 border border-[#C2A878] rounded-[4px] hover:shadow-[0_0_25px_rgba(194,168,120,0.6)] bg-transparent px-3 relative">
+        <div
+          className={`flex items-center flex-1 border ${theme.logoBorder} rounded-[4px] px-3 relative ${theme.card}`}
+        >
           <CitiesInput
             selectedCities={selectedCities}
             confirmSelection={confirmCities}
@@ -98,11 +112,15 @@ export default function BookingForm() {
             toggleCity={toggleCity}
             showCities={showCities}
             cities={cities}
+            topValue={topValue}
+            rightValue={rightValue}
           />
         </div>
 
         {/* Categories */}
-        <div className="flex items-center flex-1 border border-[#C2A878] rounded-[4px] hover:shadow-[0_0_25px_rgba(194,168,120,0.6)] bg-transparent px-3 relative">
+        <div
+          className={`flex items-center flex-1 border ${theme.logoBorder} rounded-[4px] px-3 relative ${theme.card}`}
+        >
           <CategoriesInput
             selectedCategories={selectedCategories}
             confirmSelection={confirmCategories}
@@ -110,17 +128,21 @@ export default function BookingForm() {
             toggleCategory={toggleCategory}
             showCategories={showCategories}
             categories={categories}
+            topValue={topValue}
+            rightValue={rightValue}
           />
         </div>
 
         {/* Arrival Date */}
-        <div className="flex-1 max-w-[120px] xl:min-w-[325px] flex flex-col">
+        <div className="flex-1 max-w-[120px] xl:min-w-[325px] flex flex-col z-[1]">
           <DatePicker
             selected={arrival}
             onChange={(date) => {
               setArrival(date);
               setStartDate(date);
             }}
+            onCalendarOpen={() => setShowTrips(true)} // ✅ إظهار الكروت عند فتح الجدول
+            onCalendarClose={() => setShowTrips(false)} // ✅ إخفاء الكروت عند إغلاق الجدول
             dateFormat="dd/MM/yyyy"
             placeholderText="Checkin"
             customInput={<CustomInput />}
@@ -135,28 +157,33 @@ export default function BookingForm() {
         </div>
 
         {/* Departure Date */}
-        <div className="flex-1 max-w-[120px] xl:min-w-[325px] flex flex-col">
+        <div className="flex-1 max-w-[120px] xl:min-w-[325px] flex flex-col z-50">
           <DatePicker
             selected={departure}
             onChange={(date) => setDeparture(date)}
+            onCalendarOpen={() => setShowTrips(true)} // ✅ إظهار الكروت عند فتح الجدول
+            onCalendarClose={() => setShowTrips(false)} // ✅ إخفاء الكروت عند إغلاق الجدول
             minDate={startDate ? addDays(startDate, 7) : addDays(new Date(), 4)}
             dateFormat="dd/MM/yyyy"
             placeholderText="Checkout"
-            ؤ
             customInput={<CustomInput />}
           />
         </div>
       </div>
 
       {/* زر الحجز */}
-      <button
-        className="w-full rounded-[4px] px-6 py-3 bg-transparent backdrop-blur-md 
-                   border border-[#C2A878] text-[#C2A878] font-semibold tracking-wide 
-                   hover:bg-[#C2A878]/20 hover:text-white transition-all duration-300 
-                   shadow-lg cursor-pointer"
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className={`w-full rounded-[6px] px-6 py-3 font-semibold tracking-wide cursor-pointer 
+                    transition-all duration-300 shadow-lg ${theme.buttonPrimary}`}
+        style={{
+          color: `${theme.subText}`,
+          border: `2px solid ${theme.logoBorder}`,
+        }}
       >
         EXPERIENCE THE LEGEND
-      </button>
+      </motion.button>
     </motion.div>
   );
 }

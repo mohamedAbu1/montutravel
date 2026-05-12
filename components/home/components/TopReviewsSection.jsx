@@ -17,10 +17,8 @@ export default function TopReviewsSection() {
   const { theme, themeName } = useTheme();
   const { t } = useTranslation("home");
 
-  // ✅ تأكد أن المصفوفة صحيحة
   const safeReviews = Array.isArray(allReviews) ? allReviews : [];
 
-  // ✅ جلب أكثر 5 تعليقات لهم لايكات
   const topLikedReviews = safeReviews
     .map((rev) => ({
       ...rev,
@@ -30,7 +28,6 @@ export default function TopReviewsSection() {
     .sort((a, b) => b.likesCount - a.likesCount)
     .slice(0, 5);
 
-  // ✅ إدارة حالة "اقرأ المزيد" بشكل صحيح
   const [expandedIds, setExpandedIds] = useState([]);
   const toggleExpand = (id) => {
     setExpandedIds((prev) =>
@@ -54,26 +51,16 @@ export default function TopReviewsSection() {
   };
 
   return (
-    <section
-      className={`py-20 px-8 ${theme.background} ${theme.text} w-screen max-w-full`}
-    >
+    <section className={`py-20 px-8 ${theme.background} ${theme.text} w-screen max-w-full`}>
       <EgyptianBackground />
-      <h2
-        className={`sc-title-first text-5xl font-extrabold tracking-wide drop-shadow-md text-left`}
-        style={{
-          WebkitTextStroke:
-            themeName === "dark" ? "1px #C2A878" : "1px #5C4B3B",
-          textShadow:
-            themeName === "dark"
-              ? "2px 2px 6px rgba(0,0,0,0.6)"
-              : "2px 2px 6px rgba(255,255,255,0.3)",
-        }}
-      >
-        <span className="inline-block transform scale-x-[-1] mr-4"> 𓅓</span>
-        {t("h6")}
+ <h2
+  className="sc-title-first text-5xl font-extrabold tracking-wide drop-shadow-md text-left text-gradient"
+>
+  <span className="inline-block transform scale-x-[-1] mr-4">𓅓</span>
+  {t("h6")}
+  <span className="inline-block ml-4">𓅓</span>
+</h2>
 
-        <span className="inline-block ml-4"> 𓅓</span>
-      </h2>
       <DividerWithIcon />
 
       {topLikedReviews.length > 0 ? (
@@ -92,19 +79,12 @@ export default function TopReviewsSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
-                className={`flex flex-col gap-6 p-8 mx-4 rounded-2xl min-h-[220px]`}
+                className={`flex flex-col gap-6 p-8 mx-4 rounded-2xl min-h-[220px] ${theme.card}`}
                 style={{
-                  background:
-                    themeName === "dark"
-                      ? "rgba(255, 255, 255, 0.08)" // خلفية شفافة في الوضع الداكن
-                      : "rgba(255, 255, 255, 0.35)", // خلفية شفافة في الوضع الفاتح
-                  backdropFilter: "blur(12px)", // تأثير الزجاج
-                  WebkitBackdropFilter: "blur(12px)", // دعم Safari
-                  border: "1px solid rgba(255, 255, 255, 0.2)", // حدود ناعمة
-                  boxShadow:
-                    themeName === "dark"
-                      ? "0 8px 24px rgba(0,0,0,0.4)"
-                      : "0 8px 24px rgba(0,0,0,0.15)",
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
+                  border: `1px solid ${theme.logoBorder}`,
+                  boxShadow: theme.shadow,
                 }}
               >
                 {/* Header */}
@@ -120,9 +100,7 @@ export default function TopReviewsSection() {
                     <FaUserCircle size={64} className={theme.icon} />
                   )}
                   <div>
-                    <h3
-                      className={`font-bold text-lg ${theme.heading} capitalize`}
-                    >
+                    <h3 className={`font-bold text-lg ${theme.title} capitalize`}>
                       {rev.name || "Anonymous"}
                     </h3>
                     <div className="flex gap-1">
@@ -135,36 +113,33 @@ export default function TopReviewsSection() {
 
                 {/* Body */}
                 <div className="relative flex-1 mt-6">
-                  <FaQuoteLeft className="absolute top-0 left-0 text-3xl opacity-20" />
-                  <p
-                    className={`italic leading-relaxed text-base pl-10 ${theme.subText}`}
-                    style={{ textAlign: "justify" }}
-                  >
+                  <FaQuoteLeft className={`absolute top-0 left-0 text-3xl opacity-20 ${theme.icon}`} />
+                  <p className={`italic leading-relaxed text-base pl-10 ${theme.subText}`} style={{ textAlign: "justify" }}>
                     {comment}
                   </p>
                   {rev.comment?.length > 150 && (
-                    <button
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
                       onClick={() => toggleExpand(rev.id)}
-                      className="text-sm text-blue-500 mt-2"
+                      className={`text-sm mt-2 font-semibold tracking-wide cursor-pointer transition-all duration-300 ${theme.buttonPrimary}`}
+                      style={{ border: `1px solid ${theme.logoBorder}` }}
                     >
                       {expanded ? "إخفاء" : "اقرأ المزيد"}
-                    </button>
+                    </motion.button>
                   )}
                 </div>
 
                 {/* Footer */}
                 <div className="flex justify-between items-center mt-6 border-t pt-4">
-                  {/* التاريخ */}
-                  <div className="flex items-center gap-2 text-gray-500 text-sm">
+                  <div className={`flex items-center gap-2 text-sm ${theme.subText}`}>
                     <span>
                       {rev.created_at
                         ? format(new Date(rev.created_at), "dd MMM yyyy")
                         : "Unknown date"}
                     </span>
                   </div>
-
-                  {/* اللايكات */}
-                  <div className="flex items-center gap-2 text-red-600 font-semibold text-sm bg-red-0 px-3 py-1 rounded-full shadow-sm">
+                  <div className={`flex items-center gap-2 font-semibold text-sm px-3 py-1 rounded-full shadow-sm ${theme.buttonPrimary}`}>
                     <FaHeart />
                     <span>{rev.likesCount}</span>
                   </div>

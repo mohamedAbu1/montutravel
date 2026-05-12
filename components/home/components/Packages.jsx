@@ -5,50 +5,58 @@ import { useTheme } from "@/context/ThemeContext";
 import LogoLetter from "@/components/LogoLetter";
 import { useTrip } from "@/context/TripContext";
 import { useCitiesCategories } from "@/context/CitiesCategoriesContext";
+import { useLanguage } from "@/context/LanguageContext";
 
-export default function Packages() {
-  const { theme } = useTheme();
+export default function Packages({ showTrips }) {
+  const { theme, themeName } = useTheme();
   const { trips, fetchTrips, loadingTrips } = useTrip();
-  const {
-    cities: allCities,
-    categories: allCategories,
-    loading,
-  } = useCitiesCategories();
-  // ✅ جلب الرحلات عند التحميل
+  const { categories: allCategories } = useCitiesCategories();
+  const { lang } = useLanguage();
+  if (showTrips === true) return null; // ✅ إخفاء الكروت عند فتح التاريخ
+
   useEffect(() => {
     fetchTrips();
   }, []);
 
-  // ✅ قائمة الترجمات الخاصة بـ Nile Cruises
-  // قائمة الترجمات الخاصة بـ Nile Cruises
+  // Nile Cruises (Light Mode)
   const nileCruisesCategories = [
-    "Nilkreuzfahrten", // de
-    "Nile Cruises", // en
-    "Cruceros por el Nilo", // es
-    "Croisières sur le Nil", // fr
-    "Crociere sul Nilo", // it
-    "尼罗河游轮", // zh
+    "Nilkreuzfahrten",
+    "Nile Cruises",
+    "Cruceros por el Nilo",
+    "Croisières sur le Nil",
+    "Crociere sul Nilo",
+    "尼罗河游轮",
   ];
 
-  // فلترة الرحلات
-  const nileTrips = trips.filter((trip) => {
+  // One Day Trips (Dark Mode)
+  const oneDayTripsCategories = [
+    "Tagesausflüge",
+    "One Day Trips",
+    "Excursiones de un día",
+    "Excursions d'une journée",
+    "Gite di un giorno",
+    "一日游",
+  ];
+
+  const targetCategories =
+    themeName === "dark" ? oneDayTripsCategories : nileCruisesCategories;
+
+  const filteredTrips = trips.filter((trip) => {
     const tripCategories =
       trip.trip_categories?.map((cat) => {
         const catObj = allCategories.find((c) => c.id === cat.category_id);
         return catObj?.name?.[lang] || catObj?.name?.en || catObj?.name;
       }) || [];
-
-    return tripCategories.some((catName) =>
-      nileCruisesCategories.includes(catName),
-    );
+    return tripCategories.some((catName) => targetCategories.includes(catName));
   });
 
-  console.log(nileTrips);
+  // ✅ عرض أول 6 رحلات فقط
+  const limitedTrips = filteredTrips.slice(0, 6);
+
   const [page, setPage] = useState(0);
   const itemsPerPage = 3;
-  const totalPages = Math.ceil(nileTrips.length / itemsPerPage);
+  const totalPages = Math.ceil(limitedTrips.length / itemsPerPage);
 
-  // ✅ تغيير الصفحة أوتوماتيكياً كل 6 ثواني
   useEffect(() => {
     if (totalPages > 0) {
       const interval = setInterval(() => {
@@ -58,23 +66,14 @@ export default function Packages() {
     }
   }, [totalPages]);
 
-  const currentTrips = nileTrips.slice(
+  const currentTrips = limitedTrips.slice(
     page * itemsPerPage,
     page * itemsPerPage + itemsPerPage,
   );
 
-  if (loadingTrips) {
-    return <p className="text-center text-gray-500">Loading trips...</p>;
-  }
-
-  if (nileTrips.length === 0) {
-    return (
-      <p className="text-center text-gray-500">
-        لا توجد رحلات Nile Cruises متاحة حالياً
-      </p>
-    );
-  }
-
+  if (loadingTrips) return <p className="text-center">Loading trips...</p>;
+  if (limitedTrips.length === 0)
+    return <p className="text-center">لا توجد رحلات متاحة حالياً</p>;
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -86,15 +85,11 @@ export default function Packages() {
       <motion.div
         initial="hidden"
         animate="visible"
-        style={{ borderRadius: "6px" }}
         variants={{
           hidden: { opacity: 0 },
-          visible: {
-            opacity: 1,
-            transition: { staggerChildren: 0.2 },
-          },
+          visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
         }}
-        className="hero-title flex flex-wrap gap-4 justify-center font-[Cinzel] mb-5 z-[-1]"
+        className="hero-title flex flex-wrap gap-4 justify-center font-[Cinzel] mb-5 z-[1]"
       >
         {["M", "O", "N", "T", "U", "𓂀", "T", "R", "A", "V", "E", "L"].map(
           (char, i) => (
@@ -103,8 +98,8 @@ export default function Packages() {
         )}
       </motion.div>
 
-      {/* الكروت مع أنيميشن تبديل */}
-      <div className="relative z-[-1]">
+      {/* الكروت */}
+      <div className="relative z-[1]">
         <AnimatePresence mode="wait">
           <motion.div
             key={page}
@@ -112,42 +107,36 @@ export default function Packages() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -100 }}
             transition={{ duration: 0.8, ease: "easeInOut" }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-8 z-[-1]"
+            className="grid grid-cols-1 md:grid-cols-3 gap-8 z-[1]"
           >
             {currentTrips.map((trip) => (
               <motion.div
                 key={trip.id}
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 200 }}
-                className={`${theme.card} group relative overflow-hidden shadow-lg hover:shadow-2xl z-[-1]`}
+                className={`${theme.card} group relative overflow-hidden shadow-lg hover:shadow-2xl z-[0]`}
               >
                 <img
                   src={trip.cover_image || "/fallback.jpg"}
-                  alt={trip.title?.en || "Trip image"}
+                  alt={trip.title?.[lang] || trip.title?.en || "Trip image"}
                   className="w-full h-80 object-cover transform group-hover:scale-110 transition duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/30 to-transparent"></div>
-                <div className="absolute bottom-0 p-6 text-left">
-                  <h3
-                    style={{ fontWeight: "700" }}
-                    className={`hero-title drop-shadow-md`}
+                <div className="absolute bottom-0 p-6 text-center">
+                  <p
+                    className={`hero-p font-semibold mt-2`}
+                    style={{ color: theme.text }}
                   >
-                    {trip.title?.en}
-                  </h3>
-                  <p className="hero-p font-semibold mt-2">
                     From {trip.price} {trip.currency}
                   </p>
-                  <button
-                    className="w-full rounded-[9px] px-4 py-2 border-r-4 
-             bg-transparent backdrop-blur-md 
-             border border-[#C2A878] 
-             text-[#C2A878] font-semibold tracking-wide
-             hover:bg-[#C2A878]/20 hover:text-white 
-             transition-all duration-300 shadow-lg cursor-pointer mt-4"
-                    style={{ borderRadius: "8px" }}
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`w-full rounded-[9px] px-4 py-2 mt-4 font-semibold tracking-wide cursor-pointer transition-all duration-300 shadow-lg ${theme.buttonPrimary}`}
+                    style={{ border: `2px solid ${theme.logoBorder}` }}
                   >
                     Book Now
-                  </button>
+                  </motion.button>
                 </div>
               </motion.div>
             ))}

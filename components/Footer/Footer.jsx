@@ -1,20 +1,16 @@
-/* eslint-disable react-hooks/purity */
 "use client";
 import React from "react";
 import { useTheme } from "@/context/ThemeContext";
 import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
-import Link from "next/link"; // ✅ استخدم Link من Next.js
+import Link from "next/link";
 
 const Footer = () => {
   const { theme, themeName } = useTheme();
   const { t } = useTranslation("footer");
 
-  const symbols = [
-    "𓂀","𓋹","𓆣","𓇼","𓇯","𓏏","𓎛","𓊽",
-    "𓃾","𓅓","𓈇","𓉐","𓊹","𓌙","𓍿","𓎟",
-  ];
+  const symbols = ["𓂀","𓋹","𓆣","𓇼","𓇯","𓏏","𓎛","𓊽","𓃾","𓅓","𓈇","𓉐","𓊹","𓌙","𓍿","𓎟"];
 
   const fadeUp = {
     hidden: { opacity: 0, y: 40 },
@@ -39,14 +35,17 @@ const Footer = () => {
         ${theme.background} ${theme.text}
       `}
     >
-      {/* خلفية الرموز */}
+      {/* خلفية الرموز الفرعونية */}
       <div className="absolute inset-0 pointer-events-none -z-10">
         {Array.from({ length: 20 }).map((_, i) => (
-          <span
+          <motion.span
             key={i}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 0.15, y: 0 }}
+            transition={{ duration: 2, delay: i * 0.1 }}
             className={`absolute ${
               themeName === "dark" ? "text-gray-700" : "text-[#222]"
-            } opacity-20 text-6xl animate-pulse`}
+            } text-6xl`}
             style={{
               top: `${Math.random() * 100}%`,
               left: `${Math.random() * 100}%`,
@@ -54,17 +53,15 @@ const Footer = () => {
             }}
           >
             {symbols[Math.floor(Math.random() * symbols.length)]}
-          </span>
+          </motion.span>
         ))}
       </div>
 
       {/* اسم البراند */}
       <motion.p
         variants={fadeUp}
-        className={`
-          text-2xl font-extrabold tracking-wide drop-shadow-md relative z-10
-          ${themeName === "dark" ? "text-gold" : "bg-gradient-to-r from-[#2222223f] to-[#2222228c] bg-clip-text text-transparent"}
-        `}
+        className="text-3xl font-extrabold tracking-wide relative z-10 bg-gradient-to-r from-[var(--logoGradientFrom)] to-[var(--logoGradientTo)] bg-clip-text text-transparent drop-shadow-lg"
+        style={{ WebkitTextStroke: `1px ${theme.logoBorder}` }}
       >
         Montu Travel
       </motion.p>
@@ -76,63 +73,52 @@ const Footer = () => {
 
       {/* روابط سريعة */}
       <motion.div variants={fadeUp} className="flex gap-6 mt-6 text-sm font-medium relative z-10">
-        <Link href="/" className={`hover:underline ${
-          themeName === "dark" ? "text-white/80 hover:text-gold" : "text-[#3a2c0a]/80 hover:text-[#222]"
-        }`}>
-          {t("Home")}
-        </Link>
-        <Link href="/about" className={`hover:underline ${
-          themeName === "dark" ? "text-white/80 hover:text-gold" : "text-[#3a2c0a]/80 hover:text-[#222]"
-        }`}>
-          {t("AboutUs")}
-        </Link>
-        <Link href="/trips" className={`hover:underline ${
-          themeName === "dark" ? "text-white/80 hover:text-gold" : "text-[#3a2c0a]/80 hover:text-[#222]"
-        }`}>
-          {t("Tours")}
-        </Link>
-        <Link href="/contact" className={`hover:underline ${
-          themeName === "dark" ? "text-white/80 hover:text-gold" : "text-[#3a2c0a]/80 hover:text-[#222]"
-        }`}>
-          {t("Contact")}
-        </Link>
+        {["Home", "AboutUs", "Tours", "Contact"].map((link) => (
+          <Link
+            key={link}
+            href={`/${link === "Home" ? "" : link.toLowerCase()}`}
+            className={`hover:underline transition ${
+              themeName === "dark"
+                ? "text-white/80 hover:text-[var(--logoBorder)]"
+                : "text-[#3a2c0a]/80 hover:text-[#222]"
+            }`}
+          >
+            {t(link)}
+          </Link>
+        ))}
       </motion.div>
 
+      {/* Divider متدرج */}
+      <motion.div
+        variants={fadeUp}
+        className="w-32 h-[2px] bg-gradient-to-r from-[var(--logoGradientFrom)] to-[var(--logoGradientTo)] mt-6 mb-6 animate-pulse"
+      ></motion.div>
+
       {/* أيقونات السوشيال ميديا */}
-      <motion.div variants={fadeUp} className="flex gap-5 mt-8 relative z-10">
-        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"
-          className={`p-3 rounded-full transition ${
-            themeName === "dark"
-              ? "bg-gold/20 hover:bg-gold/40 text-gold"
-              : "bg-[#c9a34a]/20 hover:bg-[#c9a34a]/40 text-[#222]"
-          }`}>
-          <FaFacebookF />
-        </a>
-        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
-          className={`p-3 rounded-full transition ${
-            themeName === "dark"
-              ? "bg-gold/20 hover:bg-gold/40 text-gold"
-              : "bg-[#c9a34a]/20 hover:bg-[#c9a34a]/40 text-[#222]"
-          }`}>
-          <FaInstagram />
-        </a>
-        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"
-          className={`p-3 rounded-full transition ${
-            themeName === "dark"
-              ? "bg-gold/20 hover:bg-gold/40 text-gold"
-              : "bg-[#c9a34a]/20 hover:bg-[#c9a34a]/40 text-[#222]"
-          }`}>
-          <FaTwitter />
-        </a>
-        <a href="https://youtube.com" target="_blank" rel="noopener noreferrer"
-          className={`p-3 rounded-full transition ${
-            themeName === "dark"
-              ? "bg-gold/20 hover:bg-gold/40 text-gold"
-              : "bg-[#c9a34a]/20 hover:bg-[#c9a34a]/40 text-[#222]"
-          }`}>
-          <FaYoutube />
-        </a>
+      <motion.div variants={fadeUp} className="flex gap-5 mt-4 relative z-10">
+        {[FaFacebookF, FaInstagram, FaTwitter, FaYoutube].map((Icon, i) => (
+          <motion.a
+            key={i}
+            href="#"
+            whileHover={{ scale: 1.2, rotate: 5 }}
+            className={`p-3 rounded-full transition shadow-md ${
+              themeName === "dark"
+                ? "bg-[var(--logoGradientFrom)]/20 hover:bg-[var(--logoGradientTo)]/40 text-[var(--logoBorder)]"
+                : "bg-[var(--logoGradientFrom)]/20 hover:bg-[var(--logoGradientTo)]/40 text-[#222]"
+            }`}
+          >
+            <Icon />
+          </motion.a>
+        ))}
       </motion.div>
+
+      {/* حقوق النشر */}
+      <motion.p
+        variants={fadeUp}
+        className="mt-8 text-xs opacity-70 relative z-10"
+      >
+        © 2026 MontuTravel. All rights reserved.
+      </motion.p>
     </motion.footer>
   );
 };

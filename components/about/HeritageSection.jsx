@@ -36,30 +36,19 @@ export default function HeritageSection() {
       viewport={{ once: true, amount: 0.2 }}
     >
       <div
-        className={`max-w-7xl mx-auto rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8 border ${
-          themeName === "dark"
-            ? "border-gold/25 bg-black/40"
-            : "border-[#c9a34a]/25 bg-white/70"
-        }`}
+        className={`max-w-7xl mx-auto rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8 border text-gradient`}
       >
         {/* النص */}
         <motion.div variants={fadeLeft} className="flex-1">
           <h3
-            className={`about-p text-2xl font-bold mb-3 `} style={{
-            WebkitTextStroke:
-              themeName === "dark" ? "1px #C2A878" : "1px #5C4B3B",
-            textShadow:
-              themeName === "dark"
-                ? "2px 2px 6px rgba(0,0,0,0.6)"
-                : "2px 2px 6px rgba(255,255,255,0.3)",
-          }}
+            className={`about-p text-2xl font-bold mb-3 text-gradient`}
           >
             {t("h5")}
           </h3>
           <DividerWithIcon />
 
           <p
-            className={`text-center ${themeName === "dark" ? "text-white/80" : "text-[#5c4520]"}`}
+            className={`text-center text-gradient`}
           >
             {t("p4")}
           </p>
@@ -71,7 +60,11 @@ export default function HeritageSection() {
           className="flex-1 relative w-full h-56"
         >
           <Image
-            src="/HomePageImage/pexels-axp-photography-500641970-18934596.webp"
+           src={
+              themeName === "dark"
+                ? "/HomePageImage/pexels-axp-photography-500641970-18934596.webp"
+                : "/Nile_Cruise/Dahabeya-program-SOBEK-900x600.webp"
+            }
             alt="Egyptian Heritage"
             fill
             className="object-cover rounded-2xl"

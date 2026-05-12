@@ -1,17 +1,18 @@
 /* =========================
-   Social Icons
+   Social Icons (Theme-based)
    ========================= */
 .social-icon {
   font-size: 22px;
-  color: white;
+  color: var(--icon); /* أيقونة من الثيم */
   padding: 10px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--input-hover-bg); /* خلفية زجاجية من الثيم */
   backdrop-filter: blur(6px);
   transition: 0.3s;
 }
 
 .social-icon:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--button-primary-hover-bg); /* خلفية عند hover من الثيم */
+  color: var(--icon-hover); /* لون الأيقونة عند hover من الثيم */
   transform: translateX(5px);
 }

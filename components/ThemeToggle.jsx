@@ -7,7 +7,7 @@ import { useTheme } from "@/context/ThemeContext";
 import { usePathname } from "next/navigation";
 
 const ThemeToggle = ({ scrolled }) => {
-  const { themeName, toggleThemeFun } = useTheme();
+  const { themeName, toggleThemeFun, theme } = useTheme();
   const pathname = usePathname();
 
   const segments = pathname.split("/").filter(Boolean);
@@ -21,21 +21,25 @@ const ThemeToggle = ({ scrolled }) => {
       <Button
         sx={{ zIndex: 9999 }}
         onClick={toggleThemeFun}
-        className={`
-          p-2 rounded-full border transition-all duration-300
-          ${
-            themeName === "dark"
-              ? "bg-yellow-500 border-yellow-600 hover:bg-yellow-600 hover:text-white"
-              : isHome
-                ? "bg-gray-200 border-gray-300 hover:bg-gray-300 hover:text-black" // ✅ ستايل قديم للهوم
-                : "bg-white border-gray-300 hover:bg-gray-100 hover:text-black" // ✅ ستايل جديد لغير الهوم
-          }
-        `}
+        className={`p-3 rounded-full transition-all duration-300 shadow-lg`}
+        
       >
         {themeName === "dark" ? (
-          <BsSun size={20} color="#fff" />
+          <BsSun
+            size={22}
+            style={{
+              color: theme.iconHover,
+              filter: "drop-shadow(0 0 6px rgba(194,168,120,0.6))",
+            }}
+          />
         ) : (
-          <BsMoon size={20} color={scrolled  ? "#999" : isHome  ? "#fff": "#999"} />
+          <BsMoon
+            size={22}
+            style={{
+              color: scrolled ? theme.iconInactive : theme.iconHover,
+              filter: "drop-shadow(0 0 4px rgba(0,0,0,0.3))",
+            }}
+          />
         )}
       </Button>
     </motion.div>

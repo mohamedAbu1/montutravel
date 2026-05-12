@@ -18,6 +18,7 @@ import { useTrip } from "@/context/TripContext";
 import { useCitiesCategories } from "@/context/CitiesCategoriesContext";
 import { useQueryFilters } from "@/context/QueryContext";
 import { useRouter } from "next/navigation";
+import CurrencySelector from "../../../components/layout/CurrencySelector";
 import AdminDashboardButton from "@/components/layout/AdminDashboardButton";
 
 export default function TripsPage() {
@@ -38,14 +39,12 @@ export default function TripsPage() {
   const [search, setSearch] = useState("");
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
-  // ✅ القيم من الكويري كونتكست
   const { city, category, price, popular } = useQueryFilters();
 
   useEffect(() => {
     fetchTrips();
   }, []);
 
-  // ✅ مراقبة حجم الشاشة
   useEffect(() => {
     const checkScreen = () => setIsSmallScreen(window.innerWidth <= 1024);
     checkScreen();
@@ -56,7 +55,6 @@ export default function TripsPage() {
   if (loadingTrips)
     return <p className="text-center text-gray-500">Loading trips...</p>;
 
-  // ✅ فلترة الرحلات
   const filteredTrips = trips.filter((trip) => {
     const lowerSearch = search.trim().toLowerCase();
     const matchesSearch =
@@ -73,10 +71,10 @@ export default function TripsPage() {
       city === "all"
         ? true
         : Array.isArray(city)
-          ? tripCities.some((c) =>
-              city.map((x) => x.toLowerCase()).includes(c.toLowerCase()),
-            )
-          : tripCities.some((c) => c.toLowerCase() === city.toLowerCase());
+        ? tripCities.some((c) =>
+            city.map((x) => x.toLowerCase()).includes(c.toLowerCase())
+          )
+        : tripCities.some((c) => c.toLowerCase() === city.toLowerCase());
 
     const tripCategories =
       trip.trip_categories?.map((cat) => {
@@ -87,8 +85,8 @@ export default function TripsPage() {
       category === "all"
         ? true
         : Array.isArray(category)
-          ? tripCategories.some((c) => category.includes(c))
-          : tripCategories.includes(category);
+        ? tripCategories.some((c) => category.includes(c))
+        : tripCategories.includes(category);
 
     const ranges = {
       Economy: { min: 0, max: 199 },
@@ -100,8 +98,8 @@ export default function TripsPage() {
       price === "All" || !price
         ? true
         : selectedRange
-          ? trip.price >= selectedRange.min && trip.price <= selectedRange.max
-          : true;
+        ? trip.price >= selectedRange.min && trip.price <= selectedRange.max
+        : true;
 
     const matchesPopular = popular ? trip.isPopular : true;
 
@@ -132,14 +130,13 @@ export default function TripsPage() {
         <Header />
 
         {isSmallScreen ? (
-          // ✅ واجهة بديلة 3D للهواتف والشاشات الصغيرة
           <motion.div
             initial={{ opacity: 0, scale: 0.8, rotateY: 90 }}
             animate={{ opacity: 1, scale: 1, rotateY: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
             className="flex flex-col items-center justify-center h-[70vh] text-center gap-6"
           >
-            <h2 className="text-4xl font-extrabold text-[#c9a34a] drop-shadow-lg">
+            <h2 className="text-4xl font-extrabold text-[var(--primary-color)] drop-shadow-lg">
               🚫 This page is not available on phones.
             </h2>
             <p className="text-lg text-gray-600">
@@ -147,13 +144,12 @@ export default function TripsPage() {
             </p>
             <button
               onClick={() => router.push("/")}
-              className="px-6 py-3 rounded-lg bg-[#c9a34a] text-white font-bold shadow-lg hover:bg-yellow-600 transition"
+              className="btn-theme"
             >
               Return to home page
             </button>
           </motion.div>
         ) : (
-          // ✅ التصميم العادي للرحلات
           <motion.section
             style={{ marginTop: "105px", paddingBottom: "20px" }}
             className="container flex flex-1 gap-6 px-6 relative z-10"
@@ -182,11 +178,11 @@ export default function TripsPage() {
                       key={i}
                       onClick={() => {
                         setCurrentPage(i + 1);
-                        window.scrollTo({ top: 30, behavior: "smooth" }); // ✅ يرجع الاسكرول عند 30
+                        window.scrollTo({ top: 30, behavior: "smooth" });
                       }}
                       className={`px-3 py-1 rounded-lg font-bold cursor-pointer transition ${
                         currentPage === i + 1
-                          ? "bg-[#c9a34a] text-white"
+                          ? "bg-[var(--primary-color)] text-white"
                           : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                       }`}
                     >
@@ -204,6 +200,7 @@ export default function TripsPage() {
         <LoginModal />
         {user && <ChatWidget />}
         {user && <AdminDashboardButton />}
+        <CurrencySelector />
       </main>
     </>
   );

@@ -15,6 +15,7 @@ import Head from "next/head";
 import { useLanguage } from "@/context/LanguageContext";
 import { contactMetadata } from "@/lib/metadata/contact";
 import DividerWithIcon from "@/components/layout/DividerWithIcon";
+import Image from "next/image";
 
 const symbols = [
   "𓂀",
@@ -88,9 +89,7 @@ export default function ContactPage() {
         <meta name="description" content={meta.description} />
         <meta name="keywords" content={meta.keywords} />
       </Head>
-      <main
-       className="relative flex flex-col min-h-screen justify-center items-center "
-      >
+      <main className="relative flex flex-col min-h-screen justify-center items-center ">
         <Header />
         {/* خلفية الرموز الفرعونية */}
         <div className="absolute inset-0 pointer-events-none">
@@ -98,7 +97,7 @@ export default function ContactPage() {
             <span
               key={i}
               className={`absolute ${
-                themeName === "dark" ? "text-gray-700" : "text-[#c9a34a]"
+                themeName === "dark" ? "text-gray-700" : "text-[#4F6D7A]"
               } opacity-20 text-7xl animate-pulse`}
               style={{
                 top: `${Math.random() * 100}%`,
@@ -120,50 +119,44 @@ export default function ContactPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className={`rounded-2xl p-8 shadow-xl ${
-                themeName === "dark"
-                  ? "bg-black/40 border border-gold/30"
-                  : "bg-white/70 border border-[#c9a34a]/30 backdrop-blur-sm"
+              className={`card-theme relative rounded-2xl p-8 shadow-xl ${
+                themeName === "dark" ? "card-dark" : "card-light"
               }`}
             >
+              {/* ✅ صورة SVG خلفية */}
+              <div className="absolute top-80 left-0 w-full h-[450px] opacity-50 pointer-events-none">
+                <Image
+                  src="/HomePageImage/1547933741.svg" // ضع ملف SVG هنا
+                  alt="Decorative Background"
+                  fill
+                  className="object-contain"
+                />
+              </div>
               <h2
-                className="contact-p text-3xl font-bold mb-6"
-                style={{
-                  WebkitTextStroke:
-                    themeName === "dark" ? "1px #C2A878" : "1px #5C4B3B",
-                  textShadow:
-                    themeName === "dark"
-                      ? "2px 2px 6px rgba(0,0,0,0.6)"
-                      : "2px 2px 6px rgba(255,255,255,0.3)",
-                }}
+                className={`contact-p text-3xl font-bold mb-6 text-gradient ${
+                  themeName === "dark"
+                    ? "text-stroke-dark"
+                    : "text-stroke-light"
+                }`}
               >
                 {t("h1")}
               </h2>
+
               <DividerWithIcon />
+
               <p className="mb-6 opacity-80">{t("p1")}</p>
+
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
-                  <FaPhoneAlt
-                    className={
-                      themeName === "dark" ? "text-gold" : "text-[#c9a34a]"
-                    }
-                  />
+                  <FaPhoneAlt className="icon-theme" />
                   <span>+20 1091126069</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <FaEnvelope
-                    className={
-                      themeName === "dark" ? "text-gold" : "text-[#c9a34a]"
-                    }
-                  />
+                  <FaEnvelope className="icon-theme" />
                   <span>wasettravel@outlook.com</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <FaMapMarkerAlt
-                    className={
-                      themeName === "dark" ? "text-gold" : "text-[#c9a34a]"
-                    }
-                  />
+                  <FaMapMarkerAlt className="icon-theme" />
                   <span>{t("sp")}</span>
                 </div>
               </div>
@@ -176,39 +169,30 @@ export default function ContactPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className={`rounded-2xl p-8 shadow-xl space-y-6 ${
-                themeName === "dark"
-                  ? "bg-black/40 border border-gold/30"
-                  : "bg-white/70 border border-[#c9a34a]/30 backdrop-blur-sm"
+              className={`card-theme rounded-2xl p-8 shadow-xl space-y-6 ${
+                themeName === "dark" ? "card-dark" : "card-light"
               }`}
             >
               <h2
-                className="contact-p text-3xl font-bold mb-6"
-                style={{
-                  WebkitTextStroke:
-                    themeName === "dark" ? "1px #C2A878" : "1px #5C4B3B",
-                  textShadow:
-                    themeName === "dark"
-                      ? "2px 2px 6px rgba(0,0,0,0.6)"
-                      : "2px 2px 6px rgba(255,255,255,0.3)",
-                }}
+                className={`contact-p text-3xl font-bold mb-6 text-gradient ${
+                  themeName === "dark"
+                    ? "text-stroke-dark"
+                    : "text-stroke-light"
+                }`}
               >
                 {t("h2")}
               </h2>
+
               <DividerWithIcon />
 
               {/* الاسم */}
               <div>
                 <label
-                  className="contact-text block mb-2 font-semibold"
-                  style={{
-                    WebkitTextStroke:
-                      themeName === "dark" ? "1px #C2A878" : "1px #5C4B3B",
-                    textShadow:
-                      themeName === "dark"
-                        ? "2px 2px 6px rgba(0,0,0,0.6)"
-                        : "2px 2px 6px rgba(255,255,255,0.3)",
-                  }}
+                  className={`contact-text block mb-2 font-semibold ${
+                    themeName === "dark"
+                      ? "text-stroke-dark"
+                      : "text-stroke-light"
+                  }`}
                 >
                   {t("lb")}
                 </label>
@@ -218,12 +202,12 @@ export default function ContactPage() {
                   value={user?.user_metadata?.name || formData.name}
                   onChange={handleChange}
                   readOnly={!!user?.user_metadata?.name}
-                  className={`w-full p-3 rounded-lg border outline-none ${
+                  className={`input-theme ${
                     user?.user_metadata?.name
                       ? "bg-gray-100 text-gray-600 cursor-not-allowed capitalize"
                       : themeName === "dark"
-                        ? "bg-[#0f0f0f] border-gold/30 text-white"
-                        : "bg-[#fdf6e3] border-[#c9a34a]/40 text-[#3a2c0a]"
+                        ? "input-dark"
+                        : "input-light"
                   }`}
                   placeholder={t("inp")}
                 />
@@ -232,15 +216,11 @@ export default function ContactPage() {
               {/* الهاتف */}
               <div>
                 <label
-                  className="contact-text block mb-2 font-semibold"
-                  style={{
-                    WebkitTextStroke:
-                      themeName === "dark" ? "1px #C2A878" : "1px #5C4B3B",
-                    textShadow:
-                      themeName === "dark"
-                        ? "2px 2px 6px rgba(0,0,0,0.6)"
-                        : "2px 2px 6px rgba(255,255,255,0.3)",
-                  }}
+                  className={`contact-text block mb-2 font-semibold ${
+                    themeName === "dark"
+                      ? "text-stroke-dark"
+                      : "text-stroke-light"
+                  }`}
                 >
                   {t("lb2")}
                 </label>
@@ -250,11 +230,7 @@ export default function ContactPage() {
                   value={formData.phone}
                   onChange={handleChange}
                   required
-                  className={`w-full p-3 rounded-lg border outline-none ${
-                    themeName === "dark"
-                      ? "bg-[#0f0f0f] border-gold/30 text-white"
-                      : "bg-[#fdf6e3] border-[#c9a34a]/40 text-[#3a2c0a]"
-                  }`}
+                  className={`input-theme ${themeName === "dark" ? "input-dark" : "input-light"}`}
                   placeholder={t("inp2")}
                 />
               </div>
@@ -262,15 +238,11 @@ export default function ContactPage() {
               {/* البريد */}
               <div>
                 <label
-                  className="contact-text block mb-2 font-semibold"
-                  style={{
-                    WebkitTextStroke:
-                      themeName === "dark" ? "1px #C2A878" : "1px #5C4B3B",
-                    textShadow:
-                      themeName === "dark"
-                        ? "2px 2px 6px rgba(0,0,0,0.6)"
-                        : "2px 2px 6px rgba(255,255,255,0.3)",
-                  }}
+                  className={`contact-text block mb-2 font-semibold ${
+                    themeName === "dark"
+                      ? "text-stroke-dark"
+                      : "text-stroke-light"
+                  }`}
                 >
                   {t("lb3")}
                 </label>
@@ -280,12 +252,12 @@ export default function ContactPage() {
                   value={user?.email || formData.email}
                   onChange={handleChange}
                   readOnly={!!user?.email}
-                  className={`w-full p-3 rounded-lg border outline-none ${
+                  className={`input-theme ${
                     user?.email
                       ? "bg-gray-100 text-gray-600 cursor-not-allowed"
                       : themeName === "dark"
-                        ? "bg-[#0f0f0f] border-gold/30 text-white"
-                        : "bg-[#fdf6e3] border-[#c9a34a]/40 text-[#3a2c0a]"
+                        ? "input-dark"
+                        : "input-light"
                   }`}
                   placeholder={t("inp3")}
                 />
@@ -294,15 +266,11 @@ export default function ContactPage() {
               {/* الرسالة */}
               <div>
                 <label
-                  className="contact-text block mb-2 font-semibold"
-                  style={{
-                    WebkitTextStroke:
-                      themeName === "dark" ? "1px #C2A878" : "1px #5C4B3B",
-                    textShadow:
-                      themeName === "dark"
-                        ? "2px 2px 6px rgba(0,0,0,0.6)"
-                        : "2px 2px 6px rgba(255,255,255,0.3)",
-                  }}
+                  className={`contact-text block mb-2 font-semibold ${
+                    themeName === "dark"
+                      ? "text-stroke-dark"
+                      : "text-stroke-light"
+                  }`}
                 >
                   {t("lb4")}
                 </label>
@@ -312,25 +280,13 @@ export default function ContactPage() {
                   onChange={handleChange}
                   required
                   rows="5"
-                  className={`w-full p-3 rounded-lg border outline-none ${
-                    themeName === "dark"
-                      ? "bg-[#0f0f0f] border-gold/30 text-white"
-                      : "bg-[#fdf6e3] border-[#c9a34a]/40 text-[#3a2c0a]"
-                  }`}
+                  className={`input-theme ${themeName === "dark" ? "input-dark" : "input-light"}`}
                   placeholder={t("inp4")}
                 ></textarea>
               </div>
 
               {/* زر الإرسال */}
-              <button
-                type="submit"
-                className="w-full rounded-[4px] px-6 py-3 
-             bg-transparent backdrop-blur-md 
-             border border-[#C2A878] 
-             text-[#C2A878] font-semibold tracking-wide
-             hover:bg-[#C2A878]/20 hover:text-white 
-             transition-all duration-300 shadow-lg cursor-pointer"
-              >
+              <button type="submit" className="btn-gradient w-full">
                 {t("btn")}
               </button>
             </motion.form>
