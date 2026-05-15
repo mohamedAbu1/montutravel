@@ -1,164 +1,125 @@
-// components/Footer.jsx
 "use client";
-import Image from "next/image";
+import React from "react";
+import { useTheme } from "@/context/ThemeContext";
+import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
+import { motion } from "framer-motion";
 import Link from "next/link";
 
 const Footer = () => {
+  const { theme, themeName } = useTheme();
+  const { t } = useTranslation("footer");
+
+  const symbols = ["𓂀","𓋹","𓆣","𓇼","𓇯","𓏏","𓎛","𓊽","𓃾","𓅓","𓈇","𓉐","𓊹","𓌙","𓍿","𓎟"];
+
+  const fadeUp = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+  };
+
+  const staggerContainer = {
+    hidden: {},
+    visible: { transition: { staggerChildren: 0.2 } },
+  };
+
   return (
-    <footer className="relative mt-16 border-t border-cyan-400/20 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.12),_transparent_55%),_linear-gradient(to_bottom,_#020617,_#020617)] text-gray-200">
-      {/* خط علوي متدرج مثل هويتك */}
-      <div className="h-[3px] w-full bg-gradient-to-r from-cyan-400 via-white to-cyan-400" />
-
-      <div className="max-w-7xl mx-auto px-4 py-10 lg:py-14">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-14">
-          {/* اللوجو + الوصف */}
-          <div className="space-y-4">
-            {/* لو عندك لوجو بصيغة شفافة */}
-            {/* استبدل src بشعارك */}
-            <div className="flex items-center gap-3">
-              <div className="relative w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 via-white to-cyan-400 flex items-center justify-center shadow-[0_0_25px_rgba(34,211,238,0.6)]">
-                <span className="text-xs font-bold text-slate-900 tracking-wide">
-                  FOL
-                </span>
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-cyan-300 tracking-[0.18em] uppercase">
-                  Flower of Life Travels
-                </p>
-                <p className="text-xs text-cyan-100/70">
-                  Sacred journeys · Nile experiences
-                </p>
-              </div>
-            </div>
-
-            <p className="text-sm text-gray-300/90 leading-relaxed max-w-sm">
-              We craft spiritually inspired journeys across Egypt, combining
-              comfort, safety, and deeply meaningful experiences around the Nile,
-              ancient temples, and energy-filled sacred sites.
-            </p>
-          </div>
-
-          {/* روابط التصفح */}
-          <div className="space-y-4">
-            <h4 className="text-sm font-semibold text-cyan-300 tracking-[0.2em] uppercase">
-              Navigation
-            </h4>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link
-                  href="#tours"
-                  className="hover:text-cyan-300 transition-colors"
-                >
-                  Tours & Experiences
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#fleet"
-                  className="hover:text-cyan-300 transition-colors"
-                >
-                  Our Fleet
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#about"
-                  className="hover:text-cyan-300 transition-colors"
-                >
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#contact"
-                  className="hover:text-cyan-300 transition-colors"
-                >
-                  Contact & Support
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* التواصل الاجتماعي + معلومات الاتصال */}
-          <div className="space-y-4">
-            <h4 className="text-sm font-semibold text-cyan-300 tracking-[0.2em] uppercase">
-              Connect
-            </h4>
-
-            <div className="space-y-1 text-sm">
-              <p className="text-gray-300/90">
-                Email:{" "}
-                <a
-                  href="mailto:info@floweroflife-travel.com"
-                  className="hover:text-cyan-300 transition-colors"
-                >
-                  info@floweroflife-travel.com
-                </a>
-              </p>
-              <p className="text-gray-300/90">
-                Phone:{" "}
-                <a
-                  href="tel:+201234567890"
-                  className="hover:text-cyan-300 transition-colors"
-                >
-                  +20 123 456 7890
-                </a>
-              </p>
-              <p className="text-gray-300/80">
-                Luxor · Aswan · Cairo · Giza
-              </p>
-            </div>
-
-            <div className="flex items-center gap-3 mt-3">
-              <a
-                href="#"
-                className="w-9 h-9 rounded-full border border-cyan-400/40 flex items-center justify-center text-xs hover:bg-cyan-400 hover:text-slate-900 transition"
-              >
-                FB
-              </a>
-              <a
-                href="#"
-                className="w-9 h-9 rounded-full border border-cyan-400/40 flex items-center justify-center text-xs hover:bg-cyan-400 hover:text-slate-900 transition"
-              >
-                IG
-              </a>
-              <a
-                href="#"
-                className="w-9 h-9 rounded-full border border-cyan-400/40 flex items-center justify-center text-xs hover:bg-cyan-400 hover:text-slate-900 transition"
-              >
-                WA
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* خط فاصل */}
-        <div className="mt-10 h-px w-full bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent" />
-
-        {/* الشريط السفلي */}
-        <div className="mt-4 flex flex-col md:flex-row items-center justify-between gap-3 text-[11px] text-gray-400">
-          <p>
-            © {new Date().getFullYear()} Flower of Life Travels. All rights
-            reserved.
-          </p>
-          <div className="flex items-center gap-4">
-            <Link
-              href="#"
-              className="hover:text-cyan-300 transition-colors"
-            >
-              Privacy Policy
-            </Link>
-            <span className="text-gray-600">·</span>
-            <Link
-              href="#"
-              className="hover:text-cyan-300 transition-colors"
-            >
-              Terms of Service
-            </Link>
-          </div>
-        </div>
+    <motion.footer
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
+      variants={staggerContainer}
+      className={`
+        flex flex-col items-center justify-center
+        py-12 px-6 w-full relative overflow-hidden
+        transition-colors duration-500
+        ${theme.background} ${theme.text}
+      `}
+    >
+      {/* خلفية الرموز الفرعونية */}
+      <div className="absolute inset-0 pointer-events-none -z-10">
+        {Array.from({ length: 20 }).map((_, i) => (
+          <motion.span
+            key={i}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 0.15, y: 0 }}
+            transition={{ duration: 2, delay: i * 0.1 }}
+            className={`absolute ${
+              themeName === "dark" ? "text-gray-700" : "text-[#222]"
+            } text-6xl`}
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              transform: `rotate(${Math.random() * 360}deg)`,
+            }}
+          >
+            {symbols[Math.floor(Math.random() * symbols.length)]}
+          </motion.span>
+        ))}
       </div>
-    </footer>
+
+      {/* اسم البراند */}
+      <motion.p
+        variants={fadeUp}
+        className="text-3xl font-extrabold tracking-wide relative z-10 bg-gradient-to-r from-[var(--logoGradientFrom)] to-[var(--logoGradientTo)] bg-clip-text text-transparent drop-shadow-lg"
+        style={{ WebkitTextStroke: `1px ${theme.logoBorder}` }}
+      >
+        One Time Life Travel
+      </motion.p>
+
+      {/* الوصف */}
+      <motion.p variants={fadeUp} className="mt-2 text-sm opacity-80 text-center max-w-xl relative z-10">
+        {t("p")}
+      </motion.p>
+
+      {/* روابط سريعة */}
+      <motion.div variants={fadeUp} className="flex gap-6 mt-6 text-sm font-medium relative z-10">
+        {["Home", "AboutUs", "Tours", "Contact"].map((link) => (
+          <Link
+            key={link}
+            href={`/${link === "Home" ? "" : link.toLowerCase()}`}
+            className={`hover:underline transition ${
+              themeName === "dark"
+                ? "text-white/80 hover:text-[var(--logoBorder)]"
+                : "text-[#3a2c0a]/80 hover:text-[#222]"
+            }`}
+          >
+            {t(link)}
+          </Link>
+        ))}
+      </motion.div>
+
+      {/* Divider متدرج */}
+      <motion.div
+        variants={fadeUp}
+        className="w-32 h-[2px] bg-gradient-to-r from-[var(--logoGradientFrom)] to-[var(--logoGradientTo)] mt-6 mb-6 animate-pulse"
+      ></motion.div>
+
+      {/* أيقونات السوشيال ميديا */}
+      <motion.div variants={fadeUp} className="flex gap-5 mt-4 relative z-10">
+        {[FaFacebookF, FaInstagram, FaTwitter, FaYoutube].map((Icon, i) => (
+          <motion.a
+            key={i}
+            href="#"
+            whileHover={{ scale: 1.2, rotate: 5 }}
+            className={`p-3 rounded-full transition shadow-md ${
+              themeName === "dark"
+                ? "bg-[var(--logoGradientFrom)]/20 hover:bg-[var(--logoGradientTo)]/40 text-[var(--logoBorder)]"
+                : "bg-[var(--logoGradientFrom)]/20 hover:bg-[var(--logoGradientTo)]/40 text-[#222]"
+            }`}
+          >
+            <Icon />
+          </motion.a>
+        ))}
+      </motion.div>
+
+      {/* حقوق النشر */}
+      <motion.p
+        variants={fadeUp}
+        className="mt-8 text-xs opacity-70 relative z-10"
+      >
+        © 2026 OneTimeLifeTravel. All rights reserved.
+      </motion.p>
+    </motion.footer>
   );
 };
 

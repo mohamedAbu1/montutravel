@@ -1,95 +1,68 @@
 "use client";
-import Image from "next/image";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useState } from "react";
-import eagleLogo from "@/public/HomePageImage/Copilot_20251201_121053.webp";
-import Link from "next/link";
-import { useAppFun } from "@/context/AppFun";
+import { useTheme } from "@/context/ThemeContext";
+import Logo from "./components/Logo";
+import NavBar from "./components/NavBar";
+import RightBar from "./components/RightBar";
+import { Button } from "@mui/material";
+import { useAuth } from "@/context/AuthContext";
+import { FaSignOutAlt, FaUserPlus } from "react-icons/fa";
 
-const Header = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const { setShowRegister } = useAppFun();
+export default function Header() {
+  const [scrolled, setScrolled] = useState(false);
+  const { theme } = useTheme();
+  const { user, isLoggedIn, logout, handleOpen } = useAuth();
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <header
-      className="fixed top-0 left-0 w-full z-50 px-6 md:px-8 py-4 flex items-center justify-between
-             bg-gradient-to-r from-blue-900/40 via-black/30 to-blue-900/40
-             border-b border-white/20 shadow-lg shadow-blue-900/50"
+    <motion.header
+      initial={{ y: -80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
+        scrolled
+          ? `${theme.background} ${theme.border} ${theme.shadow}`
+          : "bg-transparent"
+      }`}
     >
-      {/* Logo + Title */}
-      <div className="flex items-center gap-4">
-        <Image
-          src={eagleLogo}
-          alt="FOL Logo"
-          width={50}
-          height={50}
-          className="drop-shadow-lg"
-        />
-        <h1
-          className="text-xl md:text-2xl font-extrabold uppercase tracking-widest 
-                 text-transparent bg-clip-text 
-                 bg-gradient-to-r from-cyan-300 via-white to-cyan-400"
-        >
-          FOL Travel
-        </h1>
+      <div className="max-w-8xl container mx-auto px-6 py-4 flex items-center justify-between">
+        {/* شعار الموقع */}
+        <Logo scrolled={scrolled} />
+
+        {/* روابط التنقل */}
+        <NavBar scrolled={scrolled} />
+
+        {/* يمين الهيدر (تبديل الثيم + المستخدم) */}
+        <RightBar scrolled={scrolled} />
+
+        {/* زر تسجيل الدخول/الخروج */}
+        <motion.div whileHover={{ scale: 1.05 }} className="hidden lg:flex">
+          <Button
+            onClick={isLoggedIn ? logout : handleOpen}
+            className={`transition-all font-semibold tracking-wide uppercase shadow-md flex items-center gap-2 px-6 py-3 rounded-xl ${
+              isLoggedIn ? theme.buttonSecondary : theme.buttonPrimary
+            }`}
+          >
+            {isLoggedIn ? (
+              <>
+                <FaSignOutAlt size={20} />
+                <span>Logout</span>
+              </>
+            ) : (
+              <>
+                <FaUserPlus size={20} />
+                <span>Sign Up</span>
+              </>
+            )}
+          </Button>
+        </motion.div>
       </div>
-
-      {/* زر الموبايل */}
-    
-
-      {/* القائمة للديسكتوب */}
-      <nav className="hidden lg:flex gap-8 text-sm font-semibold">
-        <Link href="/" className="transition hover:text-cyan-300">
-          Home
-        </Link>
-        <Link href="/Tours" className="transition hover:text-cyan-300">
-          Tours
-        </Link>
-        <Link href="/About" className="transition hover:text-cyan-300">
-          About Us
-        </Link>
-        <Link href="/Contact" className="transition hover:text-cyan-300">
-          Contact
-        </Link>
-        <Link href="/Admin" className="transition hover:text-cyan-300">
-          Admin
-        </Link>
-      </nav>
-
-      {/* القائمة للموبايل مع Animation */}
-     
-
-      {/* Right Side: Language + Currency + CTA */}
-      <div className="hidden lg:flex items-center gap-6">
-        {/* Language Switcher */}
-        <select className="bg-white/10 backdrop-blur-md border border-white/30 text-white text-sm rounded-lg px-2 py-1">
-          <option value="en">EN</option>
-          <option value="ar">AR</option>
-          <option value="fr">FR</option>
-        </select>
-
-        {/* Currency Switcher */}
-        <select className="bg-white/10 backdrop-blur-md border border-white/30 text-white text-sm rounded-lg px-2 py-1">
-          <option value="usd">USD</option>
-          <option value="eur">EUR</option>
-          <option value="egp">EGP</option>
-        </select>
-
-        {/* Call to Action */}
-        <motion.button
-          onClick={() => setShowRegister(true)}
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="bg-white/10 backdrop-blur-md border border-white/30 
-    text-white px-6 py-2 rounded-full text-sm font-bold
-    shadow-lg shadow-blue-900/40 transition-transform transform hover:scale-105"
-        >
-          Login
-        </motion.button>
-      </div>
-    </header>
+    </motion.header>
   );
-};
-
-export default Header;
+}

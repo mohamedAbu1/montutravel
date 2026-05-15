@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+/* =========================
+   Theme Variables
+   ========================= */
+:root {
+  /* خلفية */
+  --background: rgba(255,255,255,0.25);
+  --backdrop-blur: 20px;
+
+  /* النصوص */
+  --text: #1A4D5C;          /* أزرق رمادي فاتح */
+  --sub-text: #0A2E36;      /* أزرق بحري داكن */
+
+  /* العناوين */
+  --title: #1A4D5C;
+  --heading: #1A4D5C;
+
+  /* الكروت */
+  --card-bg: rgba(255,255,255,0.15);
+  --card-border: #C2A878;
+  --card-blur: 16px;
+
+  /* الأزرار */
+  --button-primary-bg: rgba(194,168,120,0.25);
+  --button-primary-text: #fff;
+  --button-primary-hover-bg: rgba(26,77,92,0.3); /* أزرق داكن عند hover */
+  --button-primary-hover-text: #0A2E36;
+
+  --button-secondary-bg: rgba(255,255,255,0.25);
+  --button-secondary-text: #0A2E36;
+  --button-secondary-hover-bg: rgba(255,255,255,0.35);
+  --button-secondary-border: #C2A878;
+
+  /* الشعار */
+  --logo-gradient-from: rgba(255,255,255,0.6);
+  --logo-gradient-to: rgba(0,150,180,0.8);
+  --logo-border: #4F6D7A;
+
+  /* الحقول */
+  --input-text: #0A2E36;
+  --input-border: #C2A878;
+  --input-focus: #0A7A8C;
+  --input-hover-bg: rgba(255,255,255,0.25);
+  --input-label: #4F6D7A;
+
+  /* الأيقونات */
+  --icon: #4F6D7A;
+  --icon-inactive: #9E9E9E;
+  --icon-hover: #0A7A8C;
+
+  /* إضافي */
+  --shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+
+
+:root[data-theme="dark"] {
+  /* خلفية */
+  --background: rgba(15,15,15,0.95);
+  --backdrop-blur: 18px;
+
+  /* النصوص */
+  --text: #ededed;          /* أبيض فاتح */
+  --sub-text: rgba(255,255,255,0.6);
+
+  /* العناوين */
+  --title: #22d3ee;         /* Cyan Glow */
+  --heading: #60a5fa;       /* Blue فاتح */
+
+  /* الكروت */
+  --card-bg: rgba(30,30,30,0.85);
+  --card-border: rgba(34,211,238,0.45);
+  --card-blur: 14px;
+
+  /* الأزرار */
+  --button-primary-bg: linear-gradient(to right, #06b6d4, #3b82f6);
+  --button-primary-text: #fff;
+  --button-primary-hover-bg: linear-gradient(to right, #22d3ee, #60a5fa);
+  --button-primary-hover-text: #fff;
+
+  --button-secondary-bg: rgba(20,20,20,0.85);
+  --button-secondary-text: #ededed;
+  --button-secondary-hover-bg: rgba(40,40,40,0.9);
+  --button-secondary-border: #22d3ee;
+
+  /* الشعار */
+  --logo-gradient-from: #06b6d4;
+  --logo-gradient-to: #3b82f6;
+  --logo-border: #22d3ee;
+
+  /* الحقول */
+  --input-text: #ededed;
+  --input-focus: #60a5fa;
+  --input-hover-bg: rgba(40,40,40,0.9);
+  --input-label: #6b6b6b;
+
+  /* الأيقونات */
+  --icon: #22d3ee;
+  --icon-inactive: #6b6b6b;
+  --icon-hover: #60a5fa;
+
+  /* إضافي */
+  --shadow: 0 6px 20px rgba(0,0,0,0.6), 0 0 12px rgba(34,211,238,0.4);
+}
+
+
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}

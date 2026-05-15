@@ -24,8 +24,7 @@ const FormFilter = () => {
   } = useAppFun();
 
   // حساب عدد الليالي
-  const isFormComplete =
-    destination && startDate && endDate  && category;
+  const isFormComplete = destination && startDate && endDate && category;
 
   return (
     <motion.div
@@ -55,6 +54,7 @@ const FormFilter = () => {
           InputLabelProps={{ style: { color: "#fff" } }}
           InputProps={{
             style: {
+              paddingLeft:"10px",
               color: "#fff",
               backgroundColor: "rgba(255,255,255,0.08)",
               borderRadius: "12px",
@@ -235,6 +235,7 @@ const FormFilter = () => {
           InputLabelProps={{ style: { color: "#fff" } }}
           InputProps={{
             style: {
+                            paddingLeft:"10px",
               color: "#fff",
               backgroundColor: "rgba(255,255,255,0.08)",
               borderRadius: "12px",
