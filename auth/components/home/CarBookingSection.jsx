@@ -10,27 +10,13 @@ import DividerWithIcon from "../../../components/layout/DividerWithIcon";
 import { useAuth } from "@/context/AuthContext";
 
 const CarBookingSection = () => {
-  const { theme, themeName } = useTheme();
+  const { themeName } = useTheme();
   const { t } = useTranslation("home");
   const { user } = useAuth();
 
   const symbols = [
-    "𓂀",
-    "𓋹",
-    "𓆣",
-    "𓇼",
-    "𓇯",
-    "𓏏",
-    "𓎛",
-    "𓊽",
-    "𓃾",
-    "𓅓",
-    "𓈇",
-    "𓉐",
-    "𓊹",
-    "𓌙",
-    "𓍿",
-    "𓎟",
+    "𓂀","𓋹","𓆣","𓇼","𓇯","𓏏","𓎛","𓊽",
+    "𓃾","𓅓","𓈇","𓉐","𓊹","𓌙","𓍿","𓎟",
   ];
 
   // ✨ إعدادات الأنيميشن
@@ -49,7 +35,7 @@ const CarBookingSection = () => {
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
       variants={fadeInUp}
-      className={`hidden lg:flex relative w-full items-center justify-center py-24 px-6 transition-colors duration-500 overflow-hidden ${theme.background}`}
+      className={`hidden lg:flex relative w-full items-center justify-center py-24 px-6 transition-colors duration-500 overflow-hidden bg-[var(--background)] backdrop-blur-[var(--backdrop-blur)]`}
     >
       {/* Background Car Image */}
       <div className="absolute inset-0 -z-10">
@@ -58,14 +44,14 @@ const CarBookingSection = () => {
           alt="Luxury Car Background"
           fill
           className="object-cover opacity-20 rounded-lg"
-          priority // ✅ لو الصورة أساسية في الصفحة (خلفية أو Hero)
-          quality={85} // ✅ يقلل حجم الصورة ويحافظ على الجودة
+          priority
+          quality={85}
         />
         <div
           className={`absolute inset-0 bg-gradient-to-br ${
             themeName === "dark"
               ? "from-black/70 via-transparent to-black/10"
-              : "from-[#fdf6e3]/80 via-transparent to-[#c9a34a]/20"
+              : "from-[var(--bg-light)] via-transparent to-[var(--border-light)]"
           }`}
         ></div>
       </div>
@@ -75,13 +61,12 @@ const CarBookingSection = () => {
         {Array.from({ length: 20 }).map((_, i) => (
           <span
             key={i}
-            className={`absolute ${
-              themeName === "dark" ? "text-[#222]" : "text-[#222]"
-            } opacity-30 text-6xl animate-pulse`}
+            className="absolute text-6xl animate-float text-[var(--icon)]"
             style={{
               top: `${Math.random() * 100}%`,
               left: `${Math.random() * 100}%`,
               transform: `rotate(${Math.random() * 360}deg)`,
+              opacity: 0.2 + Math.random() * 0.3,
             }}
           >
             {symbols[Math.floor(Math.random() * symbols.length)]}
@@ -108,8 +93,8 @@ const CarBookingSection = () => {
             alt="Luxury Car"
             fill
             className="object-contain drop-shadow-2xl"
-            priority // ✅ لو الصورة أساسية في الصفحة (مثلاً Hero أو خلفية مهمة)
-            quality={85} // ✅ يقلل حجم الصورة ويحافظ على جودة مناسبة
+            priority
+            quality={85}
           />
         </motion.div>
 
@@ -119,25 +104,22 @@ const CarBookingSection = () => {
           className="flex-1 text-center lg:text-left"
         >
           <h2
-            className={`sc-title-first text-5xl font-extrabold tracking-wide drop-shadow-md flex items-center gap-3 justify-center lg:justify-start`}
+            className="sc-title-first text-5xl font-extrabold tracking-wide drop-shadow-md flex items-center gap-3 justify-center lg:justify-start"
             style={{
-              WebkitTextStroke:
-                themeName === "dark" ? "1px #C2A878" : "1px #5C4B3B",
-              textShadow:
-                themeName === "dark"
-                  ? "2px 2px 6px rgba(0,0,0,0.6)"
-                  : "2px 2px 6px rgba(255,255,255,0.3)",
+              WebkitTextStroke: `1px ${themeName === "dark" ? "var(--title)" : "var(--heading)"}`,
+              textShadow: themeName === "dark"
+                ? "2px 2px 6px rgba(0,0,0,0.6)"
+                : "2px 2px 6px rgba(255,255,255,0.3)",
             }}
           >
             {t("PremiumCarTransfer")}
           </h2>
           <DividerWithIcon />
 
-          <p className="mt-6 text-lg opacity-80 leading-relaxed max-w-xl">
+          <p className="mt-6 text-lg opacity-80 leading-relaxed max-w-xl text-[var(--sub-text)]">
             {t("Experience")}
           </p>
           {user ? (
-            // ✅ زر الحجز يظهر فقط إذا كان فيه مستخدم
             <motion.button
               variants={fadeInUp}
               style={{ cursor: "pointer" }}
@@ -145,33 +127,33 @@ const CarBookingSection = () => {
                 window.dispatchEvent(new CustomEvent("openCarBookingChat"));
               }}
               className="w-full mt-8 inline-block px-10 py-4 rounded-full font-bold text-lg shadow-xl transition-transform transform hover:scale-105 
-             bg-transparent backdrop-blur-md 
-             border border-[#C2A878] 
-             text-[#C2A878]  tracking-wide
-             hover:bg-[#C2A878]/20 hover:text-white 
-             duration-300  cursor-pointer"
+                bg-[var(--button-primary-bg)] 
+                text-[var(--button-primary-text)] 
+                border border-[var(--button-secondary-border)] 
+                tracking-wide
+                hover:bg-[var(--button-primary-hover-bg)] hover:text-[var(--button-primary-hover-text)] 
+                duration-300 cursor-pointer"
             >
               {t("Book")}
             </motion.button>
           ) : (
-            // ✅ رسالة أنيقة بدل الزر لو ما فيش مستخدم
             <motion.p
               variants={fadeInUp}
               className="sc-p-first mt-8 text-lg font-semibold opacity-80 italic text-center lg:text-left"
               style={{
-                WebkitTextStroke:
-                  themeName === "dark" ? "1px #C2A878" : "1px #5C4B3B",
-                textShadow:
-                  themeName === "dark"
-                    ? "2px 2px 6px rgba(0,0,0,0.6)"
-                    : "2px 2px 6px rgba(255,255,255,0.3)",
+                WebkitTextStroke: `1px ${themeName === "dark" ? "var(--title)" : "var(--heading)"}`,
+                textShadow: themeName === "dark"
+                  ? "2px 2px 6px rgba(0,0,0,0.6)"
+                  : "2px 2px 6px rgba(255,255,255,0.3)",
               }}
             >
               Please log in and book your car now ✨
             </motion.p>
           )}
         </motion.div>
-          <motion.div
+
+        {/* Car Image mirrored */}
+        <motion.div
           variants={fadeInUp}
           className="flex-1 relative w-full h-80 lg:h-[400px]"
         >
@@ -184,8 +166,8 @@ const CarBookingSection = () => {
             alt="Luxury Car"
             fill
             className="object-contain drop-shadow-2xl scale-x-[-1]"
-            priority // ✅ لو الصورة أساسية في الصفحة (مثلاً Hero أو خلفية مهمة)
-            quality={85} // ✅ يقلل حجم الصورة ويحافظ على جودة مناسبة
+            priority
+            quality={85}
           />
         </motion.div>
       </motion.div>
