@@ -9,8 +9,8 @@ export default function Background() {
   const [index, setIndex] = useState(0);
 
   const darkImages = [
-    "/HomePageImage/Copilot_20251003_102123.webp",
     "/HomePageImage/asdasdas.webp",
+    "/Cairo/travco-travel-c4259777-fab7-4d77-bd9f-d99e1d3fc377.webp",
     "/HomePageImage/Copilot_20251003_105735.webp",
   ];
 

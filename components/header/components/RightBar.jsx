@@ -99,7 +99,6 @@ export default function RightBar({ scrolled }) {
 
   return (
     <div className="flex items-center gap-4">
-      <ThemeToggle scrolled={scrolled} />
 
       {/* ✅ أيقونة الإشعارات العامة */}
       {userData?.role === "ADMIN" && (

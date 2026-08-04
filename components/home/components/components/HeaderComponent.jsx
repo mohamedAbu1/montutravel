@@ -10,7 +10,7 @@ export default function HeaderComponent({ theme }) {
           WebkitBackgroundClip: "text",
         }}
       >
-        Basttet Travel
+         One Time Life Travel
       </h1>
     </div>
   );

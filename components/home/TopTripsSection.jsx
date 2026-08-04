@@ -9,9 +9,10 @@ import { useTrip } from "@/context/TripContext";
 import { usePurchase } from "@/context/PurchaseContext";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import { useCurrency } from "@/context/CurrencyContext";
 
 const TopTripsSection = () => {
-  const { theme } = useTheme();
+  const { theme, themeName } = useTheme();
   const { t, i18n } = useTranslation("home");
   const router = useRouter();
   const { user } = useAuth();
@@ -19,6 +20,8 @@ const TopTripsSection = () => {
 
   const { trips, fetchTrips, loadingTrips } = useTrip();
   const { currency, purchases } = usePurchase();
+  const { rates } = useCurrency(); // ✅ جلب أسعار العملات من الكونتكست
+
   const [screenSize, setScreenSize] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
@@ -34,7 +37,25 @@ const TopTripsSection = () => {
     fetchTrips();
   }, []);
 
-  const symbols = ["𓂀","𓋹","𓆣","𓇼","𓇯","𓏏","𓎛","𓊽","𓃾","𓅓","𓈇","𓉐","𓊹","𓌙","𓍿","𓎟"];
+  // ✅ الرموز الفرعونية للديكور
+  const symbols = [
+    "𓂀",
+    "𓋹",
+    "𓆣",
+    "𓇼",
+    "𓇯",
+    "𓏏",
+    "𓎛",
+    "𓊽",
+    "𓃾",
+    "𓅓",
+    "𓈇",
+    "𓉐",
+    "𓊹",
+    "𓌙",
+    "𓍿",
+    "𓎟",
+  ];
 
   if (loadingTrips) {
     return <p className="text-center">Loading top trips...</p>;
@@ -48,18 +69,27 @@ const TopTripsSection = () => {
     )
     .slice(0, 7);
 
-  const convertPrice = (price, tripCurrency) => {
-    let converted = price;
+  // ✅ التحويل باستخدام القيم من CurrencyContext
+  const convertPrice = (group_price, tripCurrency) => {
+    let converted = group_price;
+
     if (currency === "EUR" && tripCurrency === "USD") {
-      converted = (price * 0.85).toFixed(2);
+      converted = (group_price * (rates.EUR || 0.85)).toFixed(2);
     } else if (currency === "USD" && tripCurrency === "EUR") {
-      converted = (price * 1.18).toFixed(2);
+      converted = (group_price * (1 / (rates.EUR || 1.18))).toFixed(2);
+    } else if (currency === "EGP" && tripCurrency === "USD") {
+      converted = (group_price * (rates.USD || 49.1)).toFixed(2); // USD → EGP
+    } else if (currency === "USD" && tripCurrency === "EGP") {
+      converted = (group_price / (rates.USD || 49.1)).toFixed(2); // EGP → USD
     }
+
     return converted;
   };
 
   return (
-    <section className="hidden lg:flex w-full flex-col relative py-24 px-6 transition-colors duration-500">
+    <section
+      className={`hidden lg:flex w-full flex-col relative py-24 px-6 transition-colors duration-500 ${theme.background} `}
+    >
       {/* خلفية الرموز */}
       <div className="absolute inset-0 pointer-events-none">
         {Array.from({ length: 25 }).map((_, i) => (
@@ -81,9 +111,9 @@ const TopTripsSection = () => {
         ))}
       </div>
 
-      {/* العنوان الرئيسي */}
+      {/* العنوان */}
       <div className="relative flex items-center justify-center w-full mb-12">
-        <h2 className="sc-title-first text-5xl font-extrabold tracking-wide drop-shadow-md text-gradient2 text-center">
+        <h2 className="sc-title-first text-5xl font-extrabold tracking-wide drop-shadow-md text-gradient text-center">
           <span className="inline-block transform scale-x-[-1] mr-4">𓅓</span>
           {t("TopTrips")}
           <span className="inline-block ml-4">𓅓</span>
@@ -94,18 +124,18 @@ const TopTripsSection = () => {
       {/* الكروت */}
       <div className="flex flex-wrap justify-center gap-8 max-w-7xl w-full mx-auto relative z-10">
         {topTrips.map((trip, i) => {
-          const displayTitle =
-            typeof trip.title === "object"
-              ? trip.title?.[normalizedLang] || trip.title?.en || trip.name
-              : trip.title;
-
           const hasPurchased = purchases.some(
             (p) =>
               p.trip_id === trip.id &&
               p.user_id === user?.id &&
               p.status !== "Cancelled",
           );
-
+          const hasActivePurchase = purchases.some(
+            (p) =>
+              p.trip_id === trips.id &&
+              p.user_id === userData?.id &&
+              p.status !== "Cancelled",
+          );
           return (
             <motion.div
               key={trip.id || i}
@@ -117,22 +147,65 @@ const TopTripsSection = () => {
               style={{ border: `2px solid ${theme.logoBorder}` }}
             >
               <div className="relative h-72">
-                {/* <Image
+                <Image
                   src={trip.cover_image || "/default.jpg"}
-                  alt={displayTitle || "Trip image"}
+                  alt={trip.title?.[normalizedLang] || "Trip image"}
                   fill
                   className="object-cover group-hover:scale-110 transition duration-700 rounded-lg"
-                /> */}
-                {/* Overlay أخف */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                {/* 🟢 استيكر الخصم في الأعلى يسار */}
+                {trip.discountPercent > 0 && (
+                  <div className="absolute top-2 left-2">
+                    {trip.discountPercent === 10 && (
+                      <Image
+                        src="/HomePageImage/off10.png"
+                        alt="10% Discount"
+                        width={50}
+                        height={50}
+                      />
+                    )}
+                    {trip.discountPercent === 20 && (
+                      <Image
+                        src="/HomePageImage/off120.png"
+                        alt="20% Discount"
+                        width={50}
+                        height={50}
+                      />
+                    )}
+                    {trip.discountPercent === 30 && (
+                      <Image
+                        src="/HomePageImage/off30.png"
+                        alt="30% Discount"
+                        width={50}
+                        height={50}
+                      />
+                    )}
+                    {trip.discountPercent === 40 && (
+                      <Image
+                        src="/HomePageImage/off40.png"
+                        alt="40% Discount"
+                        width={50}
+                        height={50}
+                      />
+                    )}
+                    {trip.discountPercent === 50 && (
+                      <Image
+                        src="/HomePageImage/50-percent.png"
+                        alt="50% Discount"
+                        width={50}
+                        height={50}
+                      />
+                    )}
+                  </div>
+                )}
               </div>
 
-              {/* النصوص فوق الصورة */}
-              <div className="absolute inset-0 flex flex-col justify-end p-6 z-20">
+              <div className="absolute inset-0 flex flex-col justify-end p-6">
                 <h3
-                  className={`trips-text text-xl font-bold tracking-wide mb-1 ${theme.title} bg-black/40 px-2 py-1 rounded-md`}
+                  className={`trips-text text-xl font-bold tracking-wide mb-1 ${theme.title}`}
                 >
-                  {displayTitle || "Untitled Trip"}
+                  {trip.title?.[normalizedLang] || "Untitled Trip"}
                 </h3>
 
                 <div className="flex items-center gap-2 mb-2">
@@ -147,7 +220,7 @@ const TopTripsSection = () => {
 
                 <div className="flex items-center justify-between">
                   <p className={`text-lg font-semibold ${theme.text}`}>
-                    {convertPrice(trip.price, trip.currency)} {currency}
+                    {convertPrice(trip.group_price, trip.currency)} {currency}
                   </p>
                   <motion.button
                     whileHover={{ scale: 1.05 }}

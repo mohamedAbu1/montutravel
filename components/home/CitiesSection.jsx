@@ -184,6 +184,10 @@ const CitiesSection = () => {
           {t("ExploreCities")}
           <span className="inline-block text-gradient2 ml-4">𓅓</span>
         </h2>
+         <p className="sc-p-first mt-4 text-lg opacity-80 text-center text-gradient">
+          Cities where we operate professionally
+        
+        </p>
         <DividerWithIcon />
       </div>
 
