@@ -83,7 +83,7 @@ const TopTripsSection = () => {
 
       {/* العنوان الرئيسي */}
       <div className="relative flex items-center justify-center w-full mb-12">
-        <h2 className="sc-title-first text-5xl font-extrabold tracking-wide drop-shadow-md text-gradient text-center">
+        <h2 className="sc-title-first text-5xl font-extrabold tracking-wide drop-shadow-md text-gradient2 text-center">
           <span className="inline-block transform scale-x-[-1] mr-4">𓅓</span>
           {t("TopTrips")}
           <span className="inline-block ml-4">𓅓</span>
@@ -117,12 +117,12 @@ const TopTripsSection = () => {
               style={{ border: `2px solid ${theme.logoBorder}` }}
             >
               <div className="relative h-72">
-                <Image
+                {/* <Image
                   src={trip.cover_image || "/default.jpg"}
                   alt={displayTitle || "Trip image"}
                   fill
                   className="object-cover group-hover:scale-110 transition duration-700 rounded-lg"
-                />
+                /> */}
                 {/* Overlay أخف */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
               </div>

@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useTheme } from "@/context/ThemeContext";
 
@@ -8,17 +8,16 @@ export default function Background() {
   const { themeName } = useTheme();
   const [index, setIndex] = useState(0);
 
-  // ✅ صور خاصة بالـ Dark Mode
   const darkImages = [
-    "/HomePageImage/magnific__egyptian-temple-background-with-montu-travel-carve__61911.webp",
-    "/HomePageImage/magnific__3d-egyptian-temple-desktop-background-nile-river-p__61913.webp",
+    "/HomePageImage/Copilot_20251003_102123.webp",
+    "/HomePageImage/asdasdas.webp",
+    "/HomePageImage/Copilot_20251003_105735.webp",
   ];
 
-  // ✅ صور خاصة بالـ Light Mode
   const lightImages = [
-     "/HomePageImage/frank-mckenna-OD9EOzfSOh0-unsplash.webp",
-    "/HomePageImage/rowan-heuvel-U6t80TWJ1DM-unsplash.webp",
-    "/Nile_Cruise/pexels-sahilcaptures-35645491.webp",
+    "/HomePageImage/_15900_MarsaMatruh.jpg",
+    "/HomePageImage/_16106_Untitled-1.jpg",
+    "/HomePageImage/_9272_banner-aboutus.jpg",
     "/Nile_Cruise/andres-dallimonti-hOhOltq7gEU-unsplash.webp",
     "/Nile_Cruise/nacho-diaz-latorre-W4Oc4NIL5_U-unsplash.webp",
   ];
@@ -34,25 +33,25 @@ export default function Background() {
 
   return (
     <div className="absolute inset-0 overflow-hidden">
-      {images.map((img, i) => (
+      <AnimatePresence>
         <motion.div
-          key={i}
+          key={index}
           initial={{ opacity: 0 }}
-          animate={{ opacity: i === index ? 1 : 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
           transition={{ duration: 2 }}
           className="absolute inset-0"
         >
           <Image
-            src={img}
+            src={images[index]}
             alt="Background"
             fill
             className="object-cover"
-            priority={i === index}
+            priority
           />
-          {/* ✅ Overlay مختلف حسب الثيم */}
-           <div className="absolute inset-0 bg-black/20"></div>
+          <div className="absolute inset-0 bg-black/20"></div>
         </motion.div>
-      ))}
+      </AnimatePresence>
     </div>
   );
 }

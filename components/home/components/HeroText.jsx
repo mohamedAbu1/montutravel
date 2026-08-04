@@ -7,13 +7,13 @@ export default function HeroText() {
 
   return (
     <h1
-      className="hero-text absolute bottom-6 text-center font-extrabold text-4xl md:text-5xl text-gradient"
+      className="hero-text absolute bottom-6 left-24 text-center font-extrabold text-4xl md:text-5xl text-gradient"
       style={{
         filter: `drop-shadow(0 0 6px ${theme.logoBorder})`,
       }}
     >
       <Typewriter
-        words={["Welcome to", "𓂀 Montu Travel 𓂀", "Enjoy the Journey"]}
+        words={["Welcome to", "𓂀 One Time Life Travel 𓂀", "Enjoy the Journey"]}
         loop={true}
         cursor
         cursorStyle="𓂀"

@@ -18,9 +18,9 @@ const NameWeb = () => {
           hidden: { opacity: 0 },
           visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
         }}
-        className="hero-title flex flex-wrap gap-4 justify-center font-[Cinzel] mb-5 z-[1] pt-15"
+        className="hero-title2 flex flex-wrap gap-4 justify-center font-[Cinzel] mb-5 z-[1] pt-15"
       >
-        {["M", "O", "M", "T", "U", "𓂀", "T", "R", "A", "V", "E", "L"].map(
+        {["O", "N", "E","𓂀","T", "I","M","E","𓂀","L","I","F","E","𓂀","T","R", "A", "V", "E", "L"].map(
           (char, i) => (
             <LogoLetter key={i} char={char} theme={theme} />
           ),

@@ -1,38 +1,32 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
 import { useTheme } from "@/context/ThemeContext";
+import { motion } from "framer-motion";
 
 export default function Decor({ pos }) {
-  const [symbolsCount, setSymbolsCount] = useState(0);
   const { theme } = useTheme();
   const containerRef = useRef(null);
+  const [symbolsCount, setSymbolsCount] = useState(10);
 
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const updateCount = () => {
-      const width = containerRef.current.getBoundingClientRect().width;
-      // مثال: كل 50px عرض = رمز واحد
-      const count = Math.floor(width / 50);
+    const observer = new ResizeObserver((entries) => {
+      const width = entries[0].contentRect.width;
+
+      // ✅ حساب عدد الرموز حسب عرض الـ container
+      let count = Math.floor(width / 200); // كل 70px رمز واحد
+      if (count < 6) count = 6;           // حد أدنى
+      if (count > 30) count = 30;         // حد أقصى
       setSymbolsCount(count);
-    };
+    });
 
-    // أول مرة
-    updateCount();
-
-    // مراقبة التغييرات في الحجم
-    const resizeObserver = new ResizeObserver(updateCount);
-    resizeObserver.observe(containerRef.current);
-
-    return () => resizeObserver.disconnect();
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
   }, []);
 
   return (
-    <div
-      ref={containerRef}
-      className={`absolute ${pos}-0 flex justify-around w-full`}
-    >
+    <div ref={containerRef} className={`absolute ${pos}-0 flex justify-around`}>
       {Array.from({ length: symbolsCount }).map((_, i) => (
         <motion.span
           key={i}

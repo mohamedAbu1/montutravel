@@ -5,13 +5,15 @@
    ========================= */
 :root {
   /* تدرجات */
-  --gradient-light: linear-gradient(to right, #4f6d7a, #0A7A8C);
+  --gradient-light: linear-gradient(to right, #, #a855f7);
+  --gradient-light2: linear-gradient(to right, #a855f7, #9E9E9E);
   --gradient-dark: linear-gradient(to right, #C2A878, #5C4B3B);
 
   /* خلفية */
   --background: rgba(255, 255, 255, 0.25);
   --backdrop-blur: 20px;
   --text-gradient: var(--gradient-light);
+  --text-gradient2: var(--gradient-light2);
 
   /* النصوص */
   --text: #0A2E36;
@@ -19,6 +21,7 @@
 
   /* العناوين */
   --title: #fff;
+  --title2: #a855f7;
   --heading: #fff;
 
   /* الكروت */
@@ -73,14 +76,18 @@
    Dark Theme Overrides
    ========================= */
 :root[data-theme="dark"] {
+
+
   --background: rgba(20, 20, 20, 0.95);
   --backdrop-blur: 18px;
   --text-gradient: var(--gradient-dark);
+  --text-gradient2: var(--gradient-dark);
 
   --text: #E6DCCF;
   --sub-text: #B3A58C;
 
   --title: #C2A878;
+  --title2: #C2A878;
   --heading: #A68B5B;
 
   --card-bg: rgba(35, 35, 35, 0.85);

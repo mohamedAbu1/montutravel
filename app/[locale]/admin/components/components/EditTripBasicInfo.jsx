@@ -5,7 +5,7 @@ import { useTheme } from "@/context/ThemeContext";
 import { useTripID } from "../../context/TripIDContext";
 
 const EditTripBasicInfo = () => {
-  const { themeName } = useTheme();
+  const { theme, themeName } = useTheme();
   const { tripData, updateTripField } = useTripID();
 
   // اللغات المدعومة
@@ -13,16 +13,18 @@ const EditTripBasicInfo = () => {
 
   // ستايل الإدخال
   const inputClass = `w-full p-3 rounded-lg border outline-none transition-colors
-    ${themeName === "dark"
-      ? "bg-[#1a1a1a] border-gold/30 text-white placeholder-gray-400 focus:border-gold"
-      : "bg-white border-[#c9a34a]/40 text-[#3a2c0a] placeholder-gray-500 focus:border-[#c9a34a]"
+    ${
+      themeName === "dark"
+        ? "bg-[#1a1a1a] border-gold/30 text-white placeholder-gray-400 focus:border-gold"
+        : "bg-white border-[#c9a34a]/40 text-[#3a2c0a] placeholder-gray-500 focus:border-[#c9a34a]"
     }`;
 
   // ستايل القائمة المنسدلة
   const selectClass = `p-2 rounded-lg border outline-none
-    ${themeName === "dark"
-      ? "bg-[#1a1a1a] border-gold/30 text-white focus:border-gold"
-      : "bg-white border-[#c9a34a]/40 text-[#3a2c0a] focus:border-[#c9a34a]"
+    ${
+      themeName === "dark"
+        ? "bg-[#1a1a1a] border-gold/30 text-white focus:border-gold"
+        : "bg-white border-[#c9a34a]/40 text-[#3a2c0a] focus:border-[#c9a34a]"
     }`;
 
   return (
@@ -68,16 +70,44 @@ const EditTripBasicInfo = () => {
       {/* Price + Duration */}
       <div className="flex flex-row gap-3">
         {/* السعر */}
+        {/* السعر للفرد الخاص */}
         <div className="relative w-[30%]">
           <input
             type="number"
-            placeholder="Price"
-            value={tripData?.price ?? ""}
-            onChange={(e) => updateTripField("price", e.target.value)}
+            placeholder="Solo Price"
+            value={tripData?.solo_price ?? ""}
+            onChange={(e) => updateTripField("solo_price", e.target.value)}
             className={`${inputClass} pr-12
-              [appearance:textfield] 
-              [&::-webkit-outer-spin-button]:appearance-none 
-              [&::-webkit-inner-spin-button]:appearance-none`}
+      [appearance:textfield] 
+      [&::-webkit-outer-spin-button]:appearance-none 
+      [&::-webkit-inner-spin-button]:appearance-none`}
+          />
+          <div className="absolute inset-y-0 right-3 flex items-center gap-2">
+            {tripData?.currency === "USD" ? (
+              <FaDollarSign
+                className="text-green-600 cursor-pointer"
+                onClick={() => updateTripField("currency", "EUR")}
+              />
+            ) : (
+              <FaEuroSign
+                className="text-blue-600 cursor-pointer"
+                onClick={() => updateTripField("currency", "USD")}
+              />
+            )}
+          </div>
+        </div>
+
+        {/* السعر للفرد في مجموعة */}
+        <div className="relative w-[30%]">
+          <input
+            type="number"
+            placeholder="Group Price"
+            value={tripData?.group_price ?? ""}
+            onChange={(e) => updateTripField("group_price", e.target.value)}
+            className={`${inputClass} pr-12
+      [appearance:textfield] 
+      [&::-webkit-outer-spin-button]:appearance-none 
+      [&::-webkit-inner-spin-button]:appearance-none`}
           />
           <div className="absolute inset-y-0 right-3 flex items-center gap-2">
             {tripData?.currency === "USD" ? (
@@ -118,6 +148,21 @@ const EditTripBasicInfo = () => {
             </select>
           </div>
         </div>
+        {/* التخفيض */}
+        <select
+          value={tripData?.discountPercent ?? 0}
+          onChange={(e) =>
+            updateTripField("discountPercent", parseInt(e.target.value))
+          }
+          className={selectClass}
+        >
+          <option value={0}>0%</option>
+          <option value={10}>10%</option>
+          <option value={20}>20%</option>
+          <option value={30}>30%</option>
+          <option value={40}>40%</option>
+          <option value={50}>50%</option>
+        </select>
       </div>
     </div>
   );

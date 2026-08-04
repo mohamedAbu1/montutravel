@@ -95,13 +95,13 @@ export default function BookingForm({ setShowTrips, trips = [] }) {
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 2 }}
-      className={`mt-6 h-auto shadow-lg w-[95%] max-w-6xl p-6 
+      className={`mb-70 h-auto shadow-lg w-[95%] max-w-6xl p-6 
                   backdrop-blur-md border ${theme.logoBorder} rounded-xl relative`}
     >
       {/* ✅ الصف الأول: المدن + الكاتجري */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div
-          className={`flex items-center border ${theme.logoBorder} rounded-[4px] px-3`}
+          className={`flex items-center border border-${theme.logoBorder} rounded-[4px] px-3`}
         >
           <CitiesInput
             selectedCities={selectedCities}
@@ -115,7 +115,7 @@ export default function BookingForm({ setShowTrips, trips = [] }) {
         </div>
 
         <div
-          className={`flex items-center border ${theme.logoBorder} rounded-[4px] px-3`}
+          className={`flex items-center border border-${theme.logoBorder} rounded-[4px] px-3`}
         >
           <CategoriesInput
             selectedCategories={selectedCategories}

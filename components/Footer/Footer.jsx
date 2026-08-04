@@ -90,7 +90,7 @@ const Footer = () => {
         }`}
         style={{ WebkitTextStroke: `1px ${theme.logoBorder}` }}
       >
-        Montu Travel
+        One Time Life Travel
       </motion.p>
 
       {/* الوصف */}
@@ -110,7 +110,7 @@ const Footer = () => {
         variants={fadeUp}
         className="flex gap-6 mt-6 text-sm font-medium relative z-10"
       >
-        {["Home", "AboutUs", "Tours", "Contact"].map((link) => (
+        {["Home", "AboutUs", "Tours", "Contact","privacyPolicy"].map((link) => (
           <Link
             key={link}
             href={`/${link === "Home" ? "" : link.toLowerCase()}`}
@@ -158,7 +158,7 @@ const Footer = () => {
             : "text-[#111] drop-shadow-[1px_1px_3px_rgba(0,0,0,0.4)] bg-white/50 px-2 py-1 rounded-md"
         }`}
       >
-        © 2026 Montu Travel. All rights reserved.
+        © 2026 One Time Life Travel. All rights reserved.
       </motion.p>
     </motion.footer>
   );

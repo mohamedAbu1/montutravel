@@ -141,7 +141,7 @@ const OurSection = () => {
           >
             {t("At")}{" "}
             <span style={{ color: theme.logoBorder, fontWeight: 600 }}>
-              Basttet Travel{" "}
+             One Time Life Travel{" "}
             </span>
             {t("AtP")}{" "}
             <span style={{ color: theme.logoBorder, fontWeight: 600 }}>

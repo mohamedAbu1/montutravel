@@ -45,7 +45,6 @@ function CityCard({ city, themeName, theme, language, t }) {
       transition={{ duration: 0.6, ease: "easeOut" }}
       className="min-w-[250px] p-4"
     >
-
       <div
         className={`relative h-82 rounded-2xl overflow-hidden group cursor-pointer
           ${theme.card} ${theme.border} ${theme.shadow}
@@ -149,7 +148,9 @@ const CitiesSection = () => {
       className="hidden container lg:flex w-full h-[70vh] relative bg-cover bg-center flex-col items-center justify-center"
       style={{
         backgroundImage:
-          "url('/HomePageImage/421009550_cc929d60-b9e0-426e-84d8-74d70ab10d55.svg')",
+          themeName === "dark"
+            ? "url('/HomePageImage/421009550_cc929d60-b9e0-426e-84d8-74d70ab10d55.svg')"
+            : "",
       }}
     >
       {/* خلفية الرموز */}
@@ -175,15 +176,17 @@ const CitiesSection = () => {
       <Decor pos={"top"} />
 
       <div className="max-w-2xl mx-auto mb-16 w-full relative z-10">
-        <h2 className="sc-title-first text-5xl font-extrabold tracking-wide drop-shadow-md text-center text-gradient" style={{ textAlign: "center" }}>
-          <span className="inline-block transform scale-x-[-1] mr-4">𓅓</span>
+        <h2
+          className="sc-title-first text-5xl font-extrabold tracking-wide drop-shadow-md text-center text-gradient2"
+          style={{ textAlign: "center" }}
+        >
+          <span className="inline-block transform text-gradient2 scale-x-[-1] mr-4">𓅓</span>
           {t("ExploreCities")}
-          <span className="inline-block ml-4">𓅓</span>
+          <span className="inline-block text-gradient2 ml-4">𓅓</span>
         </h2>
         <DividerWithIcon />
       </div>
 
-     
       {/* ✅ Marquee Animation */}
       <div className="relative overflow-hidden w-full max-w-7xl mx-auto h-[410px] z-10">
         <motion.div

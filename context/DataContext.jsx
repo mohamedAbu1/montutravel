@@ -7,7 +7,7 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import CelebrationIcon from "@mui/icons-material/Celebration";
 import StarIcon from "@mui/icons-material/Star";
-import { Box } from "@mui/material";
+import Box from '@mui/material/Box';
 import { PickersDay } from "@mui/x-date-pickers";
 import { desktopImages, mobileImages } from "@/constants/images";
 import { useTranslation } from "react-i18next";
@@ -28,8 +28,11 @@ export function DataProvider({ children }) {
   const [images, setImages] = useState(desktopImages);
   const [index, setIndex] = useState(0);
   const [loginOpen, setLoginOpen] = useState(false);
-  const handleLoginOpen = () => {setLoginOpen(true) ,setOpen(false)};
+  const [signUpOpen, setSignUpOpen] = useState(false);
+  const handleLoginOpen = () => {setLoginOpen(true) ,setSignUpOpen(false)};
+  const handleSignUpOpen = () => {setSignUpOpen(true) ,setLoginOpen(false)};
   const handleLoginClose = () => setLoginOpen(false);
+  const handleSignUpClose = () => setSignUpOpen(false);
   // ? $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
   const handleSearch = () => {
@@ -115,7 +118,7 @@ export function DataProvider({ children }) {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768) {
+      if (window.innerWidth < 1024) {
         setImages(mobileImages);
       } else {
         setImages(desktopImages);
@@ -153,8 +156,12 @@ export function DataProvider({ children }) {
         index,
         loginOpen,
         setLoginOpen,
+        signUpOpen,
+        setSignUpOpen,
         handleLoginClose,
         handleLoginOpen,
+        handleSignUpOpen,
+        handleSignUpClose,
       }}
     >
       {children}

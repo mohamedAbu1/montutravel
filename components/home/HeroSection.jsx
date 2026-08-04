@@ -11,7 +11,7 @@ export default function HeroSection() {
   return (
     <section
       className="relative w-full overflow-hidden flex flex-col"
-      style={{ height: "80vh" }}
+      style={{ height: "72vh" }}
     >
       {/* الخلفية */}
       <Background />
@@ -29,7 +29,7 @@ export default function HeroSection() {
         <LeftSocialIcons />
 
         {/* الفورم والباقات */}
-        <div className="w-full lg:w-[%30] hidden lg:flex flex-col items-center justify-center gap-8 mt-6">
+        <div className="w-full lg:w-[%30] hidden lg:flex flex-col items-center justify-center gap-8">
           <BookingForm setShowTrips={setShowTrips} />
         </div>
       </div>

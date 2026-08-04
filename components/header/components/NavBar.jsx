@@ -11,12 +11,12 @@ const encodeQuery = (queryObj) => {
   return Buffer.from(str).toString("base64");
 };
 
-export default function NavBar({ scrolled }) {
+export default function NavBar() {
   const { theme, themeName } = useTheme();
   const pathname = usePathname();
   const { t } = useTranslation("header");
 
-  const navItems = ["home", "trips", "about", "contact"];
+  const navItems = ["home", "trips", "about", "contact", "privacyPolicy"];
 
   const segments = pathname.split("/").filter(Boolean);
   const langPrefix = segments[0];
@@ -40,8 +40,8 @@ export default function NavBar({ scrolled }) {
           const encoded = encodeQuery({
             city: "all",
             category: "all",
-            price: "All",
-            popular: false,
+            group_price: "All",
+            popular: true,
           });
           path = `/trips?data=${encoded}`;
         } else {
@@ -50,7 +50,12 @@ export default function NavBar({ scrolled }) {
 
         const isActive =
           (item === "home" && normalizedPath === "/") ||
-          (item !== "home" && normalizedPath.startsWith(`/${item}`));
+          (item === "privacyPolicy" &&
+            (normalizedPath.startsWith("/privacyPolicy") ||
+              normalizedPath.startsWith("/cancellationPolicy"))) ||
+          (item !== "home" &&
+            item !== "privacyPolicy" &&
+            normalizedPath.startsWith(`/${item}`));
 
         return (
           <motion.div
@@ -64,23 +69,22 @@ export default function NavBar({ scrolled }) {
               href={`/${langPrefix}${path}`}
               className={`relative group px-4 py-2 rounded-lg transition-all duration-300 ${
                 isActive
-                  ? `bg-gradient-to-r from-[${theme.logoGradientFrom}] to-[${theme.logoGradientTo}] text-white font-bold shadow-md scale-105 border-b-4 border-[${theme.logoBorder}]`
+                  ? `bg-gradient-to-r ${theme.title} font-bold shadow-md scale-105 border-b-4 border-[${theme.logoBorder}]`
                   : themeName === "dark"
-                  ? `${theme.text} hover:${theme.icon}`
-                  : scrolled
-                  ? `${theme.text} hover:${theme.heading}`
-                  : `${theme.subText} hover:${theme.iconHover}`
+                    ? ` hover:${theme.icon}`
+                    : ` ${theme.iconInactive} hover:${theme.heading}`
               }`}
             >
               <span>{t(item)}</span>
               <span
-                className={`absolute left-0 -bottom-1 h-[3px] ${theme.stone} rounded-full transition-all duration-300 ${
+                className={`absolute left-0 -bottom-1 h-[3px] ${theme.iconInactive} rounded-full transition-all duration-300 ${
                   isActive ? "w-full" : "w-0 group-hover:w-full"
                 }`}
               />
               {isActive && (
                 <span
-                  className={`absolute -top-2 -right-2 w-3 h-3 ${theme.iconHover} rounded-full shadow-md animate-pulse`}
+                  style={{ color: theme.inputHoverBg }}
+                  className={`absolute -top-2 -right-2 w-3 h-3 ${theme.iconInactive} rounded-full shadow-md animate-pulse`}
                 ></span>
               )}
             </Link>

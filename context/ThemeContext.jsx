@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { createContext, useContext, useEffect, useState } from "react";
 import lightTheme from "@/constants/theme/lightTheme";
@@ -12,7 +11,7 @@ export function ThemeProvider({ children }) {
 
   // ✅ تحميل الثيم المحفوظ
   useEffect(() => {
-    const saved = localStorage.getItem("theme") || "dark";
+    const saved = localStorage.getItem("theme") || "light";
     applyTheme(saved);
   }, []);
 

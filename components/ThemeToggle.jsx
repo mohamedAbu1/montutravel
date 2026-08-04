@@ -2,11 +2,11 @@
 import React from "react";
 import { BsSun, BsMoon } from "react-icons/bs";
 import { motion } from "framer-motion";
-import { Button } from "@mui/material";
+import Button from '@mui/material/Button';
 import { useTheme } from "@/context/ThemeContext";
 import { usePathname } from "next/navigation";
 
-const ThemeToggle = ({ scrolled }) => {
+const ThemeToggle = () => {
   const { themeName, toggleThemeFun, theme } = useTheme();
   const pathname = usePathname();
 
@@ -27,16 +27,16 @@ const ThemeToggle = ({ scrolled }) => {
         {themeName === "dark" ? (
           <BsSun
             size={22}
+            className={`${theme.icon}`}
             style={{
-              color: theme.iconHover,
               filter: "drop-shadow(0 0 6px rgba(194,168,120,0.6))",
             }}
           />
         ) : (
           <BsMoon
             size={22}
+            className={`${theme.icon}`}
             style={{
-              color: scrolled ? theme.iconInactive : theme.iconHover,
               filter: "drop-shadow(0 0 4px rgba(0,0,0,0.3))",
             }}
           />

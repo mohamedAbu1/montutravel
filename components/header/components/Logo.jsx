@@ -7,8 +7,8 @@ export default function BasttetTravelLogo() {
   const { theme } = useTheme();
 
   // روابط أو مسارات الصور (ضع المسارات الفعلية هنا)
-  const darkLogo = "/HomePageImage/Copilot_20260424_210309.webp";
-  const lightLogo = "/HomePageImage/Copilot_20260625_165155.webp";
+  const darkLogo = "/HomePageImage/Copilot_20260613_180844.png";
+  const lightLogo = "/HomePageImage/Copilot_20260804_160307.png";
 
   return (
     <motion.div
@@ -20,8 +20,8 @@ export default function BasttetTravelLogo() {
       <Image
         src={theme.name === "dark" ? darkLogo : lightLogo}
         alt="Basttet Travel Logo"
-        width={120}
-        height={120}
+        width={170}
+        height={170}
         className="object-contain select-none"
         priority
       />

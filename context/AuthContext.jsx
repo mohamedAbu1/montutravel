@@ -1,11 +1,12 @@
 "use client";
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
-import { decodeJwt } from "@/lib/utils/JWToken";
 import { toast } from "react-toastify";
 import { useQueryFilters } from "./QueryContext";
-import { useRouter } from "next/navigation"; // ✅ لإدارة التنقل
-import { supabase } from "@/lib/supabaseClient";
+import { useRouter } from "next/navigation";
+import { useSession, signIn } from "next-auth/react"; // ✅ NextAuth
+import { useData } from "./DataContext";
+
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
@@ -13,178 +14,183 @@ export function AuthProvider({ children }) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const { data: session } = useSession(); // ✅ جلب المستخدم من جوجل عبر NextAuth
+  const [chatUser, setChatUser] = useState(null);
+  const [chatMessages, setChatMessages] = useState([]);
 
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null); // بيانات من API
+  const [UserToken, setUserToken] = useState(null); // بيانات من التوكين
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  // ✅ من QueryContext
+  const { handleSignUpClose } = useData();
   const { updateValue, getEncodedQuery } = useQueryFilters();
 
-  const saveToken = (token) => {
-    localStorage.setItem("sb_access", token);
-    document.cookie = `sb_access=${token}; path=/; max-age=${2 * 24 * 60 * 60}`;
-  };
-
-  const removeToken = () => {
-    localStorage.removeItem("sb_access");
-    document.cookie = "sb_access=; path=/; max-age=0";
-  };
-
-  const getToken = () => {
-    const lsToken = localStorage.getItem("sb_access");
-    if (lsToken) return lsToken;
-    const cookieToken = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("sb_access="))
-      ?.split("=")[1];
-    return cookieToken || null;
-  };
-  const loginWithGoogle = async () => {
-    console.log("🚀 بدء تسجيل الدخول عبر Google...");
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo:
-          process.env.NEXT_PUBLIC_BASE_URL + "/api/auth/callback/google",
-      },
-    });
-    console.log("📌 نتيجة Supabase:", { data, error });
-  };
-  useEffect(() => {
-    const checkUser = async () => {
-      const {
-        data: { user },
-        error,
-      } = await supabase.auth.getUser();
-
-      if (error) {
-        console.error("Error fetching user:", error.message);
-        setUser(null);
+  const fetchUserFromServer = async () => {
+    try {
+      const res = await axios.get("/api/auth/me", { withCredentials: true });
+      setUserToken(res.data.user);
+      setIsLoggedIn(true);
+      console.log("📌 User from server:", res.data.user);
+    } catch (err) {
+      console.warn("⚠️ Token expired or invalid, trying refresh...");
+      try {
+        const retry = await axios.post(
+          "/api/auth/refresh",
+          {},
+          { withCredentials: true },
+        );
+        setUserToken(retry.data.user);
+        setIsLoggedIn(true);
+        console.log("🔄 Token refreshed, user:", retry.data.user);
+      } catch (refreshErr) {
+        console.error("💥 Refresh failed:", refreshErr.message);
+        setUserToken(null);
         setIsLoggedIn(false);
+      }
+    }
+  };
+
+  // ✅ استدعاء عند تحميل الصفحة
+  useEffect(() => {
+    fetchUserFromServer();
+  }, []);
+
+  // ✅ تسجيل مستخدم جديد يدويًا
+  const register = async (email, password, name, gender) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await axios.post(
+        "/api/auth/register",
+        { name, email, password, gender },
+        { withCredentials: true },
+      );
+      const data = res.data;
+      if (res.status !== 201)
+        throw new Error(data.error || "Registration failed");
+
+      toast.success("✅ Account created successfully!");
+      handleSignUpClose();
+      return data;
+    } catch (err) {
+      setError(err.message);
+      toast.error("❌ Error: " + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ✅ تسجيل الدخول يدويًا
+  const login = async (email, password, onSuccess) => {
+    setLoading(true);
+    setError(null);
+    try {
+      console.log("🚀 محاولة تسجيل الدخول بدأت", { email, password });
+
+      const res = await axios.post(
+        "/api/auth/login",
+        { email, password },
+        { withCredentials: true },
+      );
+      console.log("📩 الرد من السيرفر:", res);
+
+      const data = res.data;
+      console.log("📦 البيانات المستلمة:", data);
+
+      if (res.status !== 200) {
+        console.error("❌ فشل تسجيل الدخول:", data.error);
+        throw new Error(data.error || "Login failed");
+      }
+
+      const user = data.user;
+      console.log("👤 المستخدم بعد تسجيل الدخول:", user);
+
+      setUser(user);
+
+      // ✅ جلب بيانات المستخدم من السيرفر بعد تسجيل الدخول
+      console.log("🔄 استدعاء fetchUserFromServer...");
+      await fetchUserFromServer();
+
+      setIsLoggedIn(true);
+      console.log("✅ حالة تسجيل الدخول: true");
+
+      if (onSuccess) {
+        console.log("🎯 تنفيذ دالة onSuccess");
+        onSuccess();
+      }
+
+      const encodedQuery = getEncodedQuery();
+      console.log("🔗 إعادة التوجيه مع البيانات:", encodedQuery);
+      router.push(`/?data=${encodedQuery}`);
+
+      toast.success("✅ Logged in successfully!");
+      return user;
+    } catch (err) {
+      console.error("💥 خطأ أثناء تسجيل الدخول:", err.message);
+      setError(err.message);
+      toast.error("❌ Error: " + err.message);
+    } finally {
+      setLoading(false);
+      console.log("⏹️ انتهت عملية تسجيل الدخول");
+    }
+  };
+
+  // ✅ تسجيل الدخول بجوجل
+  const loginWithGoogle = async () => {
+    try {
+      const result = await signIn("google", { redirect: false });
+      if (result?.error) {
+        toast.error("❌ خطأ أثناء تسجيل الدخول بجوجل: " + result.error);
         return;
       }
 
-      if (user) {
-        setUser(user);
-        setIsLoggedIn(true);
+      const res = await fetch("/api/auth/session");
+      const sessionData = await res.json();
+      const userData = sessionData?.user;
 
-        // ✅ تحديث القيم في QueryContext
-        updateValue("id", user.id);
-        updateValue("email", user.email);
-        updateValue("role", user.user_metadata?.role);
-        updateValue("name", user.user_metadata?.name);
-        updateValue("avatar", user.user_metadata?.avatar);
-        updateValue("gender", user.user_metadata?.gender);
-
-        const encodedQuery = getEncodedQuery();
-        router.push(`/?data=${encodedQuery}`);
-      } else {
-        setUser(null);
-        setIsLoggedIn(false);
+      if (!userData) {
+        toast.error("❌ لم يتم العثور على بيانات المستخدم.");
+        return;
       }
-    };
 
-    checkUser();
-  }, []);
+      // ✅ استدعاء API route للتعامل مع MySQL
+      const dbRes = await axios.post("/api/auth/google", {
+        email: userData.email,
+        name: userData.name,
+      });
 
-
-const register = async (email, password, name, gender) => {
-  setLoading(true);
-  setError(null);
-
-  // ✅ تحويل الـ gender إلى الإنجليزية قبل الإرسال
-  const normalizeGender = (g) => {
-    if (!g) return "other";
-    const val = g.toLowerCase();
-    if (["male", "hombre","männlich", "男","uomo","homme"].includes(g)) return "male";
-  if (["female", "mujer","weiblich","女","donna","femme"].includes(g)) return "female";
-    return "other";
+      setUser(dbRes.data);
+      setIsLoggedIn(true);
+      toast.success("✅ تم تسجيل الدخول بجوجل!");
+    } catch (err) {
+      console.error("OAuth Error:", err);
+      toast.error("❌ حدث خطأ غير متوقع أثناء تسجيل الدخول بجوجل.");
+    }
   };
 
-  try {
-    const res = await axios.post("/api/auth/register", {
-      name,
-      email,
-      password,
-      gender: normalizeGender(gender),
-    });
-
-    const data = res.data;
-    if (!data.user) throw new Error(data.error || "Registration failed");
-
-    toast.success("✅ Account created successfully!");
-    return data.user;
-  } catch (err) {
-    setError(err.message);
-    toast.error("❌ Error: " + err.message);
-  } finally {
-    setLoading(false);
-  }
-};
-
-const login = async (email, password, onSuccess) => {
-  setLoading(true);
-  setError(null);
-  try {
-    const res = await axios.post("/api/auth/login", { email, password }, { withCredentials: true });
-    const data = res.data;
-
-    if (res.status !== 200) throw new Error(data.error || "Login failed");
-
-    const user = data.user;
-    const session = data.session;
-
-    // ✅ تهيئة الجلسة داخل Supabase
-    await supabase.auth.setSession({
-      access_token: session.access_token,
-      refresh_token: session.refresh_token,
-    });
-
-    setUser(user);
-    setIsLoggedIn(true);
-
-    // تحديث QueryContext
-    updateValue("id", user.id);
-    updateValue("email", user.email);
-    updateValue("role", user.user_metadata?.role);
-    updateValue("name", user.user_metadata?.name);
-    updateValue("avatar", user.user_metadata?.avatar);
-    updateValue("gender", user.user_metadata?.gender);
-
-    if (onSuccess) onSuccess();
-    const encodedQuery = getEncodedQuery();
-    router.push(`/?data=${encodedQuery}`);
-
-    toast.success("✅ Logged in successfully!");
-    return user;
-  } catch (err) {
-    setError(err.message);
-    toast.error("❌ Error: " + err.message);
-  } finally {
-    setLoading(false);
-  }
-};
-
+  // ✅ تسجيل الخروج
   const logout = async () => {
     try {
       await axios.post("/api/auth/logout", {}, { withCredentials: true });
     } catch (err) {
       console.error("❌ Error clearing cookies on server:", err);
     }
-
     setUser(null);
+    setUserToken(null);
     setIsLoggedIn(false);
-    removeToken();
     toast.info("🚪 Logged out successfully");
   };
+
+  const userData = user || session?.user;
+  console.log("object", userData);
   return (
     <AuthContext.Provider
       value={{
-        user,
+        userData, // بيانات من API أو من Google
         register,
         login,
+        loginWithGoogle, // ✅ تسجيل الدخول بجوجل
         logout,
         loading,
         error,
@@ -193,7 +199,11 @@ const login = async (email, password, onSuccess) => {
         setOpen,
         handleOpen,
         handleClose,
-        loginWithGoogle,
+        fetchUserFromServer,
+        chatUser,
+        setChatUser,
+        chatMessages,
+        setChatMessages,
       }}
     >
       {children}
