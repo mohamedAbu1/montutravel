@@ -11,7 +11,7 @@ export function ThemeProvider({ children }) {
 
   // ✅ تحميل الثيم المحفوظ
   useEffect(() => {
-    const saved = localStorage.getItem("theme") || "light";
+    const saved = localStorage.getItem("theme") || "dark";
     applyTheme(saved);
   }, []);
 
