@@ -74,37 +74,48 @@ export default function FormComponent({
       <DividerWithIcon />
 
       <div className="flex flex-row items-center justify-around">
-        <FormLabel component="legend" className={`${theme.text} font-semibold`}>
-        {t("Gender")}
-      </FormLabel>
+        <FormLabel
+          component="legend"
+          style={{ color: "#A68B5B" }}
+          className={` font-semibold `}
+        >
+          {t("Gender")}
+        </FormLabel>
 
-      <RadioGroup
-        row
-        value={gender}
-        onChange={(e) => setGender(e.target.value)}
-        style={{ justifyContent: "center", gap: "20px" }}
-      >
-        {/* القيمة الداخلية ثابتة بالإنجليزية */}
-        <FormControlLabel
-          value="male"
-         
-          control={<Radio />}
-          label={
-            <div  style={{display:"flex",flexDirection:"row", gap:"5px"}} >
-              <FaMale color="#1e40af" /> <span className="capitalize">{t("male")}</span>
-            </div>
-          }
-        />
-        <FormControlLabel
-          value="female"
-          control={<Radio />}
-          label={
-            <div style={{display:"flex",flexDirection:"row", gap:"5px"}}>
-              <FaFemale color="#db2777" /> <span className="capitalize">{t("female")}</span>
-            </div>
-          }
-        />
-      </RadioGroup>
+        <RadioGroup
+          row
+          value={gender}
+          onChange={(e) => setGender(e.target.value)}
+          style={{ justifyContent: "center", gap: "20px" }}
+        >
+          {/* القيمة الداخلية ثابتة بالإنجليزية */}
+          <FormControlLabel
+            value="male"
+            className="capitalize text-[#A68B5B]"
+            control={<Radio className="border border-[#A68B5B]"/>}
+            label={
+              <div
+                style={{ display: "flex", flexDirection: "row", gap: "5px" }}
+              >
+                <FaMale color="#1e40af" />{" "}
+                <span className="capitalize">{t("male")}</span>
+              </div>
+            }
+          />
+          <FormControlLabel
+            className="capitalize text-[#A68B5B]"
+            value="female"
+            control={<Radio />}
+            label={
+              <div
+                style={{ display: "flex", flexDirection: "row", gap: "5px" }}
+              >
+                <FaFemale color="#db2777" />{" "}
+                <span className="capitalize">{t("female")}</span>
+              </div>
+            }
+          />
+        </RadioGroup>
       </div>
     </>
   );

@@ -22,7 +22,7 @@ export default function TripReviews({ trip, lang }) {
     fetchReviewsByTrip,
     removeLike,
   } = useReviews();
-  const { user } = useAuth();
+  const { userData } = useAuth();
   const { t } = useTranslation("tripsId");
 
   useEffect(() => {
@@ -65,14 +65,15 @@ export default function TripReviews({ trip, lang }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!comment.trim() || rating === 0 || !user) return;
+    if (!comment.trim() || rating === 0 || !userData) return;
 
     await addReview({
       trip_id: trip.id,
+      user_id: userData.id,
       rating,
       comment,
-      name: user?.user_metadata?.name || user.email,
-      avatar_url: user?.user_metadata?.avatar_url || null,
+      name: userData?.name || userData.email,
+      avatar_url: userData?.avatar_url || userData?.image,
       time: new Date().toLocaleTimeString(),
     });
 
@@ -96,13 +97,13 @@ export default function TripReviews({ trip, lang }) {
       {/* العنوان + المتوسط */}
       <ReviewsHeader
         title={tr.title}
-        t={t}
+        average={tr.average}
         averageRating={averageRating}
         reviewsCount={tripReviews.length}
         theme={theme}
       />
 
-      {user && (
+      {userData && userData?.role !== "ADMIN" && (
         <>
           {/* تقييم النجوم */}
           <StarRating
@@ -136,7 +137,7 @@ export default function TripReviews({ trip, lang }) {
             key={rev.id || idx}
             rev={rev}
             idx={idx}
-            user={user}
+            user={userData}
             deleteReview={deleteReview}
             updateReview={updateReview}
             theme={theme}
@@ -147,7 +148,7 @@ export default function TripReviews({ trip, lang }) {
         ))}
         {tripReviews.length === 0 && (
           <p className={`text-center w-full opacity-70 ${theme.subText}`}>
-            {!user
+            {!userData
               ? "Please log in to write your review"
               : "Be the first to review this trip ✨"}
           </p>

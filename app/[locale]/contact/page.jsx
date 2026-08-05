@@ -89,7 +89,7 @@ export default function ContactPage() {
         <meta name="description" content={meta.description} />
         <meta name="keywords" content={meta.keywords} />
       </Head>
-      <main className="relative flex flex-col min-h-screen justify-center items-center ">
+      <main className="relative flex flex-col min-h-screen justify-center items-center mt-35">
         <Header />
         {/* خلفية الرموز الفرعونية */}
         <div className="absolute inset-0 pointer-events-none">
@@ -149,11 +149,11 @@ export default function ContactPage() {
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <FaPhoneAlt className="icon-theme" />
-                  <span>+20 1091126069</span>
+                  <span>+20 1009011178</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <FaEnvelope className="icon-theme" />
-                  <span>wasettravel@outlook.com</span>
+                  <span>ontetimelifetravel@gmail.com</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <FaMapMarkerAlt className="icon-theme" />
@@ -286,7 +286,7 @@ export default function ContactPage() {
               </div>
 
               {/* زر الإرسال */}
-              <button type="submit" className="btn-gradient w-full">
+              <button type="submit" className="btn-gradient w-full p-3 border-r-2 border-b-2 rounded-lg text-white cursor-pointer font-bold text-lg transition-transform transform hover:scale-105">
                 {t("btn")}
               </button>
             </motion.form>

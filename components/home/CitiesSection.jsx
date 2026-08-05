@@ -175,7 +175,7 @@ const CitiesSection = () => {
       </div>
       <Decor pos={"top"} />
 
-      <div className="max-w-2xl mx-auto mb-16 w-full relative z-10">
+      <div className="max-w-2xl mx-auto mb-16 w-full relative z-10 pt-12">
         <h2
           className="sc-title-first text-5xl font-extrabold tracking-wide drop-shadow-md text-center text-gradient2"
           style={{ textAlign: "center" }}
@@ -184,7 +184,7 @@ const CitiesSection = () => {
           {t("ExploreCities")}
           <span className="inline-block text-gradient2 ml-4">𓅓</span>
         </h2>
-         <p className="sc-p-first mt-4 text-lg opacity-80 text-center text-gradient">
+         <p className="sc-p-first mt-4 capitalize text-lg opacity-80 text-center text-gradient">
           Cities where we operate professionally
         
         </p>

@@ -145,7 +145,7 @@ const CategoriesSection = () => {
   return (
     <section
       className={`hidden lg:flex flex-col py-24 px-6 w-full mx-auto relative transition-colors duration-500 ${theme.background} `}
-       style={{
+      style={{
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
         backgroundSize: "cover",
@@ -153,6 +153,7 @@ const CategoriesSection = () => {
           "url('/HomePageImage/421009550_cc929d60-b9e0-426e-84d8-74d70ab10d55.svg')",
       }}
     >
+
       {/* خلفية الرموز */}
       <div className="absolute inset-0 flex flex-wrap justify-center items-center opacity-10 pointer-events-none">
         {symbols.map((sym, i) => (
@@ -172,7 +173,6 @@ const CategoriesSection = () => {
       </div>
       <EgyptianBackground />
       {/* العنوان */}
-     
 
       <div className="max-w-7xl mx-auto items-center mb-10 text-center relative z-10">
         <h2 className="sc-title-first text-5xl font-extrabold tracking-wide drop-shadow-md text-gradient">
@@ -183,13 +183,13 @@ const CategoriesSection = () => {
           <span className="inline-block ml-4 text-gradient">𓅓</span>
         </h2>
 
-        <p className="sc-p-first mt-4 text-lg opacity-80 text-start text-gradient">
+        <p className="sc-p-first mt-4 capitalize text-lg opacity-80 text-start text-gradient">
           {t("Discover")}
         </p>
 
         <DividerWithIcon />
       </div>
-    
+
       {/* الكروت */}
       <div className="relative overflow-hidden w-full max-w-7xl mx-auto z-10">
         <motion.div

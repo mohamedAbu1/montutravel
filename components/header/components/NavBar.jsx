@@ -69,7 +69,7 @@ export default function NavBar() {
               href={`/${langPrefix}${path}`}
               className={`relative group px-4 py-2 rounded-lg transition-all duration-300 ${
                 isActive
-                  ? `bg-gradient-to-r ${theme.title} font-bold shadow-md scale-105 border-b-4 border-[${theme.logoBorder}]`
+                  ? `bg-gradient-to-r ${theme.title} font-bold shadow-md scale-105 border-t-4 border-b-4 border-[${theme.logoBorder}]`
                   : themeName === "dark"
                     ? ` hover:${theme.icon}`
                     : ` ${theme.iconInactive} hover:${theme.heading}`

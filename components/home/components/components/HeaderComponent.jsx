@@ -6,7 +6,7 @@ export default function HeaderComponent({ theme }) {
       <h1
         className="text-4xl font-extrabold tracking-wide text-center"
         style={{
-          background: "linear-gradient(to right, #c9a34a, #b9972f)", // ✅ مباشرة
+          color: "#A68B5B",
           WebkitBackgroundClip: "text",
         }}
       >

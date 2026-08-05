@@ -170,7 +170,7 @@ export default function TripsPage() {
         />
       </Head>
 
-      <main className="relative flex flex-col min-h-screen justify-center items-center mt-7">
+      <main className="relative flex flex-col min-h-screen justify-center items-center mt-17">
         <EgyptianBackground />
         <Header />
 

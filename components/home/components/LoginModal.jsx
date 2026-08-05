@@ -20,7 +20,7 @@ import DividerWithIcon from "@/components/layout/DividerWithIcon";
 
 export default function LoginModal() {
   const { loginOpen, handleLoginClose, handleSignUpOpen } = useData();
-  const { theme } = useTheme(); // ✅ يرجع DarkTheme أو LightTheme
+  const { theme ,themeName} = useTheme(); // ✅ يرجع DarkTheme أو LightTheme
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -49,98 +49,117 @@ export default function LoginModal() {
   }, [email, password, validateField, login, handleLoginClose, handleClose]);
 
   return (
-    <Dialog open={loginOpen} onClose={handleLoginClose} fullWidth maxWidth="sm">
-      <motion.div
-        initial={{ opacity: 0, y: 40, scale: 0.95 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className={`${theme.card} ${theme.shadow}`} // ✅ خلفية الكارد من الثيم
+  <Dialog
+  open={loginOpen}
+  onClose={handleLoginClose}
+  fullWidth
+  maxWidth="sm"
+  PaperProps={{
+    sx: {
+      borderRadius: "20px",
+      backdropFilter: "blur(16px)",
+      background: themeName === "dark"
+        ? "linear-gradient(135deg, rgba(20,20,20,0.9), rgba(40,40,40,0.8))"
+        : "linear-gradient(135deg, rgba(255,255,255,0.9), rgba(240,240,240,0.8))",
+      boxShadow: theme.shadow,
+    },
+  }}
+>
+  <motion.div
+    initial={{ opacity: 0, y: 40, scale: 0.95 }}
+    animate={{ opacity: 1, y: 0, scale: 1 }}
+    transition={{ duration: 0.6, ease: "easeOut" }}
+    className="rounded-2xl overflow-hidden"
+  >
+    {/* Header */}
+    <div className="text-center py-6">
+      <h2
+        className="text-4xl font-extrabold tracking-wide"
+        style={{
+          background: "linear-gradient(to right, #A68B5B, #C2A878)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+        }}
       >
-        {/* Header */}
-        <div className="text-center py-6">
-          <h2
-            className="text-4xl font-extrabold tracking-wide text-center"
-            style={{
-              background: "var(--text-gradient)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
-          >
-            {t("Login")}
-          </h2>
-        </div>
-        <DividerWithIcon />
-        {/* Content */}
-        <DialogContent className="flex flex-col gap-5 p-8">
-          <TextField
-            label={t("Email")}
-            type="email"
-            fullWidth
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <MdEmail className={theme.icon} />
-                </InputAdornment>
-              ),
-            }}
-          />
+        {t("Login")}
+      </h2>
+    </div>
+    <DividerWithIcon />
 
-          <TextField
-            label={t("Password")}
-            type="password"
-            fullWidth
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <MdLock className={theme.icon} />
-                </InputAdornment>
-              ),
-            }}
-          />
+    {/* Content */}
+    <DialogContent className="flex flex-col gap-6 p-8">
+      {/* Email */}
+      <TextField
+        label={t("Email")}
+        type="email"
+        fullWidth
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <MdEmail className="text-[#A68B5B]" />
+            </InputAdornment>
+          ),
+        }}
+      />
 
-        <DividerWithIcon />
+      {/* Password */}
+      <TextField
+        label={t("Password")}
+        type="password"
+        fullWidth
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <MdLock className="text-[#A68B5B]" />
+            </InputAdornment>
+          ),
+        }}
+      />
 
-          {/* Social Buttons */}
-          <div className="flex justify-center mt-4">
-            <IconButton
-              onClick={loginWithGoogle}
-              style={{ borderRadius: "15px" }}
-              className="w-[280px] h-[56px] bg-gradient-to-r from-[#4285F4] via-[#34A853] via-[#FBBC05] to-[#EA4335] text-white font-bold shadow-md hover:shadow-lg flex items-center gap-3 transition-all"
-            >
-              <FcGoogle size={28} />
-              <span>Sign in with Google</span>
-            </IconButton>
-          </div>
+      <DividerWithIcon />
 
-          {/* Login Button */}
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Button
-              fullWidth
-              onClick={handleSubmit}
-              disabled={loading}
-              className={theme.buttonPrimary}
-            >
-              {loading ? t("Loggingin") : t("Login")}
-            </Button>
-          </motion.div>
-
-          {/* زر العودة إلى إنشاء حساب */}
-          <Button
-            fullWidth
-            onClick={() => {
-              handleLoginClose();
-              handleSignUpOpen();
-            }}
-            className={theme.buttonSecondary}
-          >
-            {t("Don’thaveanaccount?SignUp")}
-          </Button>
-        </DialogContent>
+      {/* Google Button */}
+      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} style={{ display: "flex", justifyContent: "center" }}>
+        <IconButton
+          onClick={loginWithGoogle}
+          style={{ borderRadius: "12px" }}
+          className="w-[280px] h-[56px] bg-white text-black font-semibold shadow-md flex items-center gap-3 hover:bg-gray-100 transition-all"
+        >
+          <FcGoogle size={28} />
+          <span className="text-[#A68B5B]">Sign in with Google</span>
+        </IconButton>
       </motion.div>
-    </Dialog>
+
+      {/* Login Button */}
+      <motion.div whileHover={{ scale: 1.05 }}>
+        <Button
+          fullWidth
+          onClick={handleSubmit}
+          disabled={loading}
+          className="rounded-xl bg-gradient-to-r from-[#C2A878] to-[#A68B5B] text-white font-bold shadow-lg hover:shadow-xl hover:opacity-90 transition-all px-6 py-3"
+        >
+          {loading ? t("Loggingin") : t("Login")}
+        </Button>
+      </motion.div>
+
+      {/* SignUp Button */}
+      <Button
+        fullWidth
+        onClick={() => {
+          handleLoginClose();
+          handleSignUpOpen();
+        }}
+        className="rounded-xl border border-indigo-500 text-indigo-600 font-semibold hover:bg-indigo-50 transition-all px-6 py-3"
+      >
+        {t("Don’thaveanaccount?SignUp")}
+      </Button>
+    </DialogContent>
+  </motion.div>
+</Dialog>
+
   );
 }

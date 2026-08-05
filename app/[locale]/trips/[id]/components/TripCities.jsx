@@ -4,7 +4,6 @@ import { useTheme } from "@/context/ThemeContext";
 import { useCitiesCategories } from "@/context/CitiesCategoriesContext";
 import { motion } from "framer-motion";
 
-// كائن الترجمات للعناوين
 const translations = {
   en: { title: "Cities" },
   de: { title: "Städte" },
@@ -15,67 +14,67 @@ const translations = {
 };
 
 export default function TripCities({ trip, lang }) {
-  const { theme } = useTheme();
+  const { theme } = useTheme(); // ✅ جلب الثيم من الكونتكست
   const { cities: allCities } = useCitiesCategories();
-
-  // لو اللغة مش موجودة، نرجع للإنجليزية
   const t = translations[lang] || translations.en;
 
-  // دالة ترجمة النصوص من jsonb
   const getLocalizedText = (obj) => {
     if (!obj) return "Unknown";
-    if (typeof obj === "string") return obj;
-    return obj?.[lang] || obj?.en || "Unknown";
+    if (typeof obj === "string") {
+      try {
+        const parsed = JSON.parse(obj);
+        return parsed?.[lang] || parsed?.en || Object.values(parsed)[0];
+      } catch {
+        return obj;
+      }
+    }
+    if (typeof obj === "object") {
+      return obj?.[lang] || obj?.en || Object.values(obj)[0];
+    }
+    return "Unknown";
   };
 
+  let cities = [];
+  try {
+    if (Array.isArray(trip.cities)) {
+      cities = trip.cities;
+    } else if (typeof trip.cities === "string") {
+      const parsed = JSON.parse(trip.cities);
+      cities = Array.isArray(parsed) ? parsed : [parsed];
+    } else if (typeof trip.cities === "object" && trip.cities !== null) {
+      cities = [trip.cities];
+    }
+  } catch {
+    cities = [];
+  }
+
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      className={`p-6 rounded-xl transition ${theme.card} ${theme.shadow} ${theme.text}`}
-    >
-      {/* العنوان */}
-      <motion.h2
-        initial={{ opacity: 0, x: -30 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className={`text-2xl font-bold flex items-center gap-2 mb-4 border-b p-2 ${theme.title} ${theme.border}`}
+   <motion.section
+  initial={{ opacity: 0, y: 50 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.8, ease: "easeOut" }}
+  className="p-8 rounded-2xl backdrop-blur-md bg-white/5 border border-[#C2A878]/30 shadow-xl"
+>
+  <motion.h2 className="text-3xl font-bold flex items-center gap-3 mb-6 bg-gradient-to-r from-[#C2A878] to-[#A68B5B] bg-clip-text text-transparent">
+    <FaMapMarkerAlt className="text-[#C2A878]" />
+    {t.title}
+  </motion.h2>
+
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    {cities.filter(Boolean).map((c, idx) => (
+      <motion.div
+        key={idx}
+        initial={{ opacity: 0, scale: 0.9, y: 30 }}
+        whileInView={{ opacity: 1, scale: 1, y: 0 }}
+        whileHover={{ scale: 1.05 }}
+        transition={{ duration: 0.6, delay: idx * 0.1 }}
+        className="flex items-center gap-3 p-4 rounded-xl cursor-pointer bg-white/10 hover:bg-[#C2A878]/20 shadow-md transition"
       >
-        <FaMapMarkerAlt className={theme.icon} />
-        {t.title}
-      </motion.h2>
-
-      {/* المدن */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {trip.trip_cities?.map((c, idx) => {
-          const cityObj = allCities.find((city) => city.id === c.city_id);
-
-          const cityName =
-            getLocalizedText(cityObj?.name) ||
-            getLocalizedText(c.cities?.name) ||
-            "Unknown";
-
-          return (
-            <motion.div
-              key={c.city_id}
-              initial={{ opacity: 0, scale: 0.9, y: 30 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: idx * 0.1 }}
-              whileHover={{ scale: 1.05, rotate: 1 }}
-              className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer ${theme.card}`}
-            >
-              <FaMapMarkerAlt className={theme.icon} />
-              <span className={`text-sm md:text-base font-medium ${theme.subText}`}>
-                {cityName}
-              </span>
-            </motion.div>
-          );
-        })}
-      </div>
-    </motion.section>
+        <FaMapMarkerAlt className="text-[#C2A878]" />
+        <span className="text-base font-semibold">{getLocalizedText(c?.name)}</span>
+      </motion.div>
+    ))}
+  </div>
+</motion.section>
   );
 }

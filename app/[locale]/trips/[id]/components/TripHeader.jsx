@@ -48,109 +48,87 @@ export default function TripHeader({ trip, lang }) {
 
   return (
     <motion.section
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      className={`w-full p-6 rounded-xl ${theme.card} ${theme.shadow} ${theme.text}`}
-    >
-      {/* العنوان */}
-      <motion.h1
-        initial={{ opacity: 0, x: -50 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.1 }}
-        className={`sc-title-first text-3xl font-extrabold mb-6 border-b pb-3 text-gradient`}
-        style={{
-          WebkitTextStroke:
-            themeName === "dark" ? "1px #C2A878" : "1px #5C4B3B",
-          textShadow:
-            themeName === "dark"
-              ? "2px 2px 6px rgba(0,0,0,0.6)"
-              : "2px 2px 6px rgba(255,255,255,0.3)",
-        }}
-      >
-        {trip.title?.[lang] || trip.title?.en}
-      </motion.h1>
+  initial={{ opacity: 0, y: 50 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true, amount: 0.2 }}
+  transition={{ duration: 0.8, ease: "easeOut" }}
+  className={`w-full p-8 rounded-2xl ${theme.card} ${theme.shadow} ${theme.text} backdrop-blur-md bg-white/5 border border-[#C2A878]/30`}
+>
+  {/* العنوان */}
+  <motion.h1
+    initial={{ opacity: 0, x: -50 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    transition={{ duration: 0.6, delay: 0.1 }}
+    className="text-4xl font-extrabold mb-6 text-center bg-gradient-to-r from-[#C2A878] to-[#A68B5B] bg-clip-text text-transparent drop-shadow-lg"
+  >
+    {trip.title?.[lang] || trip.title?.en}
+  </motion.h1>
 
-      {/* ✅ الصورة الرئيسية */}
-      <motion.div
-        key={activeIndex}
-        initial={{ opacity: 0, scale: 0.9 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="overflow-hidden rounded-lg shadow-md mb-6 relative h-[500px]"
+  {/* الصورة الرئيسية */}
+  <motion.div
+    key={activeIndex}
+    initial={{ opacity: 0, scale: 0.9 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 0.8, delay: 0.2 }}
+    className="overflow-hidden rounded-2xl shadow-2xl mb-6 relative h-[500px]"
+  >
+    <Image
+      src={trip.gallery_images[activeIndex].url || "/default.jpg"}
+      alt={trip.gallery_images[activeIndex].name?.[lang] || "Trip image"}
+      fill
+      className="object-cover w-full h-[500px] transform hover:scale-110 hover:blur-[1px] transition duration-700 rounded-2xl"
+      priority
+    />
+    {trip.gallery_images[activeIndex].name && (
+      <div className="absolute bottom-4 left-4 text-lg font-bold px-4 py-2 rounded-xl backdrop-blur-md bg-black/40 text-white shadow-lg">
+        {trip.gallery_images[activeIndex].name?.[lang] || trip.gallery_images[activeIndex].name?.en}
+      </div>
+    )}
+  </motion.div>
+
+  {/* الصور الجانبية */}
+  <div className="flex gap-4 overflow-x-auto pb-2">
+    {trip.gallery_images.map((img, index) => (
+      <div
+        key={index}
+        className={`relative w-[160px] h-[100px] rounded-lg cursor-pointer border-2 transition-all duration-300 ${
+          index === activeIndex ? "border-[#C2A878] shadow-lg scale-105" : "border-transparent"
+        }`}
+        onClick={() => setActiveIndex(index)}
       >
         <Image
-          src={trip.gallery_images[activeIndex].url || "/default.jpg"}
-          alt={
-            trip.gallery_images[activeIndex].name?.[lang] ||
-            trip.gallery_images[activeIndex].name?.en ||
-            "Trip image"
-          }
+          src={img.url || "/default.jpg"}
+          alt={img.name?.[lang] || `Thumbnail ${index}`}
           fill
-          className="object-cover w-full h-[500px] transform hover:scale-105 transition duration-500 rounded-lg"
-          priority
+          className="object-cover rounded-lg"
         />
-
-        {trip.gallery_images[activeIndex].name && (
-          <div className={`absolute bottom-4 left-4 text-xl font-bold px-4 py-2 rounded ${theme.overlay} ${theme.text}`}>
-            {trip.gallery_images[activeIndex].name?.[lang] ||
-              trip.gallery_images[activeIndex].name?.en}
-          </div>
-        )}
-      </motion.div>
-
-      {/* ✅ الصور الجانبية المصغرة */}
-      <div className="flex gap-4 flex-wrap">
-        {trip.gallery_images.map((img, index) => (
-          <div
-            key={index}
-            className={`relative w-[150px] h-[100px] rounded-lg cursor-pointer border-2 ${theme.border}`}
-            style={{
-              borderColor: index === activeIndex ? theme.logoBorder : "transparent",
-            }}
-            onClick={() => setActiveIndex(index)}
-          >
-            <Image
-              src={img.url || "/default.jpg"}
-              alt={img.name?.[lang] || img.name?.en || `Thumbnail ${index}`}
-              fill
-              className="object-cover rounded-lg"
-            />
-
-            {img.name && (
-              <div className={`absolute bottom-2 left-2 text-xs font-bold ${theme.overlay} ${theme.text} px-2 py-1 rounded`}>
-                {img.name?.[lang] || img.name?.en}
-              </div>
-            )}
-          </div>
-        ))}
       </div>
+    ))}
+  </div>
 
-      {/* ✅ الوصف مع تمييز الكلمات */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.7, delay: 0.3 }}
-        className={`leading-relaxed text-lg mt-6 text-center ${theme.subText}`}
-      >
-        {highlightedText}
-      </motion.div>
+  {/* الوصف */}
+  <motion.div
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.7, delay: 0.3 }}
+    className="leading-relaxed text-lg mt-6 text-center backdrop-blur-md bg-white/5 rounded-xl p-6 shadow-md"
+  >
+    {highlightedText}
+  </motion.div>
 
-      <style jsx>{`
-        .highlighted-text {
-          color: #c9a34a;
-          font-weight: bold;
-          text-decoration: none;
-        }
-        .highlighted-text:hover {
-          text-decoration: underline;
-          color: #eab308;
-        }
-      `}</style>
-    </motion.section>
+  <style jsx>{`
+    .highlighted-text {
+      color: #c9a34a;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    .highlighted-text:hover {
+      text-decoration: underline;
+      color: #eab308;
+      text-shadow: 0 0 8px rgba(201, 163, 74, 0.8);
+    }
+  `}</style>
+</motion.section>
+
   );
 }

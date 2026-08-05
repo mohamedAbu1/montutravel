@@ -1,5 +1,5 @@
 "use client";
-import { FaStar, FaDollarSign, FaEuroSign } from "react-icons/fa";
+import { FaStar, FaDollarSign, FaEuroSign, FaPoundSign } from "react-icons/fa";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -7,15 +7,26 @@ import { useAuth } from "@/context/AuthContext";
 import { usePurchase } from "@/context/PurchaseContext";
 import { useTranslation } from "react-i18next";
 import { useLanguage } from "@/context/LanguageContext";
+import { useTheme } from "@/context/ThemeContext";
+import { useCurrency } from "@/context/CurrencyContext"; // ✅ استدعاء الكونتكست
 
 export default function TripsGrid({ trips, cardStyle = "vertical" }) {
   const router = useRouter();
-  const { user } = useAuth();
+  const { userData } = useAuth();
   const { currency, purchases } = usePurchase();
   const { t } = useTranslation("trips");
   const { lang } = useLanguage();
+  const { theme } = useTheme();
+  const { convertPrice, loading, error } = useCurrency(); // ✅ جلب أسعار العملات
 
   const getRandomStars = () => Math.floor(Math.random() * 3) + 3;
+
+  // 🟢 دالة التحويل باستخدام CurrencyContext
+
+
+  if (loading)
+    return <p className="text-center">⏳ Loading currency rates...</p>;
+  if (error) return <p className="text-center text-red-500">❌ {error}</p>;
 
   return (
     <div
@@ -23,24 +34,39 @@ export default function TripsGrid({ trips, cardStyle = "vertical" }) {
         cardStyle === "vertical"
           ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           : "grid grid-cols-1 md:grid-cols-2 gap-6"
-      } bg-[url('/HomePageImage/69060352_tutankhamon_mask_hand_drawn.svg')] bg-cover bg-center`}
+      } `}
     >
       {trips.map((trip, i) => {
         const avgStars = getRandomStars();
-
-        let displayedPrice = trip.price;
-        if (currency === "EUR") {
-          displayedPrice = (trip.price * 0.85).toFixed(2);
-        }
+        const displayedPrice = convertPrice(trip.group_price, trip.currency);
 
         const hasPurchased =
-          user &&
+          userData &&
           purchases.some(
             (p) =>
-              p.user_id?.toString() === user.id?.toString() &&
+              p.user_id?.toString() === userData.id?.toString() &&
               p.trip_id?.toString() === trip.id?.toString() &&
-              p.status !== "Cancelled"
+              p.status !== "Cancelled",
           );
+        const hasActivePurchase = purchases.some(
+          (p) =>
+            p.trip_id === trip.id &&
+            p.user_id === userData?.id &&
+            p.status !== "Cancelled",
+        );
+        // 🟢 اختيار الأيقونة حسب العملة
+        let CurrencyIcon;
+        let currencyColor;
+        if (currency === "USD") {
+          CurrencyIcon = FaDollarSign;
+          currencyColor = theme.usdColor || "#2ecc71";
+        } else if (currency === "EUR") {
+          CurrencyIcon = FaEuroSign;
+          currencyColor = theme.eurColor || "#3498db";
+        } else if (currency === "EGP") {
+          CurrencyIcon = FaPoundSign;
+          currencyColor = theme.egpColor || "#b8860b";
+        }
 
         return (
           <motion.div
@@ -50,9 +76,9 @@ export default function TripsGrid({ trips, cardStyle = "vertical" }) {
             transition={{ duration: 0.6, ease: "easeOut" }}
             whileHover={{
               scale: 1.05,
-              boxShadow: "0px 8px 20px rgba(0,0,0,0.3)",
+              boxShadow: theme.shadow,
             }}
-            className={`trip-card ${
+            className={`relative overflow-hidden ${theme.card} ${
               cardStyle === "vertical" ? "h-[400px]" : "h-[300px]"
             }`}
           >
@@ -64,62 +90,178 @@ export default function TripsGrid({ trips, cardStyle = "vertical" }) {
               className="object-cover w-full h-full rounded-lg"
               priority
             />
+            {/* 🟢 استيكر الخصم في الأعلى يسار */}
+            {trip.discountPercent > 0 && (
+              <div className="absolute top-2 left-2 z-50">
+                {trip.discountPercent === 10 && (
+                  <Image
+                    src="/HomePageImage/off10.png"
+                    alt="10% Discount"
+                    width={50}
+                    height={50}
+                  />
+                )}
+                {trip.discountPercent === 20 && (
+                  <Image
+                    src="/HomePageImage/off120.png"
+                    alt="20% Discount"
+                    width={50}
+                    height={50}
+                  />
+                )}
+                {trip.discountPercent === 30 && (
+                  <Image
+                    src="/HomePageImage/off30.png"
+                    alt="30% Discount"
+                    width={50}
+                    height={50}
+                  />
+                )}
+                {trip.discountPercent === 40 && (
+                  <Image
+                    src="/HomePageImage/off40.png"
+                    alt="40% Discount"
+                    width={50}
+                    height={50}
+                  />
+                )}
+                {trip.discountPercent === 50 && (
+                  <Image
+                    src="/HomePageImage/50-percent.png"
+                    alt="50% Discount"
+                    width={50}
+                    height={50}
+                  />
+                )}
+              </div>
+            )}
 
-            <div className="trip-overlay">
-              <h4 className="trip-title">
+            {/* 🔴 استيكر عدد المبيعات في الأعلى يمين */}
+            {trip.purchase_count > 0 && (
+              <div className="absolute top-2 right-2 flex items-center gap-1">
+                <Image
+                  src="/HomePageImage/BESTSELLER.png" // ضع هنا مسار الصورة داخل public/icons
+                  alt="Purchases"
+                  width={50}
+                  height={50}
+                  className="drop-shadow-lg"
+                />
+              </div>
+            )}
+
+            <div
+              className={`absolute bottom-0 p-4 w-full flex flex-col gap-2 ${theme.overlay} text-white`}
+            >
+              <h4 className={`text-lg font-bold ${theme.title}`}>
                 {trip.title?.[lang] || trip.title?.en || "Untitled"}
               </h4>
-              <p className="trip-sub">
-                {trip.trip_cities
-                  ?.map(
-                    (c) =>
-                      c.cities?.name?.[lang] ||
-                      c.cities?.name?.en ||
-                      c.city_name
-                  )
-                  .join(", ") || t("NoCity")}
-              </p>
-              <p className="trip-sub">
-                {trip.trip_categories
-                  ?.map((cat) => {
-                    const catName =
-                      cat.categories?.name?.[lang] ||
-                      cat.categories?.name?.en ||
-                      cat.categories?.name;
-                    return catName;
-                  })
-                  .join(", ") || t("NoCategory")}
+              <p className={`${theme.subText} text-sm`}>
+                {Array.isArray(trip.cities) && trip.cities.length > 0
+                  ? trip.cities
+                      .filter(Boolean)
+                      .map((c) => {
+                        let cityName = "Unknown City";
+
+                        try {
+                          // ✅ لو الاسم عبارة عن JSON string → نحوله لكائن
+                          const parsed = JSON.parse(c.name);
+
+                          // ✅ نعرض حسب اللغة الحالية أو الإنجليزية أو أول قيمة
+                          cityName =
+                            parsed?.[lang] ||
+                            parsed?.["en"] ||
+                            Object.values(parsed)[0] ||
+                            "Unknown City";
+                        } catch {
+                          // ✅ لو الاسم مش JSON → نعرضه مباشرة
+                          cityName = c.name || "Unknown City";
+                        }
+
+                        return cityName;
+                      })
+                      .join(", ")
+                  : "Unknown City"}
               </p>
 
-              <p className="trip-price">
-                <span className="price-badge">
-                  {currency === "USD" ? <FaDollarSign /> : <FaEuroSign />}
-                  {displayedPrice} {currency}
+              <p className={`${theme.subText} text-sm`}>
+                {Array.isArray(trip.categories) && trip.categories.length > 0
+                  ? trip.categories
+                      .filter(Boolean)
+                      .map((cat) => {
+                        let categoryName = "Unknown Category";
+
+                        try {
+                          // ✅ نحاول تحويل الاسم من JSON string إلى كائن
+                          const parsed = JSON.parse(cat.name);
+
+                          // ✅ نعرض حسب اللغة الحالية أو الإنجليزية أو أول قيمة
+                          categoryName =
+                            parsed?.[lang] ||
+                            parsed?.["en"] ||
+                            Object.values(parsed)[0] ||
+                            "Unknown Category";
+                        } catch {
+                          // ✅ لو الاسم مش JSON نعرضه مباشرة
+                          categoryName = cat.name || "Unknown Category";
+                        }
+
+                        return categoryName;
+                      })
+                      .join(", ")
+                  : t("NoCategory")}
+              </p>
+
+              <p className="text-md font-semibold flex items-center gap-2">
+                <span
+                  className={`px-3 py-2 rounded-lg flex items-center gap-2 
+              bg-white/10 dark:bg-black/20 
+              backdrop-blur-md border border-[#C2A878]/40 
+              shadow-sm`}
+                >
+                
+                    {convertPrice(
+                      trip.group_price,
+                      trip.currency,
+                      currency,
+                    )}{" "}
+                    {currency}
                 </span>
               </p>
 
-              <div className="trip-stars">
+              <div className="flex items-center gap-2">
                 {[...Array(5)].map((_, idx) => (
                   <FaStar
                     key={idx}
-                    className={`${
-                      idx < avgStars
-                        ? "text-yellow-400"
-                        : "text-gray-500 opacity-50"
-                    }`}
+                    className={idx < avgStars ? theme.icon : theme.iconInactive}
                   />
                 ))}
-                <span className="reviews-text">({t("reviews")})</span>
+                <span className={`${theme.subText} text-sm`}>
+                  ({t("reviews")})
+                </span>
               </div>
-
-              <button
-                onClick={() => router.push(`/trips/${trip.id}`)}
-                className={`trip-button ${
-                  hasPurchased ? "btn-purchased" : "btn-primary"
-                }`}
-              >
-                {hasPurchased ? t("Tripdetails") : t("btn")}
-              </button>
+              {hasActivePurchase === true ? (
+                <button
+                  onClick={() => router.push(`/trips/${trip.id}`)}
+                  className={`mt-3 px-5 py-2 rounded-lg font-bold transition cursor-pointer 
+              bg-white/10 dark:bg-black/20 
+              backdrop-blur-md border border-[#C2A878]/40 
+              text-[#C2A878] hover:bg-[#C2A878]/20 hover:text-white 
+              shadow-md`}
+                >
+                  {hasPurchased ? t("Tripdetails") : t("btn")}
+                </button>
+              ) : (
+                <button
+                  onClick={() => router.push(`/trips/${trip.id}`)}
+                  className={`mt-3 px-5 py-2 rounded-lg font-bold transition cursor-pointer 
+              bg-white/10 dark:bg-black/20 
+              backdrop-blur-md border border-[#C2A878]/40 
+              text-[#C2A878] hover:bg-[#C2A878]/20 hover:text-white 
+              shadow-md`}
+                >
+                  {hasPurchased ? t("Tripdetails") : t("btn")}
+                </button>
+              )}
             </div>
           </motion.div>
         );

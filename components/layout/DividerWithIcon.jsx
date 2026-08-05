@@ -32,7 +32,7 @@ export default function DividerWithIcon() {
           filter: `drop-shadow(0 0 6px ${theme.logoBorder || "#C2A878"})`,
         }}
       >
-        𓂀
+       ☥
       </motion.span>
 
       {/* الخط الأيمن */}

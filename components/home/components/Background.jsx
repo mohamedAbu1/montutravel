@@ -11,7 +11,7 @@ export default function Background() {
   const darkImages = [
     "/HomePageImage/asdasdas.webp",
     "/Cairo/travco-travel-c4259777-fab7-4d77-bd9f-d99e1d3fc377.webp",
-    "/HomePageImage/Copilot_20251003_105735.webp",
+    "/HomePageImage/banner.62f1bfcb.jpg",
   ];
 
   const lightImages = [

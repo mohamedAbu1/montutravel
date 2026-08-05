@@ -10,6 +10,7 @@ import { usePurchase } from "@/context/PurchaseContext";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { useCurrency } from "@/context/CurrencyContext";
+import Decor from "../layout/Decor";
 
 const TopTripsSection = () => {
   const { theme, themeName } = useTheme();
@@ -20,7 +21,7 @@ const TopTripsSection = () => {
 
   const { trips, fetchTrips, loadingTrips } = useTrip();
   const { currency, purchases } = usePurchase();
-  const { rates } = useCurrency(); // ✅ جلب أسعار العملات من الكونتكست
+  const { convertPrice } = useCurrency(); // ✅ جلب أسعار العملات من الكونتكست
 
   const [screenSize, setScreenSize] = useState({ width: 0, height: 0 });
 
@@ -69,27 +70,12 @@ const TopTripsSection = () => {
     )
     .slice(0, 7);
 
-  // ✅ التحويل باستخدام القيم من CurrencyContext
-  const convertPrice = (group_price, tripCurrency) => {
-    let converted = group_price;
-
-    if (currency === "EUR" && tripCurrency === "USD") {
-      converted = (group_price * (rates.EUR || 0.85)).toFixed(2);
-    } else if (currency === "USD" && tripCurrency === "EUR") {
-      converted = (group_price * (1 / (rates.EUR || 1.18))).toFixed(2);
-    } else if (currency === "EGP" && tripCurrency === "USD") {
-      converted = (group_price * (rates.USD || 49.1)).toFixed(2); // USD → EGP
-    } else if (currency === "USD" && tripCurrency === "EGP") {
-      converted = (group_price / (rates.USD || 49.1)).toFixed(2); // EGP → USD
-    }
-
-    return converted;
-  };
-
   return (
     <section
       className={`hidden lg:flex w-full flex-col relative py-24 px-6 transition-colors duration-500 ${theme.background} `}
     >
+      <Decor pos={"top"} />
+
       {/* خلفية الرموز */}
       <div className="absolute inset-0 pointer-events-none">
         {Array.from({ length: 25 }).map((_, i) => (
@@ -117,6 +103,9 @@ const TopTripsSection = () => {
           <span className="inline-block transform scale-x-[-1] mr-4">𓅓</span>
           {t("TopTrips")}
           <span className="inline-block ml-4">𓅓</span>
+          <p className="sc-p-first capitalize mt-4 text-lg opacity-80 text-start text-gradient">
+            These are our best trips, according to our clients.
+          </p>
           <DividerWithIcon />
         </h2>
       </div>
@@ -220,7 +209,13 @@ const TopTripsSection = () => {
 
                 <div className="flex items-center justify-between">
                   <p className={`text-lg font-semibold ${theme.text}`}>
-                    {convertPrice(trip.group_price, trip.currency)} {currency}
+              
+                    {convertPrice(
+                      trip.group_price,
+                      trip.currency,
+                      currency,
+                    )}{" "}
+                    {currency}
                   </p>
                   <motion.button
                     whileHover={{ scale: 1.05 }}

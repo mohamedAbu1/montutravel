@@ -23,14 +23,18 @@ import CancelButton from "./components/CancelButton";
 import TripVideo from "./components/TripVideo";
 import { usePurchase } from "@/context/PurchaseContext";
 import AccessibilityInfo from "./components/components/AccessibilityInfo";
+import AdminChatWindow from "@/components/layout/AdminChatWindow";
+import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 export default function TripPage({ params }) {
   const { id } = use(params);
   const { trips, fetchTrips, getTripById, loadingTrips } = useTrip();
   const { lang } = useLanguage();
   const { theme, themeName } = useTheme();
-  const { user } = useAuth();
+  const { userData, chatUser, setChatUser } = useAuth();
   const { purchases } = usePurchase();
+  const { t } = useTranslation("header");
 
   useEffect(() => {
     if (!trips.length) {
@@ -46,30 +50,76 @@ export default function TripPage({ params }) {
   const hasActivePurchase = purchases.some(
     (p) =>
       p.trip_id === trip.id &&
-      p.user_id === user?.id &&
+      p.user_id === userData?.id &&
       p.status !== "Cancelled",
   );
-console.log(trip)
+
+  const localizedTrip = {
+    ...trip,
+    title: trip.title?.[lang] || trip.title?.en,
+    description: trip.description?.[lang] || trip.description?.en,
+
+    // ✅ المدن
+    cities: Array.isArray(trip.cities)
+      ? trip.cities.map((c) =>
+          typeof c?.name === "object"
+            ? c.name[lang] || c.name.en || Object.values(c.name)[0]
+            : c?.name || c,
+        )
+      : trip.cities,
+
+    // ✅ التصنيفات
+    categories: Array.isArray(trip.categories)
+      ? trip.categories.map((cat) =>
+          typeof cat?.name === "object"
+            ? cat.name[lang] || cat.name.en || Object.values(cat.name)[0]
+            : cat?.name || cat,
+        )
+      : trip.categories,
+
+    // ✅ الباقي زي ما هو
+    includes: Array.isArray(trip.includes)
+      ? trip.includes.map((i) =>
+          typeof i === "object" ? i?.[lang] || i?.en : i,
+        )
+      : trip.includes,
+
+    itinerary: Array.isArray(trip.itinerary)
+      ? trip.itinerary.map((day) => ({
+          ...day,
+          activities: Array.isArray(day.activities)
+            ? day.activities.map((act) =>
+                typeof act === "object" ? act?.[lang] || act?.en : act,
+              )
+            : day.activities,
+        }))
+      : trip.itinerary,
+  };
+  console.log(localizedTrip);
   return (
-    <main className={`min-h-screen relative  ${theme.text}`}>
+    <main
+      className={`min-h-screen relative ${theme.text} mt-30 bg-gradient-to-br from-[#1a1a1a] via-[#2c2c2c] to-[#0f0f0f]`}
+    >
+      {/* ✅ الهيدر */}
       <Header />
+
+      {/* ✅ خلفية ديكورية */}
       <EgyptianBackground />
 
       <div
-        style={{ paddingTop: "110px" }}
-        className="max-w-7xl mx-auto pt-9 p-6 relative z-10 grid gap-8 
-             grid-cols-1 lg:grid-cols-2 auto-rows-min"
+        style={{ paddingTop: "120px" }}
+        className="max-w-7xl mx-auto p-8 relative z-10 grid gap-10 
+               grid-cols-1 lg:grid-cols-2 auto-rows-min 
+               backdrop-blur-md bg-white/5 rounded-2xl shadow-2xl border border-[#C2A878]/30"
       >
-        <EgyptianBackground />
-
         {/* ✅ العنوان */}
-        <div className="col-span-1 lg:col-span-3">
+        <div className="col-span-1 lg:col-span-3 mb-6">
           <TripHeader trip={trip} lang={lang} theme={theme} />
         </div>
 
         {/* ✅ معلومات الرحلة */}
-        <div className="col-span-3 flex flex-row gap-8">
-          <div className="col-span-3 flex flex-col gap-2.5">
+        <div className="col-span-3 flex flex-row gap-10">
+          <div className="flex flex-col gap-4 flex-1">
             <TripInfo trip={trip} lang={lang} theme={theme} />
             <TripCities trip={trip} lang={lang} theme={theme} />
             <TripCategories trip={trip} lang={lang} theme={theme} />
@@ -79,7 +129,7 @@ console.log(trip)
         </div>
 
         {/* ✅ المميزات */}
-        <div className="col-span-3 flex flex-row gap-8">
+        <div className="col-span-3 flex flex-row gap-10">
           <TripIncludes trip={trip} lang={lang} theme={theme} />
         </div>
 
@@ -89,21 +139,43 @@ console.log(trip)
         </div>
 
         {/* ✅ المراجعات + الأزرار */}
-        <div className="col-span-1 lg:col-span-3">
+        <div className="col-span-1 lg:col-span-3 mt-6">
           <TripReviews trip={trip} lang={lang} theme={theme} />
-          {user &&
+          {userData &&
+            userData?.role !== "ADMIN" &&
             (hasActivePurchase ? (
               <CancelButton trip={trip} theme={theme} />
             ) : (
-              <PurchaseButton trip={trip} theme={theme} />
+              <>
+                <PurchaseButton trip={trip} theme={theme} />
+                <Link
+                  href="/privacyPolicy"
+                  className="fixed bottom-10 left-6 flex-row rounded-xl px-6 py-3 
+                         bg-transparent backdrop-blur-md border border-[#C2A878] 
+                         text-[#C2A878] font-semibold tracking-wide 
+                         hover:bg-[#C2A878]/20 hover:text-white transition-all duration-300 
+                         shadow-lg cursor-pointer"
+                >
+                  {t("PrivacyPolicy")}
+                </Link>
+              </>
             ))}
         </div>
       </div>
 
+      {/* ✅ الفوتر */}
       <Footer />
       <SignUpButton />
       <LoginModal />
-      {user && <ChatWidget />}
+      {userData && <ChatWidget />}
+      {chatUser && (
+        <AdminChatWindow
+          user={chatUser}
+          admin={userData}
+          messages={messages}
+          onClose={() => setChatUser(null)}
+        />
+      )}
     </main>
   );
 }
