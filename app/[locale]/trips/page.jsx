@@ -18,7 +18,7 @@ import { useTrip } from "@/context/TripContext";
 import { useCitiesCategories } from "@/context/CitiesCategoriesContext";
 import { useQueryFilters } from "@/context/QueryContext";
 import { useRouter } from "next/navigation";
-import CurrencySelector from "../../../../montutravel/components/layout/CurrencySelector";
+import CurrencySelector from "@/components/layout/CurrencySelector";
 import AdminDashboardButton from "@/components/layout/AdminDashboardButton";
 
 export default function TripsPage() {
