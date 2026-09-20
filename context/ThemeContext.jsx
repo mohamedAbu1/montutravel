@@ -24,7 +24,7 @@ export function ThemeProvider({ children }) {
   const applyTheme = (mode) => {
     setThemeName(mode);
     setTheme(mode === "dark" ? darkTheme : lightTheme);
-
+    document.documentElement.setAttribute("data-theme", mode);
     // Toggle class for Tailwind dark mode
     if (mode === "dark") {
       document.documentElement.classList.add("dark");
@@ -35,15 +35,15 @@ export function ThemeProvider({ children }) {
     // Update CSS variables for global usage
     document.documentElement.style.setProperty(
       "--color",
-      mode === "dark" ? "#c9a34a" : "#ffffff"
+      mode === "dark" ? "#c9a34a" : "#ffffff",
     );
     document.documentElement.style.setProperty(
       "--foreground",
-      mode === "dark" ? "#ededed" : "#171717"
+      mode === "dark" ? "#ededed" : "#171717",
     );
     document.documentElement.style.setProperty(
       "--background",
-      mode === "dark" ? "#0a0a0a" : "#ffffff"
+      mode === "dark" ? "#0a0a0a" : "#ffffff",
     );
   };
   // ? $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$

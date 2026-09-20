@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { localQuery } from "@/lib/localDb";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -7,6 +8,22 @@ const supabase = createClient(
 );
 
 export async function GET(req) {
+  if (process.env.LOCAL_DB_ENABLED === "true") {
+    const { searchParams } = new URL(req.url);
+    const tripId = searchParams.get("tripId");
+    try {
+      const reviews = await localQuery(
+        `SELECT id, user_id, trip_id, rating, comment, created_at
+         FROM reviews ${tripId ? "WHERE trip_id = ?" : ""}
+         ORDER BY created_at DESC`,
+        tripId ? [tripId] : [],
+      );
+      return NextResponse.json({ success: true, reviews });
+    } catch {
+      return NextResponse.json({ success: true, reviews: [], degraded: true });
+    }
+  }
+
   console.log("➡️ GET /api/reviews called");
   const { searchParams } = new URL(req.url);
   const tripId = searchParams.get("tripId");

@@ -20,7 +20,7 @@ export default function DashboardLayout({ children }) {
   const pathname = usePathname();
 
   return (
-    <div className="min-h-screen flex bg-[#020617] text-white">
+    <div className="montu-admin min-h-screen flex bg-[#020617] text-white">
       {/* Sidebar */}
       <aside className="w-64 hidden md:flex flex-col border-r border-cyan-400/20 bg-slate-950/60 backdrop-blur-xl">
         <div className="px-6 py-5 border-b border-cyan-400/20">

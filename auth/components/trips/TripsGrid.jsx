@@ -15,7 +15,21 @@ export default function TripsGrid({ trips, cardStyle = "vertical" }) {
   const { t } = useTranslation("trips");
   const { lang } = useLanguage();
 
-  const getRandomStars = () => Math.floor(Math.random() * 3) + 3;
+  const getStars = (trip, index) => {
+    const source = String(trip?.id || index);
+    const score = [...source].reduce((total, char) => total + char.charCodeAt(0), 0);
+    return (score % 3) + 3;
+  };
+
+  if (!trips?.length) {
+    return (
+      <div className="desert-empty-state col-span-full">
+        <span className="desert-empty-symbol">𓂀</span>
+        <h3>No journeys found</h3>
+        <p>Try adjusting your search or filters to discover another royal escape.</p>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -26,7 +40,7 @@ export default function TripsGrid({ trips, cardStyle = "vertical" }) {
       }`}
     >
       {trips.map((trip, i) => {
-        const avgStars = getRandomStars();
+        const avgStars = getStars(trip, i);
 
         let displayedPrice = trip.price;
         if (currency === "EUR") {

@@ -1,50 +1,20 @@
-const DarkTheme = {
+export const DarkTheme = {
   name: "dark",
-
-  // خلفية زجاجية داكنة
-  background: "bg-[rgba(15,15,15,0.95)] backdrop-blur-[18px]",
-
-  // النصوص الأساسية
-  text: "text-[#ededed]", // أبيض فاتح
-
-  // النصوص الثانوية
-  subText: "text-[rgba(255,255,255,0.6)]", // رمادي شفاف
-
-  // العناوين الرئيسية
-  title: "text-[#22d3ee] font-extrabold tracking-wide", // Cyan Glow
-
-  // العناوين الثانوية
-  heading: "text-[#60a5fa] font-semibold", // Blue فاتح
-
-  // الكروت الزجاجية
-  card: "bg-[rgba(30,30,30,0.85)] backdrop-blur-[14px] rounded-[18px] border border-[rgba(34,211,238,0.45)]",
-
-  // شعار
-  logoGradientFrom: "#06b6d4", // Cyan
-  logoGradientTo: "#3b82f6",   // Blue
-  logoBorder: "#22d3ee",
-
-  // طبقة فوق الصور
-  overlay: "bg-[rgba(0,0,0,0.2)]",
-  Cardoverlay: "bg-[rgba(0,0,0,0.2)]",
-
-  // الظلال
-  shadow: "shadow-[0_6px_20px_rgba(0,0,0,0.6),0_0_12px_rgba(34,211,238,0.4)]",
-
-  // الأزرار الأساسية
-  buttonPrimary:
-    "bg-gradient-to-r from-[#06b6d4] to-[#3b82f6] text-white font-semibold rounded-xl px-6 py-3 hover:from-[#22d3ee] hover:to-[#60a5fa] transition-all shadow-md hover:shadow-lg",
-
-  // الأزرار الثانوية
-  buttonSecondary:
-    "bg-[rgba(20,20,20,0.85)] text-[#ededed] font-medium rounded-xl px-6 py-3 hover:bg-[rgba(40,40,40,0.9)] transition-all border border-[#22d3ee]",
-
-  // الأيقونات
-  icon: "text-[#22d3ee]",
-  iconInactive: "text-[#6b6b6b]",
-    // LightTheme
-dividerLine: "bg-[#22d3ee]/50 opacity-30",
-dividerIcon: "text-[#22d3ee]",
-  iconHover: "text-[#60a5fa] transition-colors",
+  background: "bg-[#17100f]/80 backdrop-blur-xl",
+  text: "text-[#f6e8ca]",
+  subText: "text-[#c8ae88]",
+  title: "text-[#e3b66d] font-extrabold tracking-wide",
+  heading: "text-[#f0cf91] font-semibold",
+  card: "bg-[#281a16]/70 backdrop-blur-xl rounded-[24px] border border-[#e2b568]/30 shadow-[0_24px_80px_rgba(0,0,0,0.45)]",
+  overlay: "bg-gradient-to-t from-black/80 via-black/10 to-transparent",
+  shadow: "shadow-[0_24px_80px_rgba(0,0,0,0.45)]",
+  border: "border-[#d69a4d]/30",
+  logoGradientFrom: "#c3833e",
+  logoGradientTo: "#f0c876",
+  logoBorder: "#d69a4d",
+  buttonPrimary: "bg-gradient-to-br from-[#c3833e] to-[#f0c876] text-[#24150f] font-semibold rounded-full px-6 py-3 hover:from-[#f0c876] hover:to-[#c3833e] transition-all shadow-lg",
+  buttonSecondary: "bg-[#281a16]/70 text-[#f6e8ca] font-medium rounded-full px-6 py-3 hover:bg-[#3b251e]/80 transition-all border border-[#d69a4d]/50",
+  icon: "text-[#d69a4d]",
+  iconHover: "text-[#f0c876] transition-colors",
 };
 export default DarkTheme;

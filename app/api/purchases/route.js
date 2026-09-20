@@ -1,6 +1,21 @@
 import { createClient } from "@supabase/supabase-js";
+import { localQuery } from "@/lib/localDb";
 
 export async function GET() {
+  if (process.env.LOCAL_DB_ENABLED === "true") {
+    try {
+      const purchases = await localQuery(`
+        SELECT p.*, t.title AS tripTitle
+        FROM purchases p
+        LEFT JOIN trips t ON t.id = p.trip_id
+        ORDER BY p.created_at DESC
+      `);
+      return Response.json({ success: true, purchases });
+    } catch {
+      return Response.json({ success: true, purchases: [], degraded: true });
+    }
+  }
+
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY

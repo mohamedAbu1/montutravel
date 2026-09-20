@@ -101,7 +101,7 @@ function CityCard({ city, themeName, theme, language, t }) {
 const CitiesSection = () => {
   const { theme, themeName } = useTheme();
   const { t, i18n } = useTranslation("home");
-  const { cities, loading } = useCitiesCategories();
+  const { cities, loading, error } = useCitiesCategories();
   const normalizedLang = i18n.language.split("-")[0];
 
   // ✅ hooks لازم تكون فوق
@@ -117,7 +117,16 @@ const CitiesSection = () => {
   }, []);
 
   if (loading) {
-    return <p className="text-center">Loading cities...</p>;
+    return (
+      <section className={`desert-data-section ${theme.background}`} aria-label="Loading destinations">
+        <div className="desert-section-heading"><span>WHERE WILL YOU WANDER?</span><h2>Explore destinations</h2></div>
+        <div className="desert-skeleton-grid">{[1, 2, 3, 4].map((item) => <div key={item} className="desert-skeleton-card" />)}</div>
+      </section>
+    );
+  }
+
+  if (!cities.length) {
+    return <section className={`desert-data-section ${theme.background}`}><div className="desert-empty-state"><span className="desert-empty-state__icon">𓇼</span><h2>{error ? "Destinations unavailable" : "Egypt is waiting"}</h2><p>{error ? "Connect the local database to load destinations." : "Destination guides will appear here soon."}</p></div></section>;
   }
 
   const looped = [...cities, ...cities];
@@ -144,7 +153,11 @@ const CitiesSection = () => {
 
   return (
     <section
-      className={`hidden lg:flex py-12 px-6 flex-col w-full mx-auto relative ${theme.background}`}
+      className={`desert-data-section flex flex-col py-24 px-6 w-full mx-auto bg-cover bg-center relative transition-colors duration-500 ${theme.background}`}
+       style={{
+        backgroundImage:
+          "url('/HomePageImage/420046069_b520e5b4-b7a6-434e-bd8b-7191da0f4e29.svg')",
+      }}
     >
       {/* خلفية الرموز */}
       <div className="absolute inset-0 pointer-events-none">
@@ -156,9 +169,9 @@ const CitiesSection = () => {
             transition={{ duration: 1.2, delay: i * 0.1 }}
             className="absolute text-6xl"
             style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              transform: `rotate(${Math.random() * 360}deg)`,
+              top: `${(i * 43) % 100}%`,
+              left: `${(i * 67) % 100}%`,
+              transform: `rotate(${(i * 23) % 360}deg)`,
               color: theme.icon,
             }}
           >
@@ -168,7 +181,7 @@ const CitiesSection = () => {
       </div>
 
       {/* صورة SVG ديكور جانبية */}
-      <div
+      {/* <div
         className="absolute opacity-40 pointer-events-none"
         style={{
           right: screenSize.width * 0.05, // 10% من عرض الشاشة
@@ -187,18 +200,18 @@ const CitiesSection = () => {
           fill
           className="object-contain"
         />
-      </div>
+      </div> */}
 
       <div className="max-w-2xl mx-auto mb-16 w-full relative z-10">
         <h2 className="sc-title-first text-5xl font-extrabold tracking-wide drop-shadow-md text-center text-gradient">
-          <span className="inline-block transform scale-x-[-1] mr-4">𓅓</span>
+          <span className="inline-block transform scale-x-[-1] mr-4">𓆣</span>
           {t("ExploreCities")}
-          <span className="inline-block ml-4">𓅓</span>
+          <span className="inline-block ml-4">𓆣</span>
         </h2>
         <DividerWithIcon />
       </div>
 
-      <div
+      {/* <div
         className="absolute scale-x-[-1] opacity-40 pointer-events-none"
         style={{
           left: screenSize.width * 0.05, // 10% من عرض الشاشة
@@ -217,7 +230,7 @@ const CitiesSection = () => {
           fill
           className="object-contain"
         />
-      </div>
+      </div> */}
       {/* ✅ Marquee Animation */}
       <div className="relative overflow-hidden w-full max-w-7xl mx-auto h-[410px] z-10">
         <motion.div

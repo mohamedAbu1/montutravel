@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { localQuery } from "@/lib/localDb";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -10,6 +11,18 @@ const supabase = createClient(
 export async function GET(req, context) {
   try {
     const { id } = await context.params;
+    if (process.env.LOCAL_DB_ENABLED === "true") {
+      const rows = await localQuery("SELECT * FROM trips WHERE id = ? LIMIT 1", [id]);
+      const data = rows[0];
+      if (!data) return NextResponse.json({ success: false, error: "Trip not found" }, { status: 404 });
+      const cities = await localQuery("SELECT c.id, c.name FROM trip_cities tc JOIN cities c ON c.id = tc.city_id WHERE tc.trip_id = ?", [id]);
+      const categories = await localQuery("SELECT c.id, c.name FROM trip_categories tc JOIN categories c ON c.id = tc.category_id WHERE tc.trip_id = ?", [id]);
+      const includes = await localQuery("SELECT id, include_translations FROM includes WHERE trip_id = ?", [id]);
+      const days = await localQuery("SELECT id, day_number FROM trip_days WHERE trip_id = ? ORDER BY day_number", [id]);
+      const itinerary = [];
+      for (const day of days) itinerary.push({ ...day, activities: await localQuery("SELECT id, time, activity_translations FROM day_activities WHERE day_id = ? ORDER BY time", [day.id]) });
+      return NextResponse.json({ success: true, trip: { ...data, cities, categories, includes, itinerary } });
+    }
     console.log("➡️ [GET] Trip ID:", id);
 
     const { data, error } = await supabase
@@ -110,6 +123,22 @@ export async function PUT(req, context) {
   try {
     const { id } = await context.params;
     const body = await req.json();
+
+    if (process.env.LOCAL_DB_ENABLED === "true") {
+      await localQuery(
+        `UPDATE trips SET title = ?, description = ?, price = ?, duration = ?, priceLevel = ?, cover_image = ?, gallery_images = ? WHERE id = ?`,
+        [JSON.stringify(body.title || {}), JSON.stringify(body.description || {}), Number(body.price || 0), Number(body.duration || 0), body.priceLevel || "", body.cover_image || "", JSON.stringify(body.gallery_images || []), id],
+      );
+      if (Array.isArray(body.categories)) {
+        await localQuery("DELETE FROM trip_categories WHERE trip_id = ?", [id]);
+        for (const categoryId of body.categories) await localQuery("INSERT INTO trip_categories (trip_id, category_id) VALUES (?, ?)", [id, categoryId]);
+      }
+      if (Array.isArray(body.cities)) {
+        await localQuery("DELETE FROM trip_cities WHERE trip_id = ?", [id]);
+        for (const cityId of body.cities) await localQuery("INSERT INTO trip_cities (trip_id, city_id) VALUES (?, ?)", [id, cityId]);
+      }
+      return NextResponse.json({ success: true, updatedTrip: { id, ...body } });
+    }
 
     console.log("➡️ [PUT] Trip ID:", id);
     console.log("➡️ [PUT] Request body:", JSON.stringify(body, null, 2));
@@ -246,6 +275,15 @@ export async function PUT(req, context) {
 export async function DELETE(req, context) {
   try {
     const { id } = await context.params;
+    if (process.env.LOCAL_DB_ENABLED === "true") {
+      await localQuery("DELETE FROM day_activities WHERE day_id IN (SELECT id FROM trip_days WHERE trip_id = ?)", [id]);
+      await localQuery("DELETE FROM trip_days WHERE trip_id = ?", [id]);
+      await localQuery("DELETE FROM trip_cities WHERE trip_id = ?", [id]);
+      await localQuery("DELETE FROM trip_categories WHERE trip_id = ?", [id]);
+      await localQuery("DELETE FROM includes WHERE trip_id = ?", [id]);
+      await localQuery("DELETE FROM trips WHERE id = ?", [id]);
+      return NextResponse.json({ success: true, message: "Trip deleted successfully" });
+    }
     console.log("➡️ [DELETE] Trip ID:", id);
 
     // ✅ احذف العلاقات المرتبطة أولاً لو محتاج (مدن، فئات، أيام، أنشطة، إلخ)

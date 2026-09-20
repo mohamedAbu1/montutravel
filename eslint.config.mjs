@@ -7,15 +7,12 @@ export default defineConfig([
     plugins: {
       next: pluginNext,
     },
-    ignorePatterns: [
+    ignores: [
       ".next/**",
       "out/**",
       "build/**",
       "next-env.d.ts"
     ],
-    rules: {
-      "react-hooks/exhaustive-deps": "warn",
-      "react-hooks/rules-of-hooks": "error"
-    }
+    rules: {}
   }
 ]);

@@ -35,10 +35,14 @@ const CarBookingSection = () => {
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
       variants={fadeInUp}
-      className={`hidden lg:flex relative w-full items-center justify-center py-24 px-6 transition-colors duration-500 overflow-hidden bg-[var(--background)] backdrop-blur-[var(--backdrop-blur)]`}
+        style={{
+        backgroundImage:
+          "url('/HomePageImage/421009550_cc929d60-b9e0-426e-84d8-74d70ab10d55.svg')",
+      }}
+      className={`flex bg-cover bg-center relative w-full items-center justify-center py-24 px-6 transition-colors duration-500 overflow-hidden bg-[var(--background)] backdrop-blur-[var(--backdrop-blur)]`}
     >
       {/* Background Car Image */}
-      <div className="absolute inset-0 -z-10">
+      {/* <div className="absolute inset-0 -z-10">
         <Image
           src="/HomePageImage/1547933741.svg"
           alt="Luxury Car Background"
@@ -54,7 +58,7 @@ const CarBookingSection = () => {
               : "from-[var(--bg-light)] via-transparent to-[var(--border-light)]"
           }`}
         ></div>
-      </div>
+      </div> */}
 
       {/* Hieroglyphic Symbols Background */}
       <div className="absolute inset-0 pointer-events-none -z-0">
@@ -63,10 +67,10 @@ const CarBookingSection = () => {
             key={i}
             className="absolute text-6xl animate-float text-[var(--icon)]"
             style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              transform: `rotate(${Math.random() * 360}deg)`,
-              opacity: 0.2 + Math.random() * 0.3,
+              top: `${(i * 47) % 100}%`,
+              left: `${(i * 71) % 100}%`,
+              transform: `rotate(${(i * 17) % 360}deg)`,
+              opacity: 0.2 + (i % 4) * 0.08,
             }}
           >
             {symbols[Math.floor(Math.random() * symbols.length)]}
@@ -87,8 +91,8 @@ const CarBookingSection = () => {
           <Image
             src={
               themeName === "dark"
-                ? "/HomePageImage/20752-5-2014-hyundai-tucson.png"
-                : "/HomePageImage/White-Kia-PNG-High-Quality-Image.png"
+                ? "/HomePageImage/cowgirl-illustration.png"
+                : "/HomePageImage/cowgirl-illustration.png"
             }
             alt="Luxury Car"
             fill
@@ -160,8 +164,8 @@ const CarBookingSection = () => {
           <Image
             src={
               themeName === "dark"
-                ? "/HomePageImage/20752-5-2014-hyundai-tucson.png"
-                : "/HomePageImage/White-Kia-PNG-High-Quality-Image.png"
+                ? "/HomePageImage/cowgirl-illustration.png"
+                : "/HomePageImage/cowgirl-illustration.png"
             }
             alt="Luxury Car"
             fill

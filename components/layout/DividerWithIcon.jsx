@@ -3,8 +3,8 @@ import React from "react";
 import { useTheme } from "@/context/ThemeContext";
 import { motion } from "framer-motion";
 
-export default function DividerWithIcon() {
-  const { theme } = useTheme();
+export default function Divider({ fadeUp }) {
+  const { themeName, theme } = useTheme();
 
   return (
     <motion.div
@@ -12,11 +12,40 @@ export default function DividerWithIcon() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="flex items-center gap-3 justify-center"
+      className="flex items-center gap-3 justify-center w-full"
     >
-      <div className={`h-[3px] w-full ${theme.dividerLine}`} />
-      <span className={`text-2xl ${theme.dividerIcon}`}>𓋹</span>
-      <div className={`h-[3px] w-full ${theme.dividerLine}`} />
+      {/* الخط الأيسر */}
+      <div
+        className="h-[3px] flex-1 rounded-full"
+        style={{
+          background: `linear-gradient(to right, ${theme.logoGradientFrom}, ${theme.logoGradientTo})`,
+          opacity: themeName === "dark" ? 0.25 : 0.4,
+        }}
+      ></div>
+
+      {/* الأيقونة الفرعونية */}
+      <motion.span
+        whileHover={{ scale: 1.2, rotate: 10 }}
+        transition={{ type: "spring", stiffness: 200 }}
+        className="text-2xl font-bold"
+        style={{
+          backgroundImage: `linear-gradient(to right, ${theme.logoGradientFrom}, ${theme.logoGradientTo})`,
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          filter: `drop-shadow(0 0 6px ${theme.logoBorder})`,
+        }}
+      >
+        𓂀
+      </motion.span>
+
+      {/* الخط الأيمن */}
+      <div
+        className="h-[3px] flex-1 rounded-full"
+        style={{
+          background: `linear-gradient(to right, ${theme.logoGradientFrom}, ${theme.logoGradientTo})`,
+          opacity: themeName === "dark" ? 0.25 : 0.4,
+        }}
+      ></div>
     </motion.div>
   );
 }

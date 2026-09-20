@@ -5,10 +5,13 @@ import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Footer = () => {
   const { theme, themeName } = useTheme();
   const { t } = useTranslation("footer");
+  const pathname = usePathname();
+  const locale = pathname?.split("/")[1] || "en";
 
   const symbols = ["𓂀","𓋹","𓆣","𓇼","𓇯","𓏏","𓎛","𓊽","𓃾","𓅓","𓈇","𓉐","𓊹","𓌙","𓍿","𓎟"];
 
@@ -28,7 +31,7 @@ const Footer = () => {
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
       variants={staggerContainer}
-      className={`
+      className={`montu-footer
         flex flex-col items-center justify-center
         py-12 px-6 w-full relative overflow-hidden
         transition-colors duration-500
@@ -36,7 +39,7 @@ const Footer = () => {
       `}
     >
       {/* خلفية الرموز الفرعونية */}
-      <div className="absolute inset-0 pointer-events-none -z-10">
+      <div aria-hidden="true" className="absolute inset-0 pointer-events-none -z-10">
         {Array.from({ length: 20 }).map((_, i) => (
           <motion.span
             key={i}
@@ -47,12 +50,12 @@ const Footer = () => {
               themeName === "dark" ? "text-gray-700" : "text-[#222]"
             } text-6xl`}
             style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              transform: `rotate(${Math.random() * 360}deg)`,
+              top: `${(i * 47) % 100}%`,
+              left: `${(i * 73) % 100}%`,
+              transform: `rotate(${(i * 19) % 360}deg)`,
             }}
           >
-            {symbols[Math.floor(Math.random() * symbols.length)]}
+            {symbols[i % symbols.length]}
           </motion.span>
         ))}
       </div>
@@ -60,10 +63,10 @@ const Footer = () => {
       {/* اسم البراند */}
       <motion.p
         variants={fadeUp}
-        className="text-3xl font-extrabold tracking-wide relative z-10 bg-gradient-to-r from-[var(--logoGradientFrom)] to-[var(--logoGradientTo)] bg-clip-text text-transparent drop-shadow-lg"
+        className="montu-footer-brand text-3xl font-extrabold tracking-wide relative z-10 bg-gradient-to-r from-[var(--logoGradientFrom)] to-[var(--logoGradientTo)] bg-clip-text text-transparent drop-shadow-lg"
         style={{ WebkitTextStroke: `1px ${theme.logoBorder}` }}
       >
-        One Time Life Travel
+        Montu Travel
       </motion.p>
 
       {/* الوصف */}
@@ -72,11 +75,11 @@ const Footer = () => {
       </motion.p>
 
       {/* روابط سريعة */}
-      <motion.div variants={fadeUp} className="flex gap-6 mt-6 text-sm font-medium relative z-10">
-        {["Home", "AboutUs", "Tours", "Contact"].map((link) => (
+      <motion.div variants={fadeUp} className="montu-footer-links flex gap-6 mt-6 text-sm font-medium relative z-10">
+        {[["Home", ""], ["AboutUs", "about"], ["Tours", "trips"], ["Contact", "contact"]].map(([link, path]) => (
           <Link
             key={link}
-            href={`/${link === "Home" ? "" : link.toLowerCase()}`}
+            href={`/${locale}${path ? `/${path}` : ""}`}
             className={`hover:underline transition ${
               themeName === "dark"
                 ? "text-white/80 hover:text-[var(--logoBorder)]"
@@ -96,10 +99,13 @@ const Footer = () => {
 
       {/* أيقونات السوشيال ميديا */}
       <motion.div variants={fadeUp} className="flex gap-5 mt-4 relative z-10">
-        {[FaFacebookF, FaInstagram, FaTwitter, FaYoutube].map((Icon, i) => (
+        {[[FaFacebookF, "Facebook", "https://www.facebook.com/"], [FaInstagram, "Instagram", "https://www.instagram.com/"], [FaTwitter, "Twitter", "https://twitter.com/"], [FaYoutube, "YouTube", "https://www.youtube.com/"]].map(([Icon, label, href]) => (
           <motion.a
-            key={i}
-            href="#"
+            key={label}
+            href={href}
+            aria-label={label}
+            target="_blank"
+            rel="noreferrer"
             whileHover={{ scale: 1.2, rotate: 5 }}
             className={`p-3 rounded-full transition shadow-md ${
               themeName === "dark"
@@ -117,7 +123,7 @@ const Footer = () => {
         variants={fadeUp}
         className="mt-8 text-xs opacity-70 relative z-10"
       >
-        © 2026 OneTimeLifeTravel. All rights reserved.
+        © 2026 Montu Travel. All rights reserved.
       </motion.p>
     </motion.footer>
   );

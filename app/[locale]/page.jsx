@@ -21,7 +21,8 @@ import AdminDashboardButton from "@/components/layout/AdminDashboardButton";
 export default function Home() {
   const { user } = useAuth(); // ✅ جلب المستخدم الحالي
   const { lang } = useLanguage();
-  const meta = homeMetadata[lang] || homeMetadata.en;
+  const sourceMeta = homeMetadata[lang] || homeMetadata.en;
+  const meta = Object.fromEntries(Object.entries(sourceMeta).map(([key, value]) => [key, value.replaceAll("WasetTravel", "Montu Travel")]));
 
   return (
     <>
@@ -33,7 +34,7 @@ export default function Home() {
       <main
         className={`
         w-full flex flex-col items-center justify-center
-        min-h-screen font-sans bg-white transition-colors duration-300
+        min-h-screen font-sans desert-shell transition-colors duration-300
         overflow-hidden
       `}
       >

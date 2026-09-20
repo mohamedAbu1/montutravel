@@ -30,7 +30,7 @@ export default function NavBar({ scrolled }) {
         hidden: { opacity: 0 },
         visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
       }}
-      className="hidden lg:flex items-center gap-10 font-medium text-lg"
+      className="montu-nav hidden lg:flex items-center gap-10 font-medium text-lg"
     >
       {navItems.map((item) => {
         let path;
@@ -62,9 +62,9 @@ export default function NavBar({ scrolled }) {
           >
             <Link
               href={`/${langPrefix}${path}`}
-              className={`relative group px-4 py-2 rounded-lg transition-all duration-300 ${
+              className={`montu-nav-link relative group px-4 py-2 rounded-lg transition-all duration-300 ${
                 isActive
-                  ? `bg-gradient-to-r from-[${theme.logoGradientFrom}] to-[${theme.logoGradientTo}] text-white font-bold shadow-md scale-105 border-b-4 border-[${theme.logoBorder}]`
+                    ? `is-active bg-gradient-to-r from-[${theme.logoGradientFrom}] to-[${theme.logoGradientTo}] text-white font-bold shadow-md scale-105 border-b-4 border-[${theme.logoBorder}]`
                   : themeName === "dark"
                   ? `${theme.text} hover:${theme.icon}`
                   : scrolled

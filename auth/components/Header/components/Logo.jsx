@@ -1,76 +1,45 @@
 "use client";
+
 import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
 import { useTheme } from "@/context/ThemeContext";
 
-export default function OneTimeLifeTravelLogo() {
+export default function MontuTravelLogo({ scrolled = false }) {
   const { theme } = useTheme();
+  const pathname = usePathname();
+  const locale = pathname.split("/").filter(Boolean)[0] || "en";
+  const gold = theme.logoBorder || "#d69a4d";
+  const light = scrolled && theme.name !== "dark" ? "#351e16" : "#fff1d2";
 
   return (
-    <motion.div
-      initial={{ scale: 0.8, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.6 }}
-      className="flex items-center justify-center"
+    <motion.a
+      href={`/${locale}`}
+      aria-label="Montu Travel home"
+      className="brand-lockup"
+      initial={{ opacity: 0, x: -12 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
     >
-      <svg
-        width="220"
-        height="120"
-        viewBox="0 0 800 400"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        {/* التدرج */}
+      <svg className="brand-mark" viewBox="0 0 92 92" role="img" aria-label="Eye of Horus over a desert sun">
         <defs>
-          <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#06b6d4" /> {/* أزرق البحر */}
-            <stop offset="50%" stopColor="#22d3ee" /> {/* هواء */}
-            <stop offset="100%" stopColor="#16a34a" /> {/* طبيعة خضراء */}
+          <linearGradient id="brandGold" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor="#f4d493" />
+            <stop offset="0.5" stopColor={gold} />
+            <stop offset="1" stopColor="#7c4828" />
           </linearGradient>
         </defs>
-
-        {/* موج البحر */}
-        <path
-          d="M50,300 Q150,250 250,300 T450,300 T650,300"
-          stroke="url(#logoGradient)"
-          strokeWidth="6"
-          fill="none"
-        />
-
-        {/* جبل/طبيعة */}
-        <polygon
-          points="300,280 380,180 460,280"
-          fill="url(#logoGradient)"
-          stroke={theme.logoBorder}
-          strokeWidth="2"
-        />
-
-        {/* الهواء (سحب) */}
-        <ellipse cx="600" cy="120" rx="60" ry="30" fill="url(#logoGradient)" opacity="0.4" />
-        <ellipse cx="680" cy="100" rx="50" ry="25" fill="url(#logoGradient)" opacity="0.3" />
-
-        {/* اسم الموقع */}
-        <text
-          x="200"
-          y="360"
-          fontFamily="Inter"
-          fontWeight="700"
-          fontSize="48"
-          fill="url(#logoGradient)"
-          stroke={theme.logoBorder}
-          strokeWidth="1"
-        >
-          OneTimeLifeTravel
-        </text>
-        <text
-          x="200"
-          y="390"
-          fontFamily="Inter"
-          fontWeight="500"
-          fontSize="22"
-          fill={theme.logoBorder}
-        >
-          Explore Nature & Freedom
-        </text>
+        <circle cx="46" cy="46" r="41" fill="none" stroke="url(#brandGold)" strokeWidth="1.5" opacity=".55" />
+        <circle cx="46" cy="46" r="34" fill="none" stroke="url(#brandGold)" strokeWidth=".8" strokeDasharray="1 4" opacity=".9" />
+        <path d="M17 51c11-16 29-21 50-10-10 1-19 5-25 14-7 8-15 7-25-4Z" fill="none" stroke="url(#brandGold)" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="43" cy="47" r="5.3" fill="none" stroke="url(#brandGold)" strokeWidth="2" />
+        <path d="M23 57 17 68m12-9-2 13m13-14 4 13m7-16 10 8" fill="none" stroke="url(#brandGold)" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M26 71c12-5 27-5 42 0" fill="none" stroke="url(#brandGold)" strokeWidth="1.6" strokeLinecap="round" />
+        <path d="M34 22c8-4 17-4 25 0" fill="none" stroke="url(#brandGold)" strokeWidth="1.4" strokeLinecap="round" />
       </svg>
-    </motion.div>
+      <span className="brand-type">
+        <strong style={{ color: light }}>MONTU TRAVEL</strong>
+        <small style={{ color: gold }}>LUXURY EGYPTIAN JOURNEYS</small>
+      </span>
+    </motion.a>
   );
 }

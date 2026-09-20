@@ -1,8 +1,33 @@
 import { supabase } from "@/lib/supabaseClient";
+import { localQuery } from "@/lib/localDb";
+
+async function getLocalTrips() {
+  const trips = await localQuery("SELECT * FROM trips ORDER BY created_at DESC");
+  for (const trip of trips) {
+    trip.trip_cities = await localQuery("SELECT tc.city_id, c.id, c.name FROM trip_cities tc JOIN cities c ON c.id = tc.city_id WHERE tc.trip_id = ?", [trip.id]);
+    trip.trip_categories = await localQuery("SELECT tc.category_id, c.id, c.name FROM trip_categories tc JOIN categories c ON c.id = tc.category_id WHERE tc.trip_id = ?", [trip.id]);
+    trip.includes = await localQuery("SELECT id, include_translations FROM includes WHERE trip_id = ?", [trip.id]);
+    trip.trip_days = await localQuery("SELECT id, day_number FROM trip_days WHERE trip_id = ? ORDER BY day_number", [trip.id]);
+    for (const day of trip.trip_days) day.day_activities = await localQuery("SELECT id, time, activity_translations FROM day_activities WHERE day_id = ? ORDER BY time", [day.id]);
+    trip.reviews = await localQuery("SELECT id, user_id, trip_id, rating, comment, created_at FROM reviews WHERE trip_id = ? ORDER BY created_at DESC", [trip.id]);
+  }
+  return trips;
+}
 
 export async function POST(req) {
   try {
     const body = await req.json();
+    if (process.env.LOCAL_DB_ENABLED === "true") {
+      const result = await localQuery(
+        `INSERT INTO trips (title, description, price, currency, duration, duration_unit, cover_image, gallery_images, priceLevel)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [JSON.stringify(body.title || {}), JSON.stringify(body.description || {}), Number(body.price || 0), body.currency || "USD", Number(body.duration || 0), body.duration_unit || "days", body.cover_image || "", JSON.stringify(body.gallery_images || []), body.priceLevel || ""],
+      );
+      const tripId = result.insertId;
+      for (const cityId of body.cities || []) await localQuery("INSERT INTO trip_cities (trip_id, city_id) VALUES (?, ?)", [tripId, cityId]);
+      for (const categoryId of body.categories || []) await localQuery("INSERT INTO trip_categories (trip_id, category_id) VALUES (?, ?)", [tripId, categoryId]);
+      return Response.json({ success: true, trip: { id: tripId, ...body } }, { status: 201 });
+    }
     console.log("📥 Request body:", JSON.stringify(body, null, 2));
 
     // ✅ إدخال الرحلة في جدول trips
@@ -136,6 +161,10 @@ export async function POST(req) {
 
 export async function GET() {
   try {
+    if (process.env.LOCAL_DB_ENABLED === "true") {
+      const trips = await getLocalTrips();
+      return new Response(JSON.stringify({ success: true, trips }), { status: 200, headers: { "Cache-Control": "public, max-age=3600" } });
+    }
     const { data: trips, error } = await supabase.from("trips").select(`
       id,
       title,
@@ -189,6 +218,12 @@ export async function GET() {
 });
 
   } catch (err) {
+    if (process.env.LOCAL_DB_ENABLED === "true") {
+      return new Response(JSON.stringify({ success: true, trips: [], degraded: true }), {
+        status: 200,
+        headers: { "Cache-Control": "no-store" },
+      });
+    }
     console.error("GET /api/trips error:", err);
     return new Response(
       JSON.stringify({ success: false, error: err.message }),

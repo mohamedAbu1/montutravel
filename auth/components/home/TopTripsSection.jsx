@@ -17,7 +17,7 @@ const TopTripsSection = () => {
   const { user } = useAuth();
   const normalizedLang = i18n.language.split("-")[0];
 
-  const { trips, fetchTrips, loadingTrips } = useTrip();
+  const { trips, fetchTrips, loadingTrips, error } = useTrip();
   const { currency, purchases } = usePurchase();
   const [screenSize, setScreenSize] = useState({ width: 0, height: 0 });
 
@@ -55,7 +55,12 @@ const TopTripsSection = () => {
   ];
 
   if (loadingTrips) {
-    return <p className="text-center">Loading top trips...</p>;
+    return (
+      <section className={`desert-data-section ${theme.background}`} aria-label="Loading trips">
+        <div className="desert-section-heading"><span>CURATED ESCAPES</span><h2>Top trips</h2></div>
+        <div className="desert-skeleton-grid">{[1, 2, 3, 4].map((item) => <div key={item} className="desert-skeleton-card" />)}</div>
+      </section>
+    );
   }
 
   const topTrips = [...trips]
@@ -76,9 +81,22 @@ const TopTripsSection = () => {
     return converted;
   };
 
+  if (!topTrips.length) {
+    return (
+      <section className={`desert-data-section ${theme.background}`}>
+        <div className="desert-empty-state">
+          <span className="desert-empty-state__icon">𓂀</span>
+          <h2>{error ? "Travel collection unavailable" : "The collection is being curated"}</h2>
+          <p>{error ? "Please start the local database or try again shortly." : "Our first journeys will appear here soon."}</p>
+          <button onClick={fetchTrips} className={theme.buttonPrimary}>Try again</button>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section
-      className={`hidden lg:flex w-full flex-col relative py-24 px-6 transition-colors duration-500 ${theme.background}`}
+      className={`desert-data-section flex w-full flex-col relative py-24 px-6 transition-colors duration-500 ${theme.background}`}
     >
       {/* خلفية الرموز */}
       <div className="absolute inset-0 pointer-events-none">
@@ -90,13 +108,13 @@ const TopTripsSection = () => {
             transition={{ duration: 1.2, delay: i * 0.1 }}
             className="absolute text-6xl"
             style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              transform: `rotate(${Math.random() * 360}deg)`,
+              top: `${(i * 37) % 100}%`,
+              left: `${(i * 61) % 100}%`,
+              transform: `rotate(${(i * 29) % 360}deg)`,
               color: theme.icon,
             }}
           >
-            {symbols[Math.floor(Math.random() * symbols.length)]}
+            {symbols[i % symbols.length]}
           </motion.span>
         ))}
       </div>
@@ -104,7 +122,7 @@ const TopTripsSection = () => {
       {/* العنوان */}
       <div className="relative flex items-center justify-center w-full mb-12">
         {/* صورة يسار */}
-        <div
+        {/* <div
           className="absolute -translate-y-1/2 scale-x-[-1] opacity-40 pointer-events-none"
           style={{
             left: screenSize.width * 0.05, // 10% من عرض الشاشة
@@ -123,18 +141,18 @@ const TopTripsSection = () => {
             fill
             className="object-contain"
           />
-        </div>
+        </div> */}
 
         {/* النص */}
         <h2 className="sc-title-first text-5xl font-extrabold tracking-wide drop-shadow-md text-gradient text-center">
-          <span className="inline-block transform scale-x-[-1] mr-4">𓅓</span>
+          <span className="inline-block transform scale-x-[-1] mr-4">𓆣</span>
           {t("TopTrips")}
-          <span className="inline-block ml-4">𓅓</span>
+          <span className="inline-block ml-4">𓆣</span>
           <DividerWithIcon />
         </h2>
 
         {/* صورة يمين */}
-        <div
+        {/* <div
           className="absolute -translate-y-1/2 opacity-40 pointer-events-none "
           style={{
             right: screenSize.width * 0.05, // 10% من عرض الشاشة
@@ -153,7 +171,7 @@ const TopTripsSection = () => {
             fill
             className="object-contain"
           />
-        </div>
+        </div> */}
       </div>
 
       {/* الكروت */}

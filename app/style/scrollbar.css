@@ -12,10 +12,10 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #06b6d4 !important;     /* اللون الذهبي */
+  background: var(--title) !important;     /* اللون الذهبي */
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #06b6d4;                /* نفس اللون عند hover */
+  background:  var(--title) ;                /* نفس اللون عند hover */
 }

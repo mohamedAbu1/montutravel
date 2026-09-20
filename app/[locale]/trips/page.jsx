@@ -29,7 +29,8 @@ export default function TripsPage() {
     loading,
   } = useCitiesCategories();
   const { lang } = useLanguage();
-  const meta = tripsMetadata[lang] || tripsMetadata.en;
+  const sourceMeta = tripsMetadata[lang] || tripsMetadata.en;
+  const meta = Object.fromEntries(Object.entries(sourceMeta).map(([key, value]) => [key, value.replaceAll("WasetTravel", "Montu Travel")]));
   const { user } = useAuth();
   const router = useRouter();
 
@@ -38,6 +39,7 @@ export default function TripsPage() {
   const tripsPerPage = cardStyle === "vertical" ? 9 : 8;
   const [search, setSearch] = useState("");
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   const { city, category, price, popular } = useQueryFilters();
 
@@ -53,7 +55,21 @@ export default function TripsPage() {
   }, []);
 
   if (loadingTrips)
-    return <p className="text-center text-gray-500">Loading trips...</p>;
+    return (
+      <main className="montu-page min-h-screen">
+        <Header />
+        <section className="desert-data-section container mx-auto mt-24 px-6">
+          <span className="desert-eyebrow">Montu Travel collection</span>
+          <h1 className="section-title mt-3">Preparing your journey</h1>
+          <div className="desert-skeleton-grid mt-8">
+            {Array.from({ length: 6 }).map((_, index) => (
+              <div className="desert-skeleton-card" key={index} />
+            ))}
+          </div>
+        </section>
+        <Footer />
+      </main>
+    );
 
   const filteredTrips = trips.filter((trip) => {
     const lowerSearch = search.trim().toLowerCase();
@@ -125,11 +141,11 @@ export default function TripsPage() {
         <meta name="keywords" content={meta.keywords} />
       </Head>
 
-      <main className="relative flex flex-col min-h-screen justify-center items-center">
+      <main className="montu-page relative flex flex-col min-h-screen justify-center items-center">
         <EgyptianBackground />
         <Header />
 
-        {isSmallScreen ? (
+        {false && isSmallScreen ? (
           <motion.div
             initial={{ opacity: 0, scale: 0.8, rotateY: 90 }}
             animate={{ opacity: 1, scale: 1, rotateY: 0 }}
@@ -152,14 +168,19 @@ export default function TripsPage() {
         ) : (
           <motion.section
             style={{ marginTop: "105px", paddingBottom: "20px" }}
-            className="container flex flex-1 gap-6 px-6 relative z-10"
+            className="montu-trip-layout container flex flex-1 flex-col lg:flex-row gap-6 px-4 md:px-6 relative z-10"
           >
-            <div className="w-1/4">
-              <TripsFilter
-                allCities={allCities}
-                allCategories={allCategories}
-                loading={loading}
-              />
+            <div className="trips-filter-column w-full lg:w-1/4">
+              <button type="button" className="trips-filter-toggle lg:hidden" onClick={() => setFiltersOpen((open) => !open)} aria-expanded={filtersOpen}>
+                {filtersOpen ? "Close filters" : "Filter journeys"}
+              </button>
+              <div className={`trips-filter-panel ${filtersOpen ? "is-open" : ""}`}>
+                <TripsFilter
+                  allCities={allCities}
+                  allCategories={allCategories}
+                  loading={loading}
+                />
+              </div>
             </div>
 
             <div className="flex-1 flex flex-col gap-6">

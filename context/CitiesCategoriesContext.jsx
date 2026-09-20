@@ -8,6 +8,7 @@ export function CitiesCategoriesProvider({ children }) {
   const [cities, setCities] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const { i18n } = useTranslation(); // اللغة الحالية للموقع
   const getLangKey = (lang) => lang.split("-")[0];
@@ -15,20 +16,27 @@ const normalizedLang = getLangKey(i18n.language);
 
   useEffect(() => {
     const fetchData = async () => {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 4500);
       try {
+        setError(null);
         const [citiesRes, categoriesRes] = await Promise.all([
-          fetch("/api/cities"),
-          fetch("/api/categories"),
+          fetch("/api/cities", { signal: controller.signal }),
+          fetch("/api/categories", { signal: controller.signal }),
         ]);
 
         const citiesData = await citiesRes.json();
         const categoriesData = await categoriesRes.json();
 
-        if (citiesData.success) setCities(citiesData.cities);
-        if (categoriesData.success) setCategories(categoriesData.categories);
+        if (!citiesRes.ok || !citiesData.success) throw new Error(citiesData.error || "Unable to load cities");
+        if (!categoriesRes.ok || !categoriesData.success) throw new Error(categoriesData.error || "Unable to load categories");
+        setCities(citiesData.cities || []);
+        setCategories(categoriesData.categories || []);
       } catch (err) {
         console.error("Error fetching cities/categories:", err);
+        setError(err.message || "Unable to load travel data");
       } finally {
+        clearTimeout(timeoutId);
         setLoading(false);
       }
     };
@@ -49,7 +57,7 @@ const normalizedLang = getLangKey(i18n.language);
 
   return (
     <CitiesCategoriesContext.Provider
-      value={{ cities: localizedCities, categories: localizedCategories, loading }}
+      value={{ cities: localizedCities, categories: localizedCategories, loading, error }}
     >
       {children}
     </CitiesCategoriesContext.Provider>

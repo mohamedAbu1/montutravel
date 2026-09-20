@@ -1,94 +1,140 @@
+import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-export async function POST(req) {
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  );
+export async function POST(request) {
+  try {
+    const {
+      amount,
+      userDetails, // يحتوي على بيانات المستخدم والرحلة
+    } = await request.json();
 
-  const {
-    tripId,
-    numPersons,
-    hasChildren,
-    numChildren,
-    hasPets,
-    petTypes,
-    hasGuide,
-    selectedLanguages,
-    arrivalDate,
-    userId,
-    status,
-    departureDate,
-    platform
-  } = await req.json();
-
-  // تحقق إذا كان فيه حجز سابق
-  const { data: existing, error: selectError } = await supabase
-    .from("purchases")
-    .select("*")
-    .eq("user_id", userId)
-    .eq("trip_id", tripId);
-
-  if (selectError) {
-    return new Response(JSON.stringify({ error: selectError.message }), { status: 400 });
-  }
-
-if (existing && existing.length > 0) {
-  const oldPurchase = existing[0];
-
-  if (oldPurchase.status === "Cancelled") {
-    // ✅ تحديث الحجز الملغي
-    const { error: updateError } = await supabase
-      .from("purchases")
-      .update({
-        num_persons: numPersons,
-        has_children: hasChildren,
-        num_children: numChildren,
-        has_pets: hasPets,
-        pet_type: petTypes,
-        has_guide: hasGuide,
-        guide_languages: selectedLanguages,
-        arrival_date: arrivalDate,
-        departure_date: departureDate,
-        platform,
-        status,
-        updated_at: new Date()
-      })
-      .eq("id", oldPurchase.id);
-
-    if (updateError) {
-      return new Response(JSON.stringify({ error: updateError.message }), { status: 400 });
+    if (!process.env.PAYMOB_API_KEY || !process.env.PAYMOB_INTEGRATION_ID) {
+      console.error("❌ Missing Paymob Environment Variables");
+      return NextResponse.json(
+        { error: "Server configuration missing variables" },
+        { status: 500 },
+      );
     }
 
-    return new Response(JSON.stringify({ message: "Trip re-purchased successfully!" }), { status: 200 });
+    // 1️⃣ Auth Request
+    const authResponse = await fetch("https://accept.paymob.com/api/auth/tokens", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ api_key: process.env.PAYMOB_API_KEY }),
+    });
+
+    const authData = await authResponse.json();
+    if (!authResponse.ok || !authData.token) {
+      return NextResponse.json(
+        { error: "Authentication failed", details: authData },
+        { status: 401 },
+      );
+    }
+    const authToken = authData.token;
+
+    // 2️⃣ Order Registration
+    const orderResponse = await fetch("https://accept.paymob.com/api/ecommerce/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        auth_token: authToken,
+        delivery_needed: "false",
+        amount_cents: amount * 100,
+        currency: "EGP",
+        items: [],
+      }),
+    });
+
+    const orderData = await orderResponse.json();
+    if (!orderResponse.ok || !orderData.id) {
+      return NextResponse.json(
+        { error: "Order registration failed", details: orderData },
+        { status: 400 },
+      );
+    }
+    const orderId = orderData.id;
+
+    // 3️⃣ Payment Key Request
+    const paymentKeyResponse = await fetch("https://accept.paymob.com/api/acceptance/payment_keys", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        auth_token: authToken,
+        amount_cents: amount * 100,
+        expiration: 3600,
+        order_id: orderId,
+        billing_data: {
+          apartment: "NA",
+          email: userDetails?.email || "customer@example.com",
+          floor: "NA",
+          first_name: userDetails?.firstName || "Guest",
+          street: "NA",
+          building: "NA",
+          phone_number: userDetails?.phone || "+201000000000",
+          shipping_method: "NA",
+          postal_code: "NA",
+          city: "Cairo",
+          country: "EG",
+          last_name: userDetails?.lastName || "User",
+          state: "Cairo",
+        },
+        currency: "EGP",
+        integration_id: Number(process.env.PAYMOB_INTEGRATION_ID),
+        lock_order_when_paid: "true",
+      }),
+    });
+
+    const paymentKeyData = await paymentKeyResponse.json();
+    if (!paymentKeyResponse.ok || !paymentKeyData.token) {
+      return NextResponse.json(
+        { error: "Payment key generation failed", details: paymentKeyData },
+        { status: 400 },
+      );
+    }
+
+    // 4️⃣ حفظ البيانات في Supabase
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    );
+
+    const { error: insertError } = await supabase
+      .from("purchases")
+      .insert([{
+        user_id: userDetails.userId,
+        trip_id: userDetails.tripId,
+        num_persons: userDetails.numPersons,
+        has_children: userDetails.hasChildren,
+        num_children: userDetails.numChildren,
+        has_pets: userDetails.hasPets,
+        pet_type: userDetails.petTypes,
+        has_guide: userDetails.hasGuide,
+        guide_languages: userDetails.selectedLanguages,
+        arrival_date: userDetails.arrivalDate,
+        departure_date: userDetails.departureDate,
+        platform: "paymob",
+        status: "Pending", // أو "Paid" حسب الحالة
+        created_at: new Date()
+      }]);
+
+    if (insertError) {
+      return NextResponse.json(
+        { error: insertError.message },
+        { status: 400 },
+      );
+    }
+
+    // ✅ إرجاع الـ Payment Token + رسالة نجاح
+    return NextResponse.json({
+      token: paymentKeyData.token,
+      message: "Trip purchase saved and Paymob token generated successfully!"
+    });
+
+  } catch (error) {
+    console.error("💥 Paymob Server Error:", error);
+    return NextResponse.json(
+      { error: "Internal server error", message: error.message },
+      { status: 500 },
+    );
   }
-
-  return new Response(JSON.stringify({ error: "You already purchased this trip" }), { status: 400 });
-}
-
-  // ✅ إضافة عملية شراء جديدة لو مفيش أي حجز سابق
-  const { error: insertError } = await supabase
-    .from("purchases")
-    .insert([{
-      user_id: userId,
-      trip_id: tripId,
-      num_persons: numPersons,
-      has_children: hasChildren,
-      num_children: numChildren,
-      has_pets: hasPets,
-      pet_type: petTypes,
-      has_guide: hasGuide,
-      guide_languages: selectedLanguages,
-      arrival_date: arrivalDate,
-      departure_date: departureDate,
-      platform,
-      status,
-      created_at: new Date()
-    }]);
-
-  if (insertError) {
-    return new Response(JSON.stringify({ error: insertError.message }), { status: 400 });
-  }
-
-  return new Response(JSON.stringify({ message: "Trip purchased successfully!" }), { status: 200 });
 }

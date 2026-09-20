@@ -1,67 +1,20 @@
-const LightTheme = {
+export const LightTheme = {
   name: "light",
-
-  // خلفية زجاجية شفافة مع لمسة بحرية
-  background: "bg-[rgba(255,255,255,0.25)] backdrop-blur-[20px]",
-
-  // النصوص الأساسية
-  buttonPrimary: "text-[#0A2E36]", // أزرق بحري داكن
-
-  // النصوص الثانوية
-  subText: "text-[#1A4D5C]", // أزرق رمادي فاتح
-
-  // العناوين الرئيسية (ذهبي زجاجي)
-  title: "text-[#1A4D5C] font-extrabold tracking-wide",
-  text: "text-[#1A4D5C]",
-  // العناوين الثانوية
-  heading: "text-[#1A4D5C] font-semibold", // أزرق محايد أنيق
-
-  // الكروت الزجاجية
-  card: "bg-[rgba(255,255,255,0.15)] backdrop-blur-[16px] rounded-[16px] border border-[#C2A878]/60 shadow-lg",
-
-  // طبقة فوق الصور
-  overlay: "bg-gradient-to-t from-black/80 via-blue-950/60 to-transparent", // طبقة بحرية شفافة
-Cardoverlay: "bg-[rgba(0,0,0,0.2)]",
-
-  // الأزرار الأساسية (زجاجية ذهبية مع لمسة بحرية)
-  buttonPrimary:
-    "bg-[rgba(194,168,120,0.25)] backdrop-blur-[12px] text-[#fff] font-semibold rounded-xl px-6 py-3 border border-[#1A4D5C]/70 hover:bg-[#1A4D5C]/30 hover:text-[#0A2E36] transition-all shadow-md tracking-wide uppercase",
-  buttonSecondary:
-    "bg-[rgba(255,255,255,0.25)] backdrop-blur-[12px] text-[#0A2E36] font-medium rounded-xl px-6 py-3 hover:bg-[rgba(255,255,255,0.35)] transition-all border border-[#C2A878]/60",
-
-  // الحدود
-  border: "border border-[rgba(194,168,120,0.5)] rounded-[16px]",
-
-  // الظلال
-  shadow: "shadow-[0_4px_20px_rgba(0,0,0,0.15)]",
-
-  // شعار
-  logoGradientFrom: "rgba(255,255,255,3)",
-  logoGradientTo: "rgba(0,150,180,0.8)", // تدرج بحري
-  logoBorder: "#4F6D7A",
-
-  // الحقول
-  inputText: "#0A2E36",
-  inputBorder: "#C2A878",
-  inputFocus: "#0A7A8C", // تركواز بحري
-  inputHoverBg: "rgba(255,255,255,0.25)",
-  inputLabel: "#4F6D7A",
-
-  // الأيقونات
-  icon: "text-[#4F6D7A]", // تركواز
-  iconInactive: "text-[#9E9E9E]",
-  iconHover: "text-[#0A7A8C] transition-colors",
-
-  // ألوان إضافية
-  ivory: "bg-[rgba(255,255,255,0.25)] backdrop-blur-[12px]",
-  stone: "text-[#C2A878]",
-  brown: "text-[#5C4B3B]",
-  sea: "text-[#0A7A8C]", // لون البحر
-  // LightTheme
-dividerLine: "bg-[#4F6D7A]/50 opacity-30",
-dividerIcon: "text-[#4F6D7A]",
-
-
-
+  background: "bg-[#efe0c2]/80 backdrop-blur-xl",
+  text: "text-[#2a1c18]",
+  subText: "text-[#725d4a]",
+  title: "text-[#8e5f32] font-extrabold tracking-wide",
+  heading: "text-[#b97932] font-semibold",
+  card: "bg-[#fff8e7]/60 backdrop-blur-xl rounded-[24px] border border-[#b97932]/30 shadow-[0_24px_70px_rgba(66,38,18,0.16)]",
+  overlay: "bg-gradient-to-t from-[#241512]/80 via-[#241512]/10 to-transparent",
+  shadow: "shadow-[0_24px_70px_rgba(66,38,18,0.18)]",
+  border: "border-[#b97932]/30",
+  logoGradientFrom: "#8b542d",
+  logoGradientTo: "#e7bd72",
+  logoBorder: "#b97932",
+  buttonPrimary: "bg-gradient-to-br from-[#b97932] to-[#e6bc70] text-[#241610] font-semibold rounded-full px-6 py-3 hover:from-[#e6bc70] hover:to-[#b97932] transition-all shadow-lg",
+  buttonSecondary: "bg-[#fff8e7]/50 text-[#4c3324] font-medium rounded-full px-6 py-3 hover:bg-[#fff8e7]/80 transition-all border border-[#b97932]/40",
+  icon: "text-[#a76a32]",
+  iconHover: "text-[#e4b86e] transition-colors",
 };
 export default LightTheme;

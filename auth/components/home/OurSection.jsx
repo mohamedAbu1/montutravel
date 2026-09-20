@@ -6,6 +6,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
@@ -15,6 +16,8 @@ import Decor from "../../../components/layout/Decor";
 
 const OurSection = () => {
   const router = useRouter();
+  const pathname = usePathname();
+  const locale = pathname?.split("/").filter(Boolean)[0] || "en";
   const { theme, themeName } = useTheme();
   const { t } = useTranslation("home");
 
@@ -46,11 +49,11 @@ const OurSection = () => {
   return (
     <section
       id="section-four"
-      className={`hidden lg:flex relative w-full min-h-screen px-4 sm:py-10 md:py-12 lg:py-0 flex-col items-center justify-start ${theme.background} ${theme.text}`}
+      className={`desert-about-section flex relative w-full min-h-screen px-4 sm:py-10 md:py-12 lg:py-0 flex-col items-center justify-start ${theme.background} ${theme.text}`}
       style={{ paddingBottom: "40px", paddingTop: "20px" }}
     >
       {/* خلفية الرموز الفرعونية */}
-      <div className="absolute inset-0 pointer-events-none -z-10">
+      <div aria-hidden="true" className="absolute inset-0 pointer-events-none -z-10">
         {Array.from({ length: 25 }).map((_, i) => (
           <motion.span
             key={i}
@@ -59,13 +62,13 @@ const OurSection = () => {
             transition={{ duration: 1.2, delay: i * 0.1 }}
             className="absolute text-7xl"
             style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              transform: `rotate(${Math.random() * 360}deg)`,
+              top: `${(i * 41) % 100}%`,
+              left: `${(i * 59) % 100}%`,
+              transform: `rotate(${(i * 31) % 360}deg)`,
               color: theme.icon,
             }}
           >
-            {symbols[Math.floor(Math.random() * symbols.length)]}
+              {symbols[i % symbols.length]}
           </motion.span>
         ))}
       </div>
@@ -77,7 +80,7 @@ const OurSection = () => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="w-full lg:w-1/2 rounded-3xl overflow-hidden shadow-xl"
+          className="w-full lg:w-1/2 rounded-3xl overflow-hidden"
           style={{ boxShadow: theme.shadow }}
         >
           <Swiper
@@ -90,18 +93,13 @@ const OurSection = () => {
             className="w-full h-full"
           >
             {[
-              "/Luxor/pexels-diego-f-parra-33199-15188096.webp",
-              "/Luxor/pexels-girlvsglobe86-300284270-30404381.webp",
-              "/Luxor/pexels-elenav-2011499497-29046654.webp",
-              "/Luxor/WhatsApp Image 2025-12-31 at 11.30.42 AM.webp",
-              "/Aswan/pexels-axp-photography-500641970-18991592.webp",
-              "/Luxor/wasdwaw.webp",
+              "/HomePageImage/png-ancient-egyptian-decorative-column-illustration.png",
             ].map((imgSrc, index) => (
               <SwiperSlide key={index}>
                 <div className="w-full h-[85vh]">
                   <Image
                     src={imgSrc || "/fallback.jpg"}
-                    alt={`WasetTravel Slide ${index + 1}`}
+              alt={`Montu Travel journey slide ${index + 1}`}
                     fill
                     className="w-full h-full object-cover rounded-lg"
                     loading="lazy"
@@ -139,7 +137,7 @@ const OurSection = () => {
           >
             {t("At")}{" "}
             <span style={{ color: theme.logoBorder, fontWeight: 600 }}>
-              One Time Life Travel
+              Montu Travel
             </span>
             {t("AtP")}{" "}
             <span style={{ color: theme.logoBorder, fontWeight: 600 }}>
@@ -151,7 +149,7 @@ const OurSection = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => router.push("/about")}
+            onClick={() => router.push(`/${locale}/about`)}
             className={`w-full rounded-[4px] px-6 py-3 font-semibold tracking-wide cursor-pointer transition-all duration-300 shadow-lg ${theme.buttonPrimary}`}
             style={{
               color: `${theme.subText}`,
@@ -168,7 +166,7 @@ const OurSection = () => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="w-full lg:w-1/2 rounded-3xl overflow-hidden shadow-xl"
+          className="about-secondary-slider w-full lg:w-1/2 rounded-3xl overflow-hidden"
           style={{ boxShadow: theme.shadow }}
         >
           <Swiper
@@ -181,18 +179,13 @@ const OurSection = () => {
             className="w-full h-full"
           >
             {[
-              "/Luxor/pexels-diego-f-parra-33199-15188096.webp",
-              "/Luxor/pexels-girlvsglobe86-300284270-30404381.webp",
-              "/Luxor/pexels-elenav-2011499497-29046654.webp",
-              "/Luxor/WhatsApp Image 2025-12-31 at 11.30.42 AM.webp",
-              "/Aswan/pexels-axp-photography-500641970-18991592.webp",
-              "/Luxor/wasdwaw.webp",
+              "/HomePageImage/png-ancient-egyptian-decorative-column-illustration.png",
             ].map((imgSrc, index) => (
               <SwiperSlide key={index}>
                 <div className="w-full h-[85vh]">
                   <Image
                     src={imgSrc || "/fallback.jpg"}
-                    alt={`WasetTravel Slide ${index + 1}`}
+              alt={`Montu Travel journey slide ${index + 1}`}
                     fill
                     className="w-full h-full object-cover rounded-lg"
                     loading="lazy"
@@ -207,8 +200,8 @@ const OurSection = () => {
         <Image
           src={
               themeName === "dark"
-                ? "/HomePageImage/1547933741.svg"
-                : "/HomePageImage/1540235872.svg"
+                ? "/HomePageImage/luxor-cityscape-egypt_250484-204-1-1-e1758012287222-removebg-preview.png"
+                : "/HomePageImage/luxor-cityscape-egypt_250484-204-1-1-e1758012287222-removebg-preview.png"
             }
           alt="Decorative Style"
           fill

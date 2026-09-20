@@ -1,11 +1,10 @@
 export const desktopImages = [
-  "/HomePageImage/bahaa-mourad-JQJ2MTtL_TU-unsplash.webp",
-  "/HomePageImage/bahaa-mourad-4wB6TZFvMHQ-unsplash.webp",
-  "/HomePageImage/eibner-saliba-3T9dDY0WqDI-unsplash.webp",
-  "/HomePageImage/rowan-heuvel-U6t80TWJ1DM-unsplash.webp",
-  "/HomePageImage/pexels-mo-ismail-2130628-22643902.webp",
-  "/HomePageImage/derek-thomson-TWoL-QCZubY-unsplash.webp",
-  "/HomePageImage/frank-mckenna-OD9EOzfSOh0-unsplash.webp",
+  "/Luxor/pexels-axp-photography-500641970-18934598.webp",
+  "/Luxor/pexels-axp-photography-500641970-18934596.webp",
+  "/Luxor/pexels-axp-photography-500641970-18991537.webp",
+  "/Luxor/pexels-frans-van-heerden-201846-631339.webp",
+  "/Luxor/pexels-diego-f-parra-33199-15131539.webp",
+  "/Luxor/pexels-francesco-albanese-2150950215-31730178.webp",
 ];
 
 export const mobileImages = [
@@ -45,6 +44,20 @@ export const femaleAvatars = [
 ];
 // ? $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 export const eagleLogo = "/HomePageImage/Copilot_20251201_121053.webp"
+
+// بيانات زخارف الرحلات — يمكن توسيعها لاحقًا بروابط المعالم.
+export const sites = [];
+
+const translations = {
+  en: { title: "Inclusive journeys for everyone", description: "Thoughtfully designed travel experiences with comfort, care and unforgettable moments.", accessible: "Accessible", support: "Support", care: "Care" },
+  fr: { title: "Des voyages pour tous", description: "Des expériences pensées avec soin, confort et accessibilité.", accessible: "Accessible", support: "Soutien", care: "Attention" },
+  de: { title: "Reisen für alle", description: "Sorgfältig gestaltete Reisen mit Komfort, Unterstützung und besonderen Momenten.", accessible: "Barrierefrei", support: "Unterstützung", care: "Fürsorge" },
+  it: { title: "Viaggi per tutti", description: "Esperienze progettate con cura, comfort e accessibilità.", accessible: "Accessibile", support: "Supporto", care: "Cura" },
+  es: { title: "Viajes para todos", description: "Experiencias diseñadas con cuidado, comodidad y accesibilidad.", accessible: "Accesible", support: "Apoyo", care: "Cuidado" },
+  zh: { title: "适合每个人的旅程", description: "以舒适、关怀和难忘时刻为核心打造的旅行体验。", accessible: "无障碍", support: "支持", care: "关怀" },
+};
+
+export default translations;
 // ? $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 // ✅ قائمة المعابد والمقابر مع روابط ويكيبيديا بالست لغات
 // export const sites = [

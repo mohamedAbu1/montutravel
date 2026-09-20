@@ -40,7 +40,8 @@ export default function ContactPage() {
   const { theme, themeName } = useTheme();
   const { user } = useAuth(); // ✅ جلب المستخدم الحالي
   const { lang } = useLanguage();
-  const meta = contactMetadata[lang] || contactMetadata.en;
+  const sourceMeta = contactMetadata[lang] || contactMetadata.en;
+  const meta = Object.fromEntries(Object.entries(sourceMeta).map(([key, value]) => [key, value.replaceAll("WasetTravel", "Montu Travel")]));
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -55,8 +56,6 @@ export default function ContactPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("➡️ Submitting contact form:", formData);
-
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
@@ -70,8 +69,6 @@ export default function ContactPage() {
       });
 
       const data = await res.json();
-      console.log("📥 Response from API:", data);
-
       if (data.success) {
         alert("✅ تم إرسال الرسالة بنجاح!");
       } else {
@@ -89,7 +86,7 @@ export default function ContactPage() {
         <meta name="description" content={meta.description} />
         <meta name="keywords" content={meta.keywords} />
       </Head>
-      <main className="relative flex flex-col min-h-screen justify-center items-center ">
+      <main className="montu-page relative flex flex-col min-h-screen justify-center items-center ">
         <Header />
         {/* خلفية الرموز الفرعونية */}
         <div className="absolute inset-0 pointer-events-none">
@@ -100,12 +97,12 @@ export default function ContactPage() {
                 themeName === "dark" ? "text-gray-700" : "text-[#4F6D7A]"
               } opacity-20 text-7xl animate-pulse`}
               style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                transform: `rotate(${Math.random() * 360}deg)`,
+                top: `${(i * 37) % 100}%`,
+                left: `${(i * 61) % 100}%`,
+                transform: `rotate(${(i * 23) % 360}deg)`,
               }}
             >
-              {symbols[Math.floor(Math.random() * symbols.length)]}
+              {symbols[i % symbols.length]}
             </span>
           ))}
         </div>
@@ -153,7 +150,7 @@ export default function ContactPage() {
                 </div>
                 <div className="flex items-center gap-3">
                   <FaEnvelope className="icon-theme" />
-                  <span>wasettravel@outlook.com</span>
+                  <span>montutravel@outlook.com</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <FaMapMarkerAlt className="icon-theme" />

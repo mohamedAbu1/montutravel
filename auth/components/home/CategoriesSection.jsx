@@ -8,6 +8,7 @@ import { useCitiesCategories } from "@/context/CitiesCategoriesContext";
 import DividerWithIcon from "../../../components/layout/DividerWithIcon";
 import { useRouter } from "next/navigation";
 import EgyptianBackground from "../../../components/layout/EgyptianBackground";
+import Divider from "@/components/layout/Divider";
 
 const encodeData = (obj) => btoa(JSON.stringify(obj));
 
@@ -67,8 +68,8 @@ function CategoryCard({ cat, theme, language }) {
               cat.images?.[imgIndex]?.startsWith("/")
                 ? cat.images[imgIndex]
                 : cat.images?.[imgIndex]?.startsWith("http")
-                  ? cat.images[imgIndex]
-                  : "/fallback.jpg"
+                ? cat.images[imgIndex]
+                : "/fallback.jpg"
             }
             alt={displayName}
             fill
@@ -93,7 +94,7 @@ function CategoryCard({ cat, theme, language }) {
 const CategoriesSection = () => {
   const { theme, themeName } = useTheme();
   const { t, i18n } = useTranslation("home");
-  const { categories, loading } = useCitiesCategories();
+  const { categories, loading, error } = useCitiesCategories();
   const [index, setIndex] = useState(0);
   const normalizedLang = i18n.language.split("-")[0];
 
@@ -106,12 +107,13 @@ const CategoriesSection = () => {
       setScreenSize({ width: window.innerWidth, height: window.innerHeight });
     };
 
-    handleResize(); // أول مرة
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
+    if (!categories.length) return undefined;
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % categories.length);
     }, 3000);
@@ -119,32 +121,27 @@ const CategoriesSection = () => {
   }, [categories.length]);
 
   if (loading) {
-    return <p className="text-center">Loading categories...</p>;
+    return (
+      <section className={`desert-data-section ${theme.background}`} aria-label="Loading categories">
+        <div className="desert-section-heading"><span>THE MONTU EDIT</span><h2>Explore categories</h2></div>
+        <div className="desert-skeleton-grid">{[1, 2, 3, 4].map((item) => <div key={item} className="desert-skeleton-card" />)}</div>
+      </section>
+    );
   }
 
-  // ✅ الرموز الفرعونية للديكور
-  const symbols = [
-    "𓂀",
-    "𓋹",
-    "𓆣",
-    "𓇼",
-    "𓇯",
-    "𓏏",
-    "𓎛",
-    "𓊽",
-    "𓃾",
-    "𓅓",
-    "𓈇",
-    "𓉐",
-    "𓊹",
-    "𓌙",
-    "𓍿",
-    "𓎟",
-  ];
+  if (!categories.length) {
+    return <section className={`desert-data-section ${theme.background}`}><div className="desert-empty-state"><span className="desert-empty-state__icon">𓋹</span><h2>{error ? "Categories unavailable" : "More journeys are coming"}</h2><p>{error ? "Connect the local database to load the Montu collection." : "Our travel categories will appear here soon."}</p></div></section>;
+  }
+
+  const symbols = ["𓂀","𓋹","𓆣","𓇼","𓇯","𓏏","𓎛","𓊽","𓃾","𓅓","𓈇","𓉐","𓊹","𓌙","𓍿","𓎟"];
 
   return (
     <section
-      className={`hidden lg:flex flex-col py-24 px-6 w-full mx-auto relative transition-colors duration-500 ${theme.background} `}
+      className={`desert-data-section flex flex-col py-24 px-6 w-full mx-auto bg-cover bg-center relative transition-colors duration-500 ${theme.background}`}
+       style={{
+        backgroundImage:
+          "url('/HomePageImage/420046069_b520e5b4-b7a6-434e-bd8b-7191da0f4e29.svg')",
+      }}
     >
       {/* خلفية الرموز */}
       <div className="absolute inset-0 flex flex-wrap justify-center items-center opacity-10 pointer-events-none">
@@ -155,72 +152,31 @@ const CategoriesSection = () => {
             animate={{ opacity: 0.3, y: 0 }}
             transition={{ duration: 1, delay: i * 0.1 }}
             className="text-6xl m-6"
-            style={{
-              color: theme.icon,
-            }}
+            style={{ color: theme.icon }}
           >
             {sym}
           </motion.span>
         ))}
       </div>
-      <EgyptianBackground />
-      {/* العنوان */}
-      <div
-        className="absolute opacity-40 pointer-events-none"
-        style={{
-          right: screenSize.width * 0.05, // 10% من عرض الشاشة
-          bottom: screenSize.height * 0.49, // 20% من ارتفاع الشاشة
-          width: "240px",
-          height: "200px",
-        }}
-      >
-        <Image
-          src={
-              themeName === "dark"
-                ? "/HomePageImage/Temple-of-Bell-Street-2015100903.svg"
-                : "/HomePageImage/johnny_automatic_ocean_liner.svg"
-            }
-          alt="Decorative Style"
-          fill
-          className="object-contain"
-        />
-      </div>
 
+      <EgyptianBackground />
+
+      {/* العنوان */}
       <div className="max-w-7xl mx-auto mb-10 text-start relative z-10">
-        <h2 className="sc-title-first text-5xl font-extrabold tracking-wide drop-shadow-md text-gradient">
-          <span className="inline-block transform scale-x-[-1] text-gradient mr-4">
-            𓅓
-          </span>
+        <h2 className={`sc-title-first text-5xl font-extrabold tracking-wide drop-shadow-md ${theme.title}`}>
+          <span className="inline-block transform scale-x-[-1] mr-4">{symbols[2]}</span>
           {t("ExploreCategories")}
-          <span className="inline-block ml-4 text-gradient">𓅓</span>
+          <span className="inline-block ml-4">{symbols[2]}</span>
         </h2>
 
-        <p className="sc-p-first mt-4 text-lg opacity-80 text-start text-gradient">
+        <p className={`sc-p-first mt-4 text-lg opacity-1 text-start`}>
           {t("Discover")}
         </p>
 
         <DividerWithIcon />
       </div>
-      <div
-        className="absolute scale-x-[-1] opacity-40 pointer-events-none"
-        style={{
-          left: screenSize.width * 0.05, // 10% من عرض الشاشة
-          bottom: screenSize.height * 0.49, // 20% من ارتفاع الشاشة
-          width: "240px",
-          height: "200px",
-        }}
-      >
-        <Image
-           src={
-              themeName === "dark"
-                ? "/HomePageImage/Temple-of-Bell-Street-2015100903.svg"
-                : "/HomePageImage/johnny_automatic_ocean_liner.svg"
-            }
-          alt="Decorative Style"
-          fill
-          className="object-contain"
-        />
-      </div>
+
+
       {/* الكروت */}
       <div className="relative overflow-hidden w-full max-w-7xl mx-auto z-10">
         <motion.div
@@ -239,7 +195,6 @@ const CategoriesSection = () => {
               <CategoryCard
                 cat={cat}
                 theme={theme}
-                themeName={themeName}
                 language={normalizedLang}
               />
             </div>

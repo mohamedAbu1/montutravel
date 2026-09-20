@@ -22,7 +22,8 @@ export default function AboutPage() {
   const { theme } = useTheme();
   const { user } = useAuth(); // ✅ جلب المستخدم الحالي
   const { lang } = useLanguage();
-  const meta = aboutMetadata[lang] || aboutMetadata.en;
+  const sourceMeta = aboutMetadata[lang] || aboutMetadata.en;
+  const meta = Object.fromEntries(Object.entries(sourceMeta).map(([key, value]) => [key, value.replaceAll("WasetTravel", "Montu Travel")]));
   return (
     <>
       <Head>
@@ -31,7 +32,7 @@ export default function AboutPage() {
         <meta name="keywords" content={meta.keywords} />
       </Head>
       <main
-       className="relative flex flex-col min-h-screen justify-center items-center "
+       className="montu-page relative flex flex-col min-h-screen justify-center items-center "
       >
         <Header />
         <EgyptianBackground />

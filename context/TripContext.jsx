@@ -88,6 +88,8 @@ export function TripProvider({ children }) {
   const fetchTrips = useCallback(async () => {
     setLoadingTrips(true);
     setError(null);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 4500);
     try {
       const res = await fetch("/api/trips", {
         method: "GET",
@@ -95,17 +97,19 @@ export function TripProvider({ children }) {
           "Content-Type": "application/json",
           "Cache-Control": "no-cache", // تأكد إن الطلب يجلب أحدث بيانات
         },
+        signal: controller.signal,
       });
       const result = await res.json();
       if (result.success) {
         setTrips(result.trips);
         // ✅ تخزين محلي لتقليل الطلبات المتكررة
         localStorage.setItem("trips", JSON.stringify(result.trips));
-      }
+      } else setError(result.error || "Unable to load trips");
     } catch (err) {
       console.error("Error fetching trips:", err);
       setError(err.message);
     } finally {
+      clearTimeout(timeoutId);
       setLoadingTrips(false);
     }
   }, []);
