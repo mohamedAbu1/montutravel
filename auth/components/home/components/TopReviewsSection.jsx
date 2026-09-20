@@ -54,6 +54,7 @@ export default function TopReviewsSection() {
 
   return (
     <section
+      id="reviews"
       className={`py-20 px-8 ${theme.background} ${theme.text} w-screen max-w-full`}
     >
       <EgyptianBackground />

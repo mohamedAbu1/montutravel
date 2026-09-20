@@ -9,6 +9,7 @@ export function CitiesCategoriesProvider({ children }) {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [retryKey, setRetryKey] = useState(0);
 
   const { i18n } = useTranslation(); // اللغة الحالية للموقع
   const getLangKey = (lang) => lang.split("-")[0];
@@ -33,7 +34,7 @@ const normalizedLang = getLangKey(i18n.language);
         setCities(citiesData.cities || []);
         setCategories(categoriesData.categories || []);
       } catch (err) {
-        console.error("Error fetching cities/categories:", err);
+        console.warn("Travel data is unavailable:", err.message);
         setError(err.message || "Unable to load travel data");
       } finally {
         clearTimeout(timeoutId);
@@ -42,7 +43,7 @@ const normalizedLang = getLangKey(i18n.language);
     };
 
     fetchData();
-  }, []);
+  }, [retryKey]);
   // فلترة أسماء المدن حسب لغة الموقع الحالي
   const localizedCities = cities.map(city => ({
     ...city,
@@ -57,7 +58,7 @@ const normalizedLang = getLangKey(i18n.language);
 
   return (
     <CitiesCategoriesContext.Provider
-      value={{ cities: localizedCities, categories: localizedCategories, loading, error }}
+      value={{ cities: localizedCities, categories: localizedCategories, loading, error, retry: () => { setLoading(true); setRetryKey((key) => key + 1); } }}
     >
       {children}
     </CitiesCategoriesContext.Provider>

@@ -60,7 +60,9 @@ export function AuthProvider({ children }) {
       } = await supabase.auth.getUser();
 
       if (error) {
-        console.error("Error fetching user:", error.message);
+        if (error.message !== "Auth session missing!") {
+          console.warn("Unable to restore auth session:", error.message);
+        }
         setUser(null);
         setIsLoggedIn(false);
         return;

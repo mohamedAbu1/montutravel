@@ -14,7 +14,7 @@ export async function POST(req) {
       body: JSON.stringify({
         personalizations: [
           {
-            to: [{ email: "wasettravel@outlook.com" }],
+            to: [{ email: "montutravel@outlook.com" }],
             subject: `New Contact Form Submission from ${name}`,
           },
         ],

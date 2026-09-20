@@ -10,6 +10,9 @@ import TopTripsSection from "@/auth/components/home/TopTripsSection";
 import LoginModal from "@/auth/components/home/components/LoginModal";
 import SignUpButton from "@/auth/components/home/components/SignUpButton";
 import TopReviewsSection from "@/auth/components/home/components/TopReviewsSection";
+import JourneyBuilderSection from "@/auth/components/home/JourneyBuilderSection";
+import JourneyMapNavigator from "@/auth/components/home/JourneyMapNavigator";
+import LeftEgyptianGlyphs from "@/auth/components/home/LeftEgyptianGlyphs";
 import ChatWidget from "@/components/layouta/ChatWidget";
 import { useAuth } from "@/context/AuthContext"; // ✅ استدعاء الـ Auth
 import Head from "next/head";
@@ -33,15 +36,19 @@ export default function Home() {
       </Head>
       <main
         className={`
-        w-full flex flex-col items-center justify-center
+        w-full flex flex-col items-center justify-center relative
         min-h-screen font-sans desert-shell transition-colors duration-300
         overflow-hidden
       `}
       >
         <Header />
+        <LeftEgyptianGlyphs />
+        <JourneyMapNavigator />
 
         {/* ================= HERO SECTION ================= */}
         <HeroSection />
+
+        <JourneyBuilderSection />
 
         {/* ================= CATEGORIES SECTION ================= */}
         <CategoriesSection />

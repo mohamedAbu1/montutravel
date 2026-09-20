@@ -23,15 +23,9 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function RootLayout({ children, params }) {
-  const { locale } = await params;
-  const lang = supportedLocales.includes(locale) ? locale : "en";
   return (
-    <html lang={lang} suppressHydrationWarning>
-      <body className="antialiased">
-        <AppFunProvider>
-          {children}
-        </AppFunProvider>
-      </body>
-    </html>
+    <AppFunProvider>
+      {children}
+    </AppFunProvider>
   );
 }

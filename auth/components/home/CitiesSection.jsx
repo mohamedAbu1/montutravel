@@ -101,7 +101,7 @@ function CityCard({ city, themeName, theme, language, t }) {
 const CitiesSection = () => {
   const { theme, themeName } = useTheme();
   const { t, i18n } = useTranslation("home");
-  const { cities, loading, error } = useCitiesCategories();
+  const { cities, loading, error, retry } = useCitiesCategories();
   const normalizedLang = i18n.language.split("-")[0];
 
   // ✅ hooks لازم تكون فوق
@@ -118,7 +118,7 @@ const CitiesSection = () => {
 
   if (loading) {
     return (
-      <section className={`desert-data-section ${theme.background}`} aria-label="Loading destinations">
+      <section id="destinations" className={`desert-data-section ${theme.background}`} aria-label="Loading destinations">
         <div className="desert-section-heading"><span>WHERE WILL YOU WANDER?</span><h2>Explore destinations</h2></div>
         <div className="desert-skeleton-grid">{[1, 2, 3, 4].map((item) => <div key={item} className="desert-skeleton-card" />)}</div>
       </section>
@@ -126,7 +126,7 @@ const CitiesSection = () => {
   }
 
   if (!cities.length) {
-    return <section className={`desert-data-section ${theme.background}`}><div className="desert-empty-state"><span className="desert-empty-state__icon">𓇼</span><h2>{error ? "Destinations unavailable" : "Egypt is waiting"}</h2><p>{error ? "Connect the local database to load destinations." : "Destination guides will appear here soon."}</p></div></section>;
+    return <section id="destinations" className={`desert-data-section ${theme.background}`}><div className="desert-empty-state"><span className="desert-empty-state__icon">𓇼</span><h2>{error ? "Destinations unavailable" : "Egypt is waiting"}</h2><p>{error ? "We could not load destinations right now." : "Destination guides will appear here soon."}</p>{error && <button type="button" onClick={retry} className="desert-empty-state__action">Retry destinations ↗</button>}</div></section>;
   }
 
   const looped = [...cities, ...cities];
@@ -153,6 +153,7 @@ const CitiesSection = () => {
 
   return (
     <section
+      id="destinations"
       className={`desert-data-section flex flex-col py-24 px-6 w-full mx-auto bg-cover bg-center relative transition-colors duration-500 ${theme.background}`}
        style={{
         backgroundImage:

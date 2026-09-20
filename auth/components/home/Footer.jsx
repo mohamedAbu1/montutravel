@@ -1,131 +1,27 @@
 "use client";
-import React from "react";
-import { useTheme } from "@/context/ThemeContext";
-import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
-import { useTranslation } from "react-i18next";
-import { motion } from "framer-motion";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 const Footer = () => {
-  const { theme, themeName } = useTheme();
-  const { t } = useTranslation("footer");
   const pathname = usePathname();
   const locale = pathname?.split("/")[1] || "en";
-
-  const symbols = ["𓂀","𓋹","𓆣","𓇼","𓇯","𓏏","𓎛","𓊽","𓃾","𓅓","𓈇","𓉐","𓊹","𓌙","𓍿","𓎟"];
-
-  const fadeUp = {
-    hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
-  };
-
-  const staggerContainer = {
-    hidden: {},
-    visible: { transition: { staggerChildren: 0.2 } },
-  };
+  const { t } = useTranslation("footer");
+  const link = (path) => `/${locale}${path ? `/${path}` : ""}`;
 
   return (
-    <motion.footer
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.3 }}
-      variants={staggerContainer}
-      className={`montu-footer
-        flex flex-col items-center justify-center
-        py-12 px-6 w-full relative overflow-hidden
-        transition-colors duration-500
-        ${theme.background} ${theme.text}
-      `}
-    >
-      {/* خلفية الرموز الفرعونية */}
-      <div aria-hidden="true" className="absolute inset-0 pointer-events-none -z-10">
-        {Array.from({ length: 20 }).map((_, i) => (
-          <motion.span
-            key={i}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 0.15, y: 0 }}
-            transition={{ duration: 2, delay: i * 0.1 }}
-            className={`absolute ${
-              themeName === "dark" ? "text-gray-700" : "text-[#222]"
-            } text-6xl`}
-            style={{
-              top: `${(i * 47) % 100}%`,
-              left: `${(i * 73) % 100}%`,
-              transform: `rotate(${(i * 19) % 360}deg)`,
-            }}
-          >
-            {symbols[i % symbols.length]}
-          </motion.span>
-        ))}
+    <footer className="montu-footer montu-editorial-footer">
+      <div className="montu-footer-orbit" aria-hidden="true" />
+      <div className="montu-footer-grid">
+        <div className="montu-footer-brand-block"><span className="montu-footer-eyebrow">EST. 2026 · EGYPT</span><div className="montu-footer-brand">MONTU<br /><em>TRAVEL</em></div><p>Journeys with a sense of place. Crafted in Egypt, remembered everywhere.</p></div>
+        <div className="montu-footer-column"><span>Explore</span><Link href={link("")}>Home</Link><Link href={link("trips")}>{t("Tours") || "Curated journeys"}</Link><Link href={link("about")}>{t("AboutUs") || "Our story"}</Link><Link href={link("contact")}>{t("Contact") || "Contact"}</Link></div>
+        <div className="montu-footer-column"><span>Plan your Egypt</span><a href="#journey-builder">Build a journey</a><a href="#destinations">Destinations</a><a href="#reviews">Traveller notes</a><a href="#car-transfer">Private transfers</a></div>
+        <div className="montu-footer-column montu-footer-connect"><span>Keep in touch</span><p>Stories, new routes and quiet places worth knowing.</p><div className="montu-footer-social">{[[FaInstagram,"Instagram","https://www.instagram.com/"],[FaFacebookF,"Facebook","https://www.facebook.com/"],[FaTwitter,"Twitter","https://twitter.com/"],[FaYoutube,"YouTube","https://www.youtube.com/"]].map(([Icon,label,href]) => <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label}><Icon /></a>)}</div></div>
       </div>
-
-      {/* اسم البراند */}
-      <motion.p
-        variants={fadeUp}
-        className="montu-footer-brand text-3xl font-extrabold tracking-wide relative z-10 bg-gradient-to-r from-[var(--logoGradientFrom)] to-[var(--logoGradientTo)] bg-clip-text text-transparent drop-shadow-lg"
-        style={{ WebkitTextStroke: `1px ${theme.logoBorder}` }}
-      >
-        Montu Travel
-      </motion.p>
-
-      {/* الوصف */}
-      <motion.p variants={fadeUp} className="mt-2 text-sm opacity-80 text-center max-w-xl relative z-10">
-        {t("p")}
-      </motion.p>
-
-      {/* روابط سريعة */}
-      <motion.div variants={fadeUp} className="montu-footer-links flex gap-6 mt-6 text-sm font-medium relative z-10">
-        {[["Home", ""], ["AboutUs", "about"], ["Tours", "trips"], ["Contact", "contact"]].map(([link, path]) => (
-          <Link
-            key={link}
-            href={`/${locale}${path ? `/${path}` : ""}`}
-            className={`hover:underline transition ${
-              themeName === "dark"
-                ? "text-white/80 hover:text-[var(--logoBorder)]"
-                : "text-[#3a2c0a]/80 hover:text-[#222]"
-            }`}
-          >
-            {t(link)}
-          </Link>
-        ))}
-      </motion.div>
-
-      {/* Divider متدرج */}
-      <motion.div
-        variants={fadeUp}
-        className="w-32 h-[2px] bg-gradient-to-r from-[var(--logoGradientFrom)] to-[var(--logoGradientTo)] mt-6 mb-6 animate-pulse"
-      ></motion.div>
-
-      {/* أيقونات السوشيال ميديا */}
-      <motion.div variants={fadeUp} className="flex gap-5 mt-4 relative z-10">
-        {[[FaFacebookF, "Facebook", "https://www.facebook.com/"], [FaInstagram, "Instagram", "https://www.instagram.com/"], [FaTwitter, "Twitter", "https://twitter.com/"], [FaYoutube, "YouTube", "https://www.youtube.com/"]].map(([Icon, label, href]) => (
-          <motion.a
-            key={label}
-            href={href}
-            aria-label={label}
-            target="_blank"
-            rel="noreferrer"
-            whileHover={{ scale: 1.2, rotate: 5 }}
-            className={`p-3 rounded-full transition shadow-md ${
-              themeName === "dark"
-                ? "bg-[var(--logoGradientFrom)]/20 hover:bg-[var(--logoGradientTo)]/40 text-[var(--logoBorder)]"
-                : "bg-[var(--logoGradientFrom)]/20 hover:bg-[var(--logoGradientTo)]/40 text-[#222]"
-            }`}
-          >
-            <Icon />
-          </motion.a>
-        ))}
-      </motion.div>
-
-      {/* حقوق النشر */}
-      <motion.p
-        variants={fadeUp}
-        className="mt-8 text-xs opacity-70 relative z-10"
-      >
-        © 2026 Montu Travel. All rights reserved.
-      </motion.p>
-    </motion.footer>
+      <div className="montu-footer-bottom"><span>© 2026 Montu Travel. All rights reserved.</span><span>Made for the curious · القاهرة / Cairo</span></div>
+    </footer>
   );
 };
 

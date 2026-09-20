@@ -56,7 +56,7 @@ const TopTripsSection = () => {
 
   if (loadingTrips) {
     return (
-      <section className={`desert-data-section ${theme.background}`} aria-label="Loading trips">
+      <section id="top-trips" className={`desert-data-section ${theme.background}`} aria-label="Loading trips">
         <div className="desert-section-heading"><span>CURATED ESCAPES</span><h2>Top trips</h2></div>
         <div className="desert-skeleton-grid">{[1, 2, 3, 4].map((item) => <div key={item} className="desert-skeleton-card" />)}</div>
       </section>
@@ -83,7 +83,7 @@ const TopTripsSection = () => {
 
   if (!topTrips.length) {
     return (
-      <section className={`desert-data-section ${theme.background}`}>
+      <section id="top-trips" className={`desert-data-section ${theme.background}`}>
         <div className="desert-empty-state">
           <span className="desert-empty-state__icon">𓂀</span>
           <h2>{error ? "Travel collection unavailable" : "The collection is being curated"}</h2>
@@ -96,6 +96,7 @@ const TopTripsSection = () => {
 
   return (
     <section
+      id="top-trips"
       className={`desert-data-section flex w-full flex-col relative py-24 px-6 transition-colors duration-500 ${theme.background}`}
     >
       {/* خلفية الرموز */}
@@ -191,9 +192,10 @@ const TopTripsSection = () => {
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.8, delay: i * 0.2 }}
               viewport={{ once: true }}
-              className={`${theme.card} flex-1 basis-full sm:basis-[48%] lg:basis-[30%] xl:basis-[22%] relative rounded-2xl overflow-hidden group transition-all duration-500 hover:scale-[1.05] hover:shadow-2xl hover:-rotate-1`}
+              className={`featured-journey-card ${theme.card} flex-1 basis-full sm:basis-[48%] lg:basis-[30%] xl:basis-[31%] relative rounded-2xl overflow-hidden group transition-all duration-500 hover:scale-[1.03] hover:shadow-2xl`}
               style={{ border: `2px solid ${theme.logoBorder}` }}
             >
+              <span className="featured-journey-days">{trip.duration || trip.days || 1}<small>days</small></span>
               <div className="relative h-72">
                 <Image
                   src={trip.cover_image || "/default.jpg"}

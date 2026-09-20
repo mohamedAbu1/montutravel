@@ -51,7 +51,7 @@ function CategoryCard({ cat, theme, language }) {
   return (
     <div
       onClick={handleClick}
-      className={`relative overflow-hidden group cursor-pointer h-[320px] transition-all duration-500 hover:scale-[1.06] hover:shadow-2xl ${theme.card}`}
+      className={`category-card relative overflow-hidden group cursor-pointer h-[320px] transition-all duration-500 hover:scale-[1.04] hover:shadow-2xl ${theme.card}`}
       style={{ border: `1px solid ${theme.logoBorder}` }}
     >
       <AnimatePresence mode="sync">
@@ -81,6 +81,7 @@ function CategoryCard({ cat, theme, language }) {
       <div
         className={`absolute inset-0 ${theme.overlay} flex items-end justify-center pb-4`}
       >
+      <span className="category-card__badge" aria-hidden="true">𓂀</span>
         <p
           className={`trips-text text-lg font-bold tracking-wide drop-shadow-lg ${theme.title}`}
         >
@@ -94,7 +95,7 @@ function CategoryCard({ cat, theme, language }) {
 const CategoriesSection = () => {
   const { theme, themeName } = useTheme();
   const { t, i18n } = useTranslation("home");
-  const { categories, loading, error } = useCitiesCategories();
+  const { categories, loading, error, retry } = useCitiesCategories();
   const [index, setIndex] = useState(0);
   const normalizedLang = i18n.language.split("-")[0];
 
@@ -122,7 +123,7 @@ const CategoriesSection = () => {
 
   if (loading) {
     return (
-      <section className={`desert-data-section ${theme.background}`} aria-label="Loading categories">
+      <section id="categories" className={`desert-data-section ${theme.background}`} aria-label="Loading categories">
         <div className="desert-section-heading"><span>THE MONTU EDIT</span><h2>Explore categories</h2></div>
         <div className="desert-skeleton-grid">{[1, 2, 3, 4].map((item) => <div key={item} className="desert-skeleton-card" />)}</div>
       </section>
@@ -130,13 +131,14 @@ const CategoriesSection = () => {
   }
 
   if (!categories.length) {
-    return <section className={`desert-data-section ${theme.background}`}><div className="desert-empty-state"><span className="desert-empty-state__icon">𓋹</span><h2>{error ? "Categories unavailable" : "More journeys are coming"}</h2><p>{error ? "Connect the local database to load the Montu collection." : "Our travel categories will appear here soon."}</p></div></section>;
+    return <section id="categories" className={`desert-data-section ${theme.background}`}><div className="desert-empty-state"><span className="desert-empty-state__icon">𓋹</span><h2>{error ? "Categories unavailable" : "More journeys are coming"}</h2><p>{error ? "We could not load the collection right now." : "Our travel categories will appear here soon."}</p>{error && <button type="button" onClick={retry} className="desert-empty-state__action">Retry collection ↗</button>}</div></section>;
   }
 
   const symbols = ["𓂀","𓋹","𓆣","𓇼","𓇯","𓏏","𓎛","𓊽","𓃾","𓅓","𓈇","𓉐","𓊹","𓌙","𓍿","𓎟"];
 
   return (
     <section
+      id="categories"
       className={`desert-data-section flex flex-col py-24 px-6 w-full mx-auto bg-cover bg-center relative transition-colors duration-500 ${theme.background}`}
        style={{
         backgroundImage:
@@ -190,7 +192,7 @@ const CategoriesSection = () => {
           {looped.map((cat, i) => (
             <div
               key={i}
-              className="min-w-[100%] sm:min-w-[50%] md:min-w-[33.33%] lg:min-w-[20%] p-3"
+                className="min-w-[100%] sm:min-w-[50%] md:min-w-[33.33%] lg:min-w-[25%] p-3"
             >
               <CategoryCard
                 cat={cat}

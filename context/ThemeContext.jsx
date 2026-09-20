@@ -33,18 +33,25 @@ export function ThemeProvider({ children }) {
     }
 
     // Update CSS variables for global usage
-    document.documentElement.style.setProperty(
-      "--color",
-      mode === "dark" ? "#c9a34a" : "#ffffff",
-    );
-    document.documentElement.style.setProperty(
-      "--foreground",
-      mode === "dark" ? "#ededed" : "#171717",
-    );
-    document.documentElement.style.setProperty(
-      "--background",
-      mode === "dark" ? "#0a0a0a" : "#ffffff",
-    );
+    const palette = mode === "dark"
+      ? {
+          color: "#e9bd70",
+          foreground: "#f7ead5",
+          background: "#17110f",
+          surface: "#2a1c17",
+          muted: "#c3ad95",
+        }
+      : {
+          color: "#c9a227",
+          foreground: "#0a1930",
+          background: "#ede0c0",
+          surface: "#f7efdc",
+          muted: "#596271",
+        };
+
+    Object.entries(palette).forEach(([key, value]) => {
+      document.documentElement.style.setProperty(`--${key}`, value);
+    });
   };
   // ? $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
