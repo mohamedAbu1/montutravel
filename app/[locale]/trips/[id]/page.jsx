@@ -5,7 +5,7 @@ import { useTheme } from "@/context/ThemeContext";
 import { useEffect } from "react";
 import { use } from "react";
 import Footer from "@/auth/components/home/Footer";
-import Header from "@/auth/components/header/Header";
+import Header from "@/auth/components/Header/Header";
 import EgyptianBackground from "@/components/layout/EgyptianBackground";
 import LoginModal from "@/auth/components/home/components/LoginModal";
 import SignUpButton from "@/auth/components/home/components/SignUpButton";

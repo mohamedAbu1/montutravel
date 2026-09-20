@@ -1,6 +1,6 @@
 "use client";
 import Footer from "@/auth/components/home/Footer";
-import Header from "@/auth/components/header/Header";
+import Header from "@/auth/components/Header/Header";
 import CarBookingSection from "@/auth/components/home/CarBookingSection";
 import CategoriesSection from "@/auth/components/home/CategoriesSection";
 import CitiesSection from "@/auth/components/home/CitiesSection";

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import TripsFilter from "@/auth/components/trips/TripsFilter";
 import TripsSearch from "@/auth/components/trips/TripsSearch";
 import TripsGrid from "@/auth/components/trips/TripsGrid";
-import Header from "@/auth/components/header/Header";
+import Header from "@/auth/components/Header/Header";
 import Footer from "@/auth/components/home/Footer";
 import EgyptianBackground from "@/components/layout/EgyptianBackground";
 import LoginModal from "@/auth/components/home/components/LoginModal";

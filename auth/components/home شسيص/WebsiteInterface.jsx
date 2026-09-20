@@ -9,7 +9,7 @@ import SocialButtons from "./components/SocialButtons";
 import ScrollTopButton from "./components/ScrollTopButton";
 import GradientOverlay from "./components/GradientOverlay";
 import CloudBackground from "./components/CloudBackground";
-import Header from "../header/Header";
+import Header from "../Header/Header";
 import FormFilter from "../home/components/FormFilter";
 import useWindowSize from "@/components/hook/UseWindowSize";
 import {

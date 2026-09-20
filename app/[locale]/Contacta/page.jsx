@@ -1,6 +1,6 @@
 "use client";
 
-import Header from "@/auth/components/header/Header";
+import Header from "@/auth/components/Header/Header";
 import Footer from "@/auth/components/home/Footer";
 import { motion } from "framer-motion";
 

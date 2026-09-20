@@ -1,4 +1,4 @@
-import Header from "@/auth/components/header/Header";
+import Header from "@/auth/components/Header/Header";
 import Footer from "@/auth/components/home/Footer";
 import SidebarFilter from "@/auth/components/Tours/SidebarFilter";
 import TourGrid from "@/auth/components/Tours/TourGrid";

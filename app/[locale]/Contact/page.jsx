@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
-import Header from "@/auth/components/header/Header";
+import Header from "@/auth/components/Header/Header";
 import Footer from "@/auth/components/home/Footer";
 import { useTranslation } from "react-i18next";
 import LoginModal from "@/auth/components/home/components/LoginModal";

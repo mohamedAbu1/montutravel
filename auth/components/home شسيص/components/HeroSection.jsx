@@ -1,7 +1,7 @@
 // components/HeroSection.jsx
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import Header from "../../header/Header";
+import Header from "../../Header/Header";
 import GradientOverlay from "./GradientOverlay";
 import CloudBackground from "./CloudBackground";
 import { useData } from "@/context/DataContext";
