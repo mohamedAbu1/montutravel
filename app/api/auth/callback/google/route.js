@@ -44,7 +44,8 @@ export async function GET(request) {
   console.log("📌 بيانات المستخدم من Google:", profile);
 
   // تخزين أو تحديث المستخدم في Supabase
-  const { data: users, error } = await supabaseAdmin
+  const adminClient = supabaseAdmin();
+  const { data: users, error } = await adminClient
     .from("user")
     .upsert(
       {
