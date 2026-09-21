@@ -16,11 +16,13 @@ import { MessageProvider } from "@/context/MessageContext";
 import { CitiesCategoriesProvider } from "@/context/CitiesCategoriesContext";
 import { ToastContainer } from "react-toastify";
 import { Suspense } from "react";
+import CinematicIntro from "@/components/layout/CinematicIntro";
 
 export default function Providers({ children }) {
   return (
     <I18nextProvider i18n={i18n}>
       <ThemeProvider>
+        <CinematicIntro />
         <Suspense fallback={<div className="montu-app-loader" role="status" aria-live="polite"><span className="montu-app-loader__mark">𓂀</span><span>Preparing your Egypt journey…</span></div>}>
           <QueryProvider>
             <AuthProvider>
