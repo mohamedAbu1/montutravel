@@ -18,3 +18,9 @@
   background: linear-gradient(to right, #22d3ee, #06b6d4) !important;
   color: #06b6d4 !important;
 }
+
+/* MUI select override: match the same royal desert control language. */
+.MuiSelect-select { color: var(--text) !important; font: 700 .78rem/1 Arial, sans-serif !important; }
+.MuiSelect-icon { color: var(--egypt-gold-deep) !important; }
+.MuiMenuItem-root { color: var(--text) !important; font: 700 .78rem/1 Arial, sans-serif !important; }
+.MuiMenuItem-root:hover, .MuiMenuItem-root.Mui-selected { color: var(--button-primary-text) !important; background: color-mix(in srgb, var(--egypt-gold-bright) 78%, transparent) !important; }

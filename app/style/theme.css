@@ -1339,6 +1339,38 @@ html[data-theme="dark"] .montu-about-v2-page { --about-ink: #f4ead7; --about-mut
 @media (max-width: 520px) { .montu-about-v2-hero { padding-top: 3rem; }.montu-about-v2-hero h1 { font-size: 2.8rem; }.montu-about-v2-hero__visual { min-height: 23rem; }.montu-about-v2-image--small { inset: 53% 0 0 53%; }.montu-about-v2-stamp { width: 5.6rem; height: 5.6rem; font-size: .56rem; }.montu-about-v2-visual-caption { bottom: -1.25rem; font-size: .74rem; }.montu-about-v2-proof { gap: .5rem; }.montu-about-v2-proof strong { font-size: 2rem; } }
 @media (prefers-reduced-motion: reduce) { .montu-about-v2-button { transition: none; }.montu-about-v2-button:hover { transform: none; } }
 
+/* Luxury form controls: one visual language for every select and travel date. */
+select, input[type="date"] { font-family: Arial, sans-serif; }
+select:not(.unstyled-select) { min-height: 3.15rem; padding: .82rem 2.7rem .82rem 1rem; border: 1px solid rgba(185,137,54,.34); border-radius: .9rem; outline: 0; appearance: none; color: var(--text) !important; background: linear-gradient(135deg, color-mix(in srgb, var(--card-bg) 88%, transparent), color-mix(in srgb, var(--surface) 72%, transparent)); background-image: linear-gradient(135deg, color-mix(in srgb, var(--card-bg) 88%, transparent), color-mix(in srgb, var(--surface) 72%, transparent)), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23b98936' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: 0 0, right .85rem center; background-size: auto, 1rem; box-shadow: inset 0 1px rgba(255,255,255,.08), 0 .5rem 1.2rem rgba(20,34,51,.05); font: 700 .78rem/1 Arial, sans-serif; cursor: pointer; transition: border-color .25s ease, box-shadow .25s ease, transform .25s ease; }
+select:not(.unstyled-select):hover { border-color: rgba(185,137,54,.7); transform: translateY(-1px); }
+select:not(.unstyled-select):focus-visible { border-color: var(--egypt-teal); box-shadow: 0 0 0 4px rgba(14,98,94,.14), inset 0 1px rgba(255,255,255,.12); }
+select:not(.unstyled-select) option { color: #241811; background: #f8edd4; font-weight: 600; }
+input[type="date"] { min-height: 3.15rem; padding: .82rem 2.7rem .82rem 1rem; border: 1px solid rgba(185,137,54,.34); border-radius: .9rem; outline: 0; color: var(--text); background: linear-gradient(135deg, color-mix(in srgb, var(--card-bg) 88%, transparent), color-mix(in srgb, var(--surface) 72%, transparent)); color-scheme: light; font: 700 .78rem/1 Arial, sans-serif; box-shadow: inset 0 1px rgba(255,255,255,.08), 0 .5rem 1.2rem rgba(20,34,51,.05); cursor: pointer; transition: border-color .25s ease, box-shadow .25s ease, transform .25s ease; }
+input[type="date"]::-webkit-calendar-picker-indicator { width: 1.05rem; height: 1.05rem; margin-right: -.1rem; opacity: .78; cursor: pointer; filter: sepia(1) saturate(1.8) hue-rotate(345deg); }
+input[type="date"]:hover { border-color: rgba(185,137,54,.7); transform: translateY(-1px); }
+input[type="date"]:focus-visible { border-color: var(--egypt-teal); box-shadow: 0 0 0 4px rgba(14,98,94,.14), inset 0 1px rgba(255,255,255,.12); }
+input[type="date"]:invalid { border-color: rgba(169,89,63,.5); }
+.MuiInputBase-root.MuiFilledInput-root { min-height: 3.15rem; border: 1px solid rgba(185,137,54,.34) !important; border-radius: .9rem !important; color: var(--text) !important; background: linear-gradient(135deg, color-mix(in srgb, var(--card-bg) 88%, transparent), color-mix(in srgb, var(--surface) 72%, transparent)) !important; box-shadow: inset 0 1px rgba(255,255,255,.08), 0 .5rem 1.2rem rgba(20,34,51,.05); }
+.MuiInputBase-root.MuiFilledInput-root::before, .MuiInputBase-root.MuiFilledInput-root::after { display: none !important; }
+.MuiInputBase-root.MuiFilledInput-root:hover { border-color: rgba(185,137,54,.7) !important; background: linear-gradient(135deg, color-mix(in srgb, var(--card-bg) 94%, transparent), color-mix(in srgb, var(--surface) 78%, transparent)) !important; }
+.MuiInputBase-root.MuiFilledInput-root:focus-within { border-color: var(--egypt-teal) !important; box-shadow: 0 0 0 4px rgba(14,98,94,.14), inset 0 1px rgba(255,255,255,.12); }
+.MuiSelect-select { padding: .92rem 2.7rem .92rem 1rem !important; color: var(--text) !important; font: 700 .78rem/1 Arial, sans-serif !important; }
+.MuiSelect-icon { right: .8rem !important; color: var(--egypt-gold-deep) !important; }
+.MuiPaper-root.MuiMenu-paper { margin-top: .4rem; border: 1px solid rgba(185,137,54,.4); border-radius: 1rem !important; background: color-mix(in srgb, var(--surface) 94%, transparent) !important; box-shadow: 0 1.3rem 3rem rgba(20,34,51,.18) !important; backdrop-filter: blur(18px); }
+.MuiMenuItem-root { min-height: 2.8rem !important; color: var(--text) !important; border-radius: .65rem; font: 700 .78rem/1 Arial, sans-serif !important; }
+.MuiMenuItem-root:hover, .MuiMenuItem-root.Mui-selected { color: var(--button-primary-text) !important; background: color-mix(in srgb, var(--egypt-gold-bright) 78%, transparent) !important; }
+.luxury-input { min-height: 3.45rem; padding: .72rem 1rem; border: 1px solid rgba(185,137,54,.38); border-radius: .95rem; color: var(--text); background: linear-gradient(135deg, color-mix(in srgb, var(--card-bg) 88%, transparent), color-mix(in srgb, var(--surface) 72%, transparent)); box-shadow: inset 0 1px rgba(255,255,255,.08), 0 .5rem 1.2rem rgba(20,34,51,.05); }
+.luxury-input:hover { border-color: rgba(185,137,54,.72); box-shadow: 0 0 0 4px rgba(185,137,54,.1), 0 .7rem 1.5rem rgba(20,34,51,.08); }
+.luxury-label { color: var(--sub-text) !important; font: 700 .62rem/1 Arial, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
+.luxury-label.active { top: .45rem; color: var(--egypt-teal) !important; }
+.luxury-value { align-self: flex-end; padding-top: .7rem; color: var(--text) !important; font: 800 .8rem/1 Arial, sans-serif; }
+.luxury-input svg { flex: 0 0 auto; color: var(--egypt-gold-deep); }
+html[data-theme="dark"] select:not(.unstyled-select), html[data-theme="dark"] input[type="date"], html[data-theme="dark"] .MuiInputBase-root.MuiFilledInput-root, html[data-theme="dark"] .luxury-input { color-scheme: dark; border-color: rgba(233,189,112,.28); background: linear-gradient(135deg, rgba(49,31,24,.9), rgba(42,28,23,.75)); }
+html[data-theme="dark"] select:not(.unstyled-select) option { color: #f7ead5; background: #2a1c17; }
+html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(82%) sepia(30%) saturate(720%) hue-rotate(355deg); }
+html[data-theme="dark"] .MuiPaper-root.MuiMenu-paper { background: #2a1c17 !important; border-color: rgba(233,189,112,.34); }
+@media (max-width: 640px) { select:not(.unstyled-select), input[type="date"] { min-height: 3rem; font-size: .74rem; }.montu-booking-form__dates { gap: .75rem; }.luxury-input { min-height: 3.2rem; } }
+
 /* Mobile QA fixes: keep the fixed header fixed and remove desktop spacing that
    was creating a large dead zone above the first useful content. */
 .montu-about-v2-page > header { position: fixed !important; top: 0; left: 0; z-index: 50 !important; }
