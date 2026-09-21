@@ -7,11 +7,14 @@ import { useTranslation } from "react-i18next";
 import { useCitiesCategories } from "@/context/CitiesCategoriesContext";
 import DividerWithIcon from "../../../components/layout/DividerWithIcon";
 import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const encodeData = (obj) => btoa(JSON.stringify(obj));
 
 function CityCard({ city, themeName, theme, language, t }) {
   const router = useRouter();
+  const pathname = usePathname();
+  const locale = pathname?.split("/")[1] || "en";
   const cityName =
     city.name?.[language] || city.name?.["en"] || city.name || "";
 
@@ -23,7 +26,7 @@ function CityCard({ city, themeName, theme, language, t }) {
       popular: false,
     };
     const encoded = encodeData(queryObj);
-    router.push(`/trips?data=${encoded}`);
+    router.push(`/${locale}/trips?data=${encoded}`);
   };
 
   const [currentImage, setCurrentImage] = useState(0);

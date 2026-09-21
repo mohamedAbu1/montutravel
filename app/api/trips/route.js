@@ -224,10 +224,10 @@ export async function GET() {
         headers: { "Cache-Control": "no-store" },
       });
     }
-    console.error("GET /api/trips error:", err);
+    console.warn("GET /api/trips degraded response:", err.message);
     return new Response(
-      JSON.stringify({ success: false, error: err.message }),
-      { status: 500 },
+      JSON.stringify({ success: true, trips: [], degraded: true }),
+      { status: 200, headers: { "Cache-Control": "no-store" } },
     );
   }
 }

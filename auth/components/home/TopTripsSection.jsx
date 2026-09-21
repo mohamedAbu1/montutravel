@@ -9,11 +9,14 @@ import { useTrip } from "@/context/TripContext";
 import { usePurchase } from "@/context/PurchaseContext";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import { usePathname } from "next/navigation";
 
 const TopTripsSection = () => {
   const { theme, themeName } = useTheme();
   const { t, i18n } = useTranslation("home");
   const router = useRouter();
+  const pathname = usePathname();
+  const locale = pathname?.split("/")[1] || "en";
   const { user } = useAuth();
   const normalizedLang = i18n.language.split("-")[0];
 
@@ -230,7 +233,7 @@ const TopTripsSection = () => {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={() => router.push(`/trips/${trip.id}`)}
+                    onClick={() => router.push(`/${locale}/trips/${trip.id}`)}
                     className={`rounded-[9px] px-3 py-2 font-semibold tracking-wide cursor-pointer transition-all duration-300 shadow-lg ${theme.buttonPrimary}`}
                     style={{ border: `2px solid ${theme.logoBorder}` }}
                   >

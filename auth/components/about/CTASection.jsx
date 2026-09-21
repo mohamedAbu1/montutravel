@@ -3,9 +3,13 @@
 import { useTheme } from "@/context/ThemeContext";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import DividerWithIcon from "../../../components/layout/DividerWithIcon";
 
 export default function CTASection() {
+  const pathname = usePathname();
+  const locale = pathname?.split("/")[1] || "en";
   const { themeName } = useTheme();
   const { t } = useTranslation("about");
 
@@ -46,15 +50,14 @@ export default function CTASection() {
           {t("p5")}
         </motion.p>
 
-      <motion.a
+      <motion.div
   variants={fadeUp}
-  href="/contact"
   whileHover={{ scale: 1.05 }}
   whileTap={{ scale: 0.95 }}
   className="btn-gradient w-full rounded-[4px] px-6 py-3 font-semibold tracking-wide shadow-lg cursor-pointer"
 >
-  {t("a")}
-</motion.a>
+  <Link href={`/${locale}/contact`}>{t("a")}</Link>
+</motion.div>
 
       </motion.div>
     </motion.section>

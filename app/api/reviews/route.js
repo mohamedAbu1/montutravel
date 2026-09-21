@@ -35,8 +35,8 @@ export async function GET(req) {
   console.log("📥 Supabase query result:", data, error);
 
   if (error) {
-    console.error("❌ Supabase error in GET /api/reviews:", error.message);
-    return NextResponse.json({ success: false, error: error.message }, { status: 400 });
+    console.warn("Reviews are unavailable; returning an empty collection:", error.message);
+    return NextResponse.json({ success: true, reviews: [], degraded: true }, { status: 200, headers: { "Cache-Control": "no-store" } });
   }
 
   console.log("✅ Reviews fetched successfully:", data.length);

@@ -29,9 +29,9 @@ export async function GET() {
       return Response.json({ success: true, categories: [], degraded: true });
     }
     return new Response(
-      JSON.stringify({ success: false, error: err.message }),
+      JSON.stringify({ success: true, categories: [], degraded: true }),
       {
-        status: 500,
+        status: 200,
         headers: {
           "Content-Type": "application/json",
           "Cache-Control": "no-store" // ✅ لا تخزن الأخطاء

@@ -67,7 +67,9 @@ export function ReviewsProvider({ children }) {
       });
       setReviewsByTrip(grouped);
     } catch (err) {
-      console.error("❌ Error fetching all reviews:", err);
+      setAllReviews([]);
+      setReviewsByTrip({});
+      console.warn("Reviews are temporarily unavailable:", err.response?.data?.error || err.message);
     } finally {
       setLoading(false);
     }

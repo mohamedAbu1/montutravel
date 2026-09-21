@@ -963,6 +963,8 @@ html[data-theme="dark"] .montu-left-glyphs { opacity: .82; }
 
 .desert-empty-state__action { display: inline-flex; align-items: center; justify-content: center; min-height: 2.75rem; margin-top: 1.25rem; padding: .75rem 1.1rem; border: 1px solid var(--logo-border); border-radius: 999px; color: var(--button-primary-text); background: var(--button-primary-bg); font: 800 .7rem Arial,sans-serif; letter-spacing: .06em; cursor: pointer; transition: transform .2s ease, filter .2s ease; }
 .desert-empty-state__action:hover { transform: translateY(-2px); filter: brightness(1.08); }
+.montu-app-loader { min-height: 100dvh; display: grid; place-items: center; align-content: center; gap: .8rem; color: var(--sub-text); background: var(--background); font: 700 .72rem Arial, sans-serif; letter-spacing: .14em; text-transform: uppercase; }
+.montu-app-loader__mark { color: var(--logo-border); font-size: 2.8rem; line-height: 1; animation: journeyPulse 1.8s ease-in-out infinite; }
 
 /* Premium authentication experience */
 .montu-auth-dialog { width: min(100%, 58rem); max-width: none !important; display: grid; grid-template-columns: minmax(16rem, .82fr) minmax(24rem, 1.18fr); padding: 0 !important; overflow: hidden !important; border: 1px solid rgba(118, 78, 35, .22); border-radius: 1.75rem !important; background: #fffaf0 !important; box-shadow: 0 2rem 5rem rgba(49, 30, 13, .28) !important; color: #2f2118; }

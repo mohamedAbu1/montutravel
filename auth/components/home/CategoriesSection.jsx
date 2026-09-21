@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { useCitiesCategories } from "@/context/CitiesCategoriesContext";
 import DividerWithIcon from "../../../components/layout/DividerWithIcon";
 import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import EgyptianBackground from "../../../components/layout/EgyptianBackground";
 import Divider from "@/components/layout/Divider";
 
@@ -15,6 +16,8 @@ const encodeData = (obj) => btoa(JSON.stringify(obj));
 function CategoryCard({ cat, theme, language }) {
   const [imgIndex, setImgIndex] = useState(0);
   const router = useRouter();
+  const pathname = usePathname();
+  const locale = pathname?.split("/")[1] || "en";
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -45,7 +48,7 @@ function CategoryCard({ cat, theme, language }) {
       popular: false,
     };
     const encoded = encodeData(queryObj);
-    router.push(`/trips?data=${encoded}`);
+    router.push(`/${locale}/trips?data=${encoded}`);
   };
 
   return (

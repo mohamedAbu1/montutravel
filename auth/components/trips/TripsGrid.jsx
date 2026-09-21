@@ -127,7 +127,7 @@ export default function TripsGrid({ trips, cardStyle = "vertical" }) {
               </div>
 
               <button
-                onClick={() => router.push(`/trips/${trip.id}`)}
+                onClick={() => router.push(`/${lang}/trips/${trip.id}`)}
                 className={`trip-button ${
                   hasPurchased ? "btn-purchased" : "btn-primary"
                 }`}
