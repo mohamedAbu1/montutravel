@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabaseClient";
 import { localQuery } from "@/lib/localDb";
+import { isLocalDbEnabled } from "@/lib/runtimeConfig";
 
 export async function GET(req) {
-  if (process.env.LOCAL_DB_ENABLED === "true") {
+  if (isLocalDbEnabled) {
     const { searchParams } = new URL(req.url);
     const tripId = searchParams.get("tripId");
     try {

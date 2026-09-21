@@ -1,10 +1,11 @@
 // file: app/api/cities/route.js
 import { supabase } from "@/lib/supabaseClient";
 import { localQuery } from "@/lib/localDb";
+import { isLocalDbEnabled } from "@/lib/runtimeConfig";
 
 export async function GET() {
   try {
-    if (process.env.LOCAL_DB_ENABLED === "true") {
+    if (isLocalDbEnabled) {
       const cities = await localQuery("SELECT id, name, images FROM cities ORDER BY id ASC");
       return Response.json({ success: true, cities }, { headers: { "Cache-Control": "public, max-age=3600" } });
     }
@@ -26,7 +27,7 @@ export async function GET() {
       }
     );
   } catch (err) {
-    if (process.env.LOCAL_DB_ENABLED === "true") {
+    if (isLocalDbEnabled) {
       return Response.json({ success: true, cities: [], degraded: true });
     }
     return new Response(

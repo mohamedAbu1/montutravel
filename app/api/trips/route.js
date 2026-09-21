@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabaseClient";
 import { localQuery } from "@/lib/localDb";
+import { isLocalDbEnabled } from "@/lib/runtimeConfig";
 
 async function getLocalTrips() {
   const trips = await localQuery("SELECT * FROM trips ORDER BY created_at DESC");
@@ -17,7 +18,7 @@ async function getLocalTrips() {
 export async function POST(req) {
   try {
     const body = await req.json();
-    if (process.env.LOCAL_DB_ENABLED === "true") {
+    if (isLocalDbEnabled) {
       const result = await localQuery(
         `INSERT INTO trips (title, description, price, currency, duration, duration_unit, cover_image, gallery_images, priceLevel)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -161,7 +162,7 @@ export async function POST(req) {
 
 export async function GET() {
   try {
-    if (process.env.LOCAL_DB_ENABLED === "true") {
+    if (isLocalDbEnabled) {
       const trips = await getLocalTrips();
       return new Response(JSON.stringify({ success: true, trips }), { status: 200, headers: { "Cache-Control": "public, max-age=3600" } });
     }
@@ -218,7 +219,7 @@ export async function GET() {
 });
 
   } catch (err) {
-    if (process.env.LOCAL_DB_ENABLED === "true") {
+    if (isLocalDbEnabled) {
       return new Response(JSON.stringify({ success: true, trips: [], degraded: true }), {
         status: 200,
         headers: { "Cache-Control": "no-store" },

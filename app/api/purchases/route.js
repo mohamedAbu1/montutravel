@@ -1,8 +1,9 @@
 import { createClient } from "@supabase/supabase-js";
 import { localQuery } from "@/lib/localDb";
+import { isLocalDbEnabled } from "@/lib/runtimeConfig";
 
 export async function GET() {
-  if (process.env.LOCAL_DB_ENABLED === "true") {
+  if (isLocalDbEnabled) {
     try {
       const purchases = await localQuery(`
         SELECT p.*, t.title AS tripTitle

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabaseClient";
 import { localQuery } from "@/lib/localDb";
+import { isLocalDbEnabled } from "@/lib/runtimeConfig";
 
 const supabase = supabaseAdmin();
 
@@ -8,7 +9,7 @@ const supabase = supabaseAdmin();
 export async function GET(req, context) {
   try {
     const { id } = await context.params;
-    if (process.env.LOCAL_DB_ENABLED === "true") {
+    if (isLocalDbEnabled) {
       const rows = await localQuery("SELECT * FROM trips WHERE id = ? LIMIT 1", [id]);
       const data = rows[0];
       if (!data) return NextResponse.json({ success: false, error: "Trip not found" }, { status: 404 });
@@ -121,7 +122,7 @@ export async function PUT(req, context) {
     const { id } = await context.params;
     const body = await req.json();
 
-    if (process.env.LOCAL_DB_ENABLED === "true") {
+    if (isLocalDbEnabled) {
       await localQuery(
         `UPDATE trips SET title = ?, description = ?, price = ?, duration = ?, priceLevel = ?, cover_image = ?, gallery_images = ? WHERE id = ?`,
         [JSON.stringify(body.title || {}), JSON.stringify(body.description || {}), Number(body.price || 0), Number(body.duration || 0), body.priceLevel || "", body.cover_image || "", JSON.stringify(body.gallery_images || []), id],
@@ -272,7 +273,7 @@ export async function PUT(req, context) {
 export async function DELETE(req, context) {
   try {
     const { id } = await context.params;
-    if (process.env.LOCAL_DB_ENABLED === "true") {
+    if (isLocalDbEnabled) {
       await localQuery("DELETE FROM day_activities WHERE day_id IN (SELECT id FROM trip_days WHERE trip_id = ?)", [id]);
       await localQuery("DELETE FROM trip_days WHERE trip_id = ?", [id]);
       await localQuery("DELETE FROM trip_cities WHERE trip_id = ?", [id]);

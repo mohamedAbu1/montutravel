@@ -1,9 +1,10 @@
 import { supabase } from "@/lib/supabaseClient";
 import { localQuery } from "@/lib/localDb";
+import { isLocalDbEnabled } from "@/lib/runtimeConfig";
 
 export async function GET() {
   try {
-    if (process.env.LOCAL_DB_ENABLED === "true") {
+    if (isLocalDbEnabled) {
       const categories = await localQuery("SELECT id, created_at, images, name FROM categories ORDER BY JSON_UNQUOTE(JSON_EXTRACT(name, '$.en')) ASC");
       return Response.json({ success: true, categories }, { headers: { "Cache-Control": "public, max-age=3600" } });
     }
@@ -25,7 +26,7 @@ export async function GET() {
       }
     );
   } catch (err) {
-    if (process.env.LOCAL_DB_ENABLED === "true") {
+    if (isLocalDbEnabled) {
       return Response.json({ success: true, categories: [], degraded: true });
     }
     return new Response(
