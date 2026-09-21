@@ -1,6 +1,7 @@
 import { supabase } from "@/lib/supabaseClient";
 import { localQuery } from "@/lib/localDb";
 import { isLocalDbEnabled } from "@/lib/runtimeConfig";
+import { getFallbackTrips } from "@/lib/fallbackData";
 
 async function getLocalTrips() {
   const trips = await localQuery("SELECT * FROM trips ORDER BY created_at DESC");
@@ -227,7 +228,7 @@ export async function GET() {
     }
     console.warn("GET /api/trips degraded response:", err.message);
     return new Response(
-      JSON.stringify({ success: true, trips: [], degraded: true }),
+      JSON.stringify({ success: true, trips: getFallbackTrips(), degraded: true, source: "bundled-seed" }),
       { status: 200, headers: { "Cache-Control": "no-store" } },
     );
   }

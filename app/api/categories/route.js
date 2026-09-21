@@ -1,6 +1,7 @@
 import { supabase } from "@/lib/supabaseClient";
 import { localQuery } from "@/lib/localDb";
 import { isLocalDbEnabled } from "@/lib/runtimeConfig";
+import { getFallbackCategories } from "@/lib/fallbackData";
 
 export async function GET() {
   try {
@@ -30,7 +31,7 @@ export async function GET() {
       return Response.json({ success: true, categories: [], degraded: true });
     }
     return new Response(
-      JSON.stringify({ success: true, categories: [], degraded: true }),
+      JSON.stringify({ success: true, categories: getFallbackCategories(), degraded: true, source: "bundled-seed" }),
       {
         status: 200,
         headers: {
