@@ -6,6 +6,9 @@
 *.mp4 filter=lfs diff=lfs merge=lfs -text
 *.svg filter=lfs diff=lfs merge=lfs -text
 
+# Next.js metadata assets must be regular blobs so Vercel can parse them.
+app/icon.png -filter -diff -merge
+
 # These assets are loaded directly by the deployed Next.js app. Keep the
 # runtime-critical public assets as regular Git blobs so Vercel serves them
 # without requiring Git LFS during its build checkout.
