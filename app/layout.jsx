@@ -6,12 +6,9 @@ import Providers from "./providers";
 export const metadata = {
   title: "Montu Travel | Luxury Egyptian Journeys",
   icons: {
-    icon: [
-      { url: "/icon.svg", type: "image/svg+xml" },
-      { url: "/favicon.ico", sizes: "any" },
-    ],
-    shortcut: "/icon.svg",
-    apple: "/icon.svg",
+    icon: [{ url: "/icon.svg?v=montu", type: "image/svg+xml" }],
+    shortcut: "/icon.svg?v=montu",
+    apple: "/icon.svg?v=montu",
   },
 };
 
