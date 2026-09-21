@@ -71,7 +71,7 @@ export default function TripsGrid({ trips, cardStyle = "vertical" }) {
             }`}
           >
             <Image
-              src={trip.cover_image || "/default.jpg"}
+              src={trip.cover_image || "/HomePageImage/pexels-adventistasia-25662334.webp"}
               alt={trip.title?.[lang] || trip.title?.en || "Trip image"}
               width={660}
               height={400}

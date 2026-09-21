@@ -201,7 +201,7 @@ const TopTripsSection = () => {
               <span className="featured-journey-days">{trip.duration || trip.days || 1}<small>days</small></span>
               <div className="relative h-72">
                 <Image
-                  src={trip.cover_image || "/default.jpg"}
+                  src={trip.cover_image || "/HomePageImage/pexels-adventistasia-25662334.webp"}
                   alt={trip.title?.[normalizedLang] || "Trip image"}
                   fill
                   className="object-cover group-hover:scale-110 transition duration-700 rounded-lg"

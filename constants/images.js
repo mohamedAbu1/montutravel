@@ -11,7 +11,7 @@ export const mobileImages = [
   "/Luxor/pexels-oualid-soussi-2150533856-35050672.webp",
   "/Cairo/pexels-ozgomz-7566890.webp",
   "/Aswan/pexels-furknsaglam-1596977-21348185.webp",
-  "/Luxor/pexels-yasmine-qasem-1054896-2034684.webp",
+  "/Aswan/pexels-yasmine-qasem-1054896-2034684.webp",
   "/HomePageImage/pexels-radwa-magdy-1718930-21668633.webp",
   "/Hurghada/pexels-ozgomz-7566888.webp",
 ];
@@ -43,7 +43,7 @@ export const femaleAvatars = [
   "/young-smiling-woman-mia-avatar-3d-vector-people-character-illustration-cartoon-minimal-style_1029476-291545.webp",
 ];
 // ? $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-export const eagleLogo = "/HomePageImage/Copilot_20251201_121053.webp"
+export const eagleLogo = "/HomePageImage/1540235872.svg";
 
 // بيانات زخارف الرحلات — يمكن توسيعها لاحقًا بروابط المعالم.
 export const sites = [];

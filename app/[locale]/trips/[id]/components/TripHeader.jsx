@@ -83,7 +83,7 @@ export default function TripHeader({ trip, lang }) {
         className="overflow-hidden rounded-lg shadow-md mb-6 relative h-[500px]"
       >
         <Image
-          src={trip.gallery_images[activeIndex].url || "/default.jpg"}
+          src={trip.gallery_images[activeIndex].url || "/HomePageImage/pexels-adventistasia-25662334.webp"}
           alt={
             trip.gallery_images[activeIndex].name?.[lang] ||
             trip.gallery_images[activeIndex].name?.en ||
@@ -114,7 +114,7 @@ export default function TripHeader({ trip, lang }) {
             onClick={() => setActiveIndex(index)}
           >
             <Image
-              src={img.url || "/default.jpg"}
+              src={img.url || "/HomePageImage/pexels-adventistasia-25662334.webp"}
               alt={img.name?.[lang] || img.name?.en || `Thumbnail ${index}`}
               fill
               className="object-cover rounded-lg"

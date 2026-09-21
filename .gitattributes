@@ -5,3 +5,49 @@
 *.gif filter=lfs diff=lfs merge=lfs -text
 *.mp4 filter=lfs diff=lfs merge=lfs -text
 *.svg filter=lfs diff=lfs merge=lfs -text
+
+# These assets are loaded directly by the deployed Next.js app. Keep the
+# runtime-critical public assets as regular Git blobs so Vercel serves them
+# without requiring Git LFS during its build checkout.
+public/3d-avatar-cartoon-character_113255-92170.webp -filter -diff -merge
+public/3d-avatar-cartoon-character_113255-93687.webp -filter -diff -merge
+public/3d-rendered-photo-woman-wearing-glasses-smiles-camera_1103059-4106.webp -filter -diff -merge
+public/3d-rendered-photo-woman-wearing-glasses-smiles-camera_1103059-4231.webp -filter -diff -merge
+public/3d-rendered-photo-woman-wearing-glasses-smiles-camera_1103059-4319.webp -filter -diff -merge
+public/3d-rendered-photo-woman-wearing-glasses-smiles-camera_1103059-4400.webp -filter -diff -merge
+public/Aswan/pexels-furknsaglam-1596977-21348185.webp -filter -diff -merge
+public/Aswan/pexels-radwa-magdy-1718930-28144568.webp -filter -diff -merge
+public/bjlsd.webp -filter -diff -merge
+public/blds.webp -filter -diff -merge
+public/business-woman-3d-cartoon-avatar-portrait_839035-196331.webp -filter -diff -merge
+public/Cairo/pexels-ozgomz-7566890.webp -filter -diff -merge
+public/HomePageImage/1547933741.svg -filter -diff -merge
+public/HomePageImage/420046069_b520e5b4-b7a6-434e-bd8b-7191da0f4e29.svg -filter -diff -merge
+public/HomePageImage/car-png-39057.png -filter -diff -merge
+public/HomePageImage/Copilot_20251003_105735.webp -filter -diff -merge
+public/HomePageImage/cruiseliner.svg -filter -diff -merge
+public/HomePageImage/johnny_automatic_ocean_liner.svg -filter -diff -merge
+public/HomePageImage/pexels-adventistasia-25662334.webp -filter -diff -merge
+public/HomePageImage/pexels-ahad-hasan-1816309676-34248486.webp -filter -diff -merge
+public/HomePageImage/pexels-berk-ozdemir-1761205-3779825.webp -filter -diff -merge
+public/HomePageImage/pexels-radwa-magdy-1718930-21668633.webp -filter -diff -merge
+public/HomePageImage/Temple-of-Bell-Street-2015100903.svg -filter -diff -merge
+public/HomePageImage/White-Kia-PNG-High-Quality-Image.webp -filter -diff -merge
+public/Hurghada/pexels-ozgomz-7566888.webp -filter -diff -merge
+public/kbj.webp -filter -diff -merge
+public/klhasd.webp -filter -diff -merge
+public/Luxor/pexels-axp-photography-500641970-18934596.webp -filter -diff -merge
+public/Luxor/pexels-axp-photography-500641970-18934598.webp -filter -diff -merge
+public/Luxor/pexels-axp-photography-500641970-18991537.webp -filter -diff -merge
+public/Luxor/pexels-diego-f-parra-33199-15131539.webp -filter -diff -merge
+public/Luxor/pexels-francesco-albanese-2150950215-31730178.webp -filter -diff -merge
+public/Luxor/pexels-frans-van-heerden-201846-631339.webp -filter -diff -merge
+public/Luxor/pexels-oualid-soussi-2150533856-35050672.webp -filter -diff -merge
+public/Nile_Cruise/5116-900x600.webp -filter -diff -merge
+public/Nile_Cruise/Dahabeya-program-SOBEK-900x600.webp -filter -diff -merge
+public/memoji-happy-man-white-background-emoji_826801-6839.webp -filter -diff -merge
+public/nss.webp -filter -diff -merge
+public/usa.webp -filter -diff -merge
+public/woman-human-head-illustration_862994-10854.webp -filter -diff -merge
+public/young-business-woman-with-nerd-glasses-grey-background-3d-rendering_1026950-41027.webp -filter -diff -merge
+public/young-smiling-woman-mia-avatar-3d-vector-people-character-illustration-cartoon-minimal-style_1029476-291545.webp -filter -diff -merge
