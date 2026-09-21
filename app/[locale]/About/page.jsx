@@ -1,9 +1,7 @@
 "use client";
 import React from "react";
-import { useTheme } from "@/context/ThemeContext";
 import Header from "@/auth/components/Header/Header";
 import Footer from "@/auth/components/home/Footer";
-import EgyptianBackground from "@/components/layout/EgyptianBackground";
 import LoginModal from "@/auth/components/home/components/LoginModal";
 import SignUpButton from "@/auth/components/home/components/SignUpButton";
 
@@ -19,7 +17,6 @@ import Head from "next/head";
 import { useLanguage } from "@/context/LanguageContext";
 import { aboutMetadata } from "@/lib/metadata/about";
 export default function AboutPage() {
-  const { theme } = useTheme();
   const { user } = useAuth(); // ✅ جلب المستخدم الحالي
   const { lang } = useLanguage();
   const sourceMeta = aboutMetadata[lang] || aboutMetadata.en;
@@ -32,11 +29,9 @@ export default function AboutPage() {
         <meta name="keywords" content={meta.keywords} />
       </Head>
       <main
-       className="montu-page montu-about-page relative flex flex-col min-h-screen justify-center items-center "
+       className="montu-page montu-about-page montu-about-v2-page relative flex flex-col min-h-screen"
       >
         <Header />
-        <EgyptianBackground />
-
         {/* الأقسام */}
         <AboutHero />
         <MissionValues />
