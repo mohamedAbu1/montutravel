@@ -463,6 +463,57 @@ html[data-theme="light"] .montu-status-page, html[data-theme="light"] .montu-loa
 @media (max-width: 520px) { .montu-status-content { width: min(100% - 2rem, 48rem); }.montu-status-kicker { margin-top: 2.8rem; font-size: .58rem; }.montu-status-content h1 { font-size: 2.55rem; }.montu-status-message { font-size: .9rem; }.montu-status-actions { flex-direction: column; align-items: stretch; }.montu-status-button { width: 100%; }.montu-status-footer { font-size: .5rem; line-height: 1.7; }.montu-status-orbit--one { left: -12rem; }.montu-status-orbit--two { right: -11rem; }.montu-loading-mark { width: 6.5rem; height: 6.5rem; } }
 @media (prefers-reduced-motion: reduce) { .montu-status-button, .montu-loading-content, .montu-loading-line i { animation: none !important; transition: none !important; } .montu-status-button:hover { transform: none; } }
 
+/* Home About CTA: a real action surface instead of a weak text link. */
+.montu-editorial-copy .montu-editorial-link { min-height: 3.2rem; align-items: center; padding: .82rem 1.2rem .82rem 1.3rem; border: 1px solid rgba(14, 98, 94, .62) !important; border-radius: 999px; color: #fff !important; background: linear-gradient(135deg, #0e625e, #167c72); box-shadow: 0 .75rem 1.5rem rgba(14, 98, 94, .2); letter-spacing: .08em; transition: transform .25s ease, box-shadow .25s ease, gap .25s ease, background .25s ease; }
+.montu-editorial-copy .montu-editorial-link:hover { gap: 1.55rem; color: #fff !important; background: linear-gradient(135deg, #0a514e, #0e625e); box-shadow: 0 1rem 1.8rem rgba(14, 98, 94, .28); transform: translateY(-2px); }
+.montu-editorial-copy .montu-editorial-link span { display: grid; width: 1.55rem; height: 1.55rem; place-items: center; border: 1px solid rgba(255,255,255,.45); border-radius: 50%; color: #f3d493; font-size: .95rem; }
+html[data-theme="dark"] .montu-editorial-copy .montu-editorial-link { border-color: rgba(228, 189, 105, .72) !important; color: #241710 !important; background: linear-gradient(135deg, #d79755, #e7bd73); box-shadow: 0 .75rem 1.5rem rgba(0,0,0,.24); }
+html[data-theme="dark"] .montu-editorial-copy .montu-editorial-link:hover { color: #241710 !important; background: linear-gradient(135deg, #e6b16c, #f1d18c); }
+html[data-theme="dark"] .montu-editorial-copy .montu-editorial-link span { border-color: rgba(36,23,16,.35); color: #241710; }
+@media (max-width: 560px) { .montu-editorial-copy .montu-editorial-link { width: fit-content; max-width: 100%; min-height: 3rem; padding-inline: 1.05rem; font-size: .66rem; } }
+
+/* Featured reviews: editorial cards with an honest, local demo state. */
+.montu-reviews-section { position: relative; overflow: hidden; padding-inline: max(1.25rem, 5vw) !important; background: linear-gradient(135deg, #f5ead1 0%, #efe0bd 54%, #e8d3a8 100%) !important; }
+.montu-reviews-section::after { content: ""; position: absolute; right: -12rem; bottom: -14rem; width: 30rem; height: 30rem; border: 1px solid rgba(185,137,54,.25); border-radius: 50%; box-shadow: 0 0 0 3rem rgba(185,137,54,.06), 0 0 0 7rem rgba(185,137,54,.04); pointer-events: none; }
+.montu-reviews-heading { position: relative; z-index: 1; max-width: 46rem; margin: 0 auto clamp(2rem, 5vw, 4rem); text-align: center; }
+.montu-reviews-kicker { display: block; margin-bottom: .85rem; color: #a87532; font: 800 .66rem/1 Arial, sans-serif; letter-spacing: .2em; text-transform: uppercase; }
+.montu-reviews-heading h2 { margin: 0; color: #12233b !important; font: 700 clamp(2rem, 4vw, 3.65rem)/1 Georgia, serif; letter-spacing: -.045em; text-transform: none !important; text-shadow: none; background: none; -webkit-text-fill-color: currentColor; }
+.montu-reviews-heading p { margin: .9rem auto 0; color: #66717c; font: 1rem/1.6 Arial, sans-serif; }
+.montu-reviews-section .slick-list { padding: 1rem 0 2rem; margin-inline: -.75rem; }
+.montu-reviews-section .slick-slide { height: inherit; }
+.montu-reviews-section .slick-slide > div { height: 100%; }
+.montu-review-card { position: relative; height: calc(100% - 1rem); margin: .5rem .7rem; border: 1px solid rgba(185,137,54,.34); border-radius: 1.35rem !important; background: rgba(255,255,255,.52); box-shadow: 0 1.5rem 3rem rgba(38,40,36,.1); backdrop-filter: blur(16px); transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease; }
+.montu-review-card:hover { transform: translateY(-.35rem); border-color: rgba(185,137,54,.72); box-shadow: 0 1.75rem 3.5rem rgba(38,40,36,.15); }
+.montu-review-card__topline { display: flex; align-items: center; justify-content: space-between; min-height: 1.2rem; color: #b88938; }
+.montu-review-card__topline svg { font-size: .95rem; }
+.montu-review-card__eyebrow { color: #9a6b2d; font: 800 .59rem/1 Arial, sans-serif; letter-spacing: .13em; text-transform: uppercase; }
+.montu-review-card__author { border-color: rgba(18,35,59,.12) !important; }
+.montu-review-card__author img { border-color: #c89345 !important; }
+.montu-review-card__quote { color: #b88938; }
+.montu-review-card__more { color: #0e625e; font-weight: 800; }
+.montu-review-card__footer { border-color: rgba(18,35,59,.12) !important; }
+.montu-review-like { display: inline-flex; align-items: center; gap: .4rem; min-height: 2.3rem; padding: .5rem .7rem; border: 1px solid rgba(14,98,94,.2); border-radius: 999px; color: #0e625e; background: rgba(14,98,94,.06); font: 800 .76rem/1 Arial, sans-serif; cursor: pointer; transition: color .2s ease, background .2s ease, border-color .2s ease, transform .2s ease; }
+.montu-review-like:hover:not(:disabled) { border-color: rgba(14,98,94,.48); background: rgba(14,98,94,.12); transform: translateY(-1px); }
+.montu-review-like.is-liked { border-color: rgba(169,89,63,.42); color: #a9593f; background: rgba(169,89,63,.1); }
+.montu-review-like:disabled { cursor: default; opacity: .72; }
+.montu-review-like__label { color: inherit; font-size: .58rem; letter-spacing: .08em; text-transform: uppercase; }
+.montu-reviews-section .slick-dots { bottom: -.25rem; }
+.montu-reviews-section .slick-dots li button::before { color: #a87532; opacity: .35; font-size: .55rem; }
+.montu-reviews-section .slick-dots li.slick-active button::before { color: #0e625e; opacity: 1; }
+html[data-theme="dark"] .montu-reviews-section { background: radial-gradient(circle at 12% 0%, rgba(224,169,76,.12), transparent 30%), linear-gradient(135deg, #17110f, #2a1c17 58%, #211612) !important; }
+html[data-theme="dark"] .montu-reviews-heading h2 { color: #f7ead5 !important; }
+html[data-theme="dark"] .montu-reviews-heading p { color: #c3ad95; }
+html[data-theme="dark"] .montu-review-card { border-color: rgba(233,189,112,.28); background: rgba(49,31,24,.82); box-shadow: 0 1.5rem 3rem rgba(0,0,0,.24); }
+html[data-theme="dark"] .montu-review-card:hover { border-color: rgba(233,189,112,.58); }
+html[data-theme="dark"] .montu-review-card__author, html[data-theme="dark"] .montu-review-card__footer { border-color: rgba(247,234,213,.14) !important; }
+html[data-theme="dark"] .montu-review-card__eyebrow { color: #e9bd70; }
+html[data-theme="dark"] .montu-review-card__quote, html[data-theme="dark"] .montu-review-card__topline, html[data-theme="dark"] .montu-review-card .text-yellow-400 { color: #e9bd70 !important; }
+html[data-theme="dark"] .montu-review-card__more { color: #d9ac5d; }
+html[data-theme="dark"] .montu-review-like { border-color: rgba(233,189,112,.28); color: #e9bd70; background: rgba(233,189,112,.08); }
+html[data-theme="dark"] .montu-review-like:hover:not(:disabled) { border-color: rgba(233,189,112,.58); background: rgba(233,189,112,.15); }
+html[data-theme="dark"] .montu-review-like.is-liked { color: #e5a47c; border-color: rgba(229,164,124,.44); background: rgba(169,89,63,.16); }
+@media (max-width: 640px) { .montu-reviews-section { padding-inline: .85rem !important; }.montu-review-card { padding: 1.35rem !important; }.montu-review-like__label { display: none; }.montu-reviews-heading h2 { font-size: 2.2rem; } }
+
 /* Montu Travel system surfaces: shared by home, trips, about, contact and admin */
 .montu-page { position: relative; isolation: isolate; width: 100%; min-height: 100vh; overflow: hidden; padding-top: 7rem; background: var(--background); color: var(--text); }
 .montu-page::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(circle at 12% 12%, rgba(225, 179, 100, .18), transparent 28%), radial-gradient(circle at 90% 38%, rgba(117, 72, 38, .12), transparent 30%); }
