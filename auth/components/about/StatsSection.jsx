@@ -16,7 +16,7 @@ export default function StatsSection() {
   ];
 
   return (
-    <section className="relative z-10 py-14 px-6">
+    <section className="montu-about-stats-section relative z-10 py-14 px-6">
       <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
         {stats.map((stat, i) => (
           <AnimatedStat key={i} stat={stat} themeName={themeName} />
@@ -43,7 +43,7 @@ function AnimatedStat({ stat, themeName }) {
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
-      className={`rounded-2xl p-6 text-center border text-gradient`}
+      className={`montu-about-stat rounded-2xl p-6 text-center border text-gradient`}
     >
       <motion.div
         animate={controls}

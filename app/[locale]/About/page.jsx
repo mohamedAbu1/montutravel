@@ -32,7 +32,7 @@ export default function AboutPage() {
         <meta name="keywords" content={meta.keywords} />
       </Head>
       <main
-       className="montu-page relative flex flex-col min-h-screen justify-center items-center "
+       className="montu-page montu-about-page relative flex flex-col min-h-screen justify-center items-center "
       >
         <Header />
         <EgyptianBackground />

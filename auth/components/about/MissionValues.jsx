@@ -25,7 +25,7 @@ export default function MissionValues() {
 
   return (
     <motion.section
-      className="relative z-10 py-8 px-6"
+      className="montu-about-values relative z-10 py-8 px-6"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
@@ -37,7 +37,7 @@ export default function MissionValues() {
       >
         <motion.div
           variants={fadeUp}
-          className={`rounded-2xl p-6 border text-gradient`}
+          className={`montu-about-value-card rounded-2xl p-6 border text-gradient`}
         >
           <h3
             className={`about-p text-xl font-bold mb-2 text-gradient`} 
@@ -55,7 +55,7 @@ export default function MissionValues() {
 
         <motion.div
           variants={fadeUp}
-          className={`rounded-2xl p-6 border text-gradient`}
+          className={`montu-about-value-card rounded-2xl p-6 border text-gradient`}
         >
           <h3
             className={`about-p text-xl font-bold mb-2 text-gradient`}
@@ -74,7 +74,7 @@ export default function MissionValues() {
 
         <motion.div
           variants={fadeUp}
-          className={`rounded-2xl p-6 border text-gradient`}
+          className={`montu-about-value-card rounded-2xl p-6 border text-gradient`}
         >
           <h3
             className={`about-p text-xl font-bold mb-2 text-gradient`} 

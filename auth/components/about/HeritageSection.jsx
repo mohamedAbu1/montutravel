@@ -30,13 +30,13 @@ export default function HeritageSection() {
 
   return (
     <motion.section
-      className="relative z-10 pb-20 px-6"
+      className="montu-about-heritage relative z-10 pb-20 px-6"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
     >
       <div
-        className={`max-w-7xl mx-auto rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8 border text-gradient`}
+        className={`montu-about-heritage__panel max-w-7xl mx-auto rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8 border text-gradient`}
       >
         {/* النص */}
         <motion.div variants={fadeLeft} className="flex-1">
@@ -57,7 +57,7 @@ export default function HeritageSection() {
         {/* الصورة */}
         <motion.div
           variants={fadeRight}
-          className="flex-1 relative w-full h-56"
+          className="montu-about-heritage__media flex-1 relative w-full h-56"
         >
           <Image
            src={

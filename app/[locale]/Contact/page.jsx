@@ -86,7 +86,7 @@ export default function ContactPage() {
         <meta name="description" content={meta.description} />
         <meta name="keywords" content={meta.keywords} />
       </Head>
-      <main className="montu-page relative flex flex-col min-h-screen justify-center items-center ">
+      <main className="montu-page montu-contact-page relative flex flex-col min-h-screen justify-center items-center ">
         <Header />
         {/* خلفية الرموز الفرعونية */}
         <div className="absolute inset-0 pointer-events-none">
@@ -108,7 +108,7 @@ export default function ContactPage() {
         </div>
 
         {/* المحتوى */}
-        <section className="relative z-10 pt-20 px-6 mt-6">
+        <section className="montu-contact-experience relative z-10 pt-20 px-6 mt-6">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             {/* معلومات التواصل */}
             <motion.div
@@ -116,7 +116,7 @@ export default function ContactPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className={`card-theme relative rounded-2xl p-8 shadow-xl ${
+              className={`montu-contact-card montu-contact-card--info card-theme relative rounded-2xl p-8 shadow-xl ${
                 themeName === "dark" ? "card-dark" : "card-light"
               }`}
             >
@@ -166,7 +166,7 @@ export default function ContactPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className={`card-theme rounded-2xl p-8 shadow-xl space-y-6 ${
+              className={`montu-contact-card montu-contact-card--form card-theme rounded-2xl p-8 shadow-xl space-y-6 ${
                 themeName === "dark" ? "card-dark" : "card-light"
               }`}
             >

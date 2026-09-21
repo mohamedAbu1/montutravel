@@ -10,7 +10,7 @@ export default function AboutHero() {
   const { t } = useTranslation("about");
 
   return (
-    <section className="relative z-10 py-20 px-6 mt-12">
+    <section className="montu-about-hero relative z-10 py-20 px-6 mt-12">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-12 items-center">
         
         {/* الصورة الأولى */}
@@ -19,7 +19,7 @@ export default function AboutHero() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative w-full h-80 lg:h-[460px] rounded-2xl overflow-hidden shadow-2xl"
+          className="montu-about-hero__media relative w-full h-80 lg:h-[460px] rounded-2xl overflow-hidden shadow-2xl"
         >
           <Image
             src={
@@ -39,7 +39,7 @@ export default function AboutHero() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="space-y-5"
+          className="montu-about-hero__copy space-y-5"
         >
           <p
             className={`about-p uppercase tracking-widest text-sm text-gradient `}
@@ -70,7 +70,7 @@ export default function AboutHero() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative w-full h-80 lg:h-[460px] rounded-2xl overflow-hidden shadow-2xl"
+          className="montu-about-hero__media montu-about-hero__media--second relative w-full h-80 lg:h-[460px] rounded-2xl overflow-hidden shadow-2xl"
         >
           <Image
             src={

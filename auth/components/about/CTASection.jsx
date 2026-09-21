@@ -26,7 +26,7 @@ export default function CTASection() {
 
   return (
     <motion.section
-      className="relative z-10 pb-24 px-6"
+      className="montu-about-cta relative z-10 pb-24 px-6"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
