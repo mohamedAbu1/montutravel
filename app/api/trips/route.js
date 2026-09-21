@@ -220,12 +220,6 @@ export async function GET() {
 });
 
   } catch (err) {
-    if (isLocalDbEnabled) {
-      return new Response(JSON.stringify({ success: true, trips: [], degraded: true }), {
-        status: 200,
-        headers: { "Cache-Control": "no-store" },
-      });
-    }
     console.warn("GET /api/trips degraded response:", err.message);
     return new Response(
       JSON.stringify({ success: true, trips: getFallbackTrips(), degraded: true, source: "bundled-seed" }),

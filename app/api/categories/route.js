@@ -27,9 +27,6 @@ export async function GET() {
       }
     );
   } catch (err) {
-    if (isLocalDbEnabled) {
-      return Response.json({ success: true, categories: [], degraded: true });
-    }
     return new Response(
       JSON.stringify({ success: true, categories: getFallbackCategories(), degraded: true, source: "bundled-seed" }),
       {
