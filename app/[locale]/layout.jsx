@@ -15,7 +15,7 @@ export async function generateMetadata({ params }) {
     title: titles[lang],
     description: descriptions[lang],
     keywords: "Montu Travel, Egypt luxury tours, Nile cruises, desert safaris, Luxor, Aswan",
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3004"),
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://montutravel.vercel.app"),
     alternates: { canonical: `/${lang}`, languages: Object.fromEntries(supportedLocales.map((item) => [item, `/${item}`])) },
     openGraph: { title: titles[lang], description: descriptions[lang], type: "website", siteName: "Montu Travel", url: `/${lang}` },
     twitter: { card: "summary_large_image", title: titles[lang], description: descriptions[lang] },

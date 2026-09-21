@@ -2,6 +2,7 @@ import { supabase } from "@/lib/supabaseClient";
 import { localQuery } from "@/lib/localDb";
 import { isLocalDbEnabled } from "@/lib/runtimeConfig";
 import { getFallbackTrips } from "@/lib/fallbackData";
+import { normalizeTripRecord } from "@/lib/media";
 
 async function getLocalTrips() {
   const trips = await localQuery("SELECT * FROM trips ORDER BY created_at DESC");
@@ -165,7 +166,7 @@ export async function GET() {
   try {
     if (isLocalDbEnabled) {
       const trips = await getLocalTrips();
-      return new Response(JSON.stringify({ success: true, trips }), { status: 200, headers: { "Cache-Control": "public, max-age=3600" } });
+      return new Response(JSON.stringify({ success: true, trips: trips.map(normalizeTripRecord) }), { status: 200, headers: { "Cache-Control": "public, max-age=3600" } });
     }
     const { data: trips, error } = await supabase.from("trips").select(`
       id,
@@ -214,7 +215,7 @@ export async function GET() {
       throw error;
     }
 
-    return new Response(JSON.stringify({ success: true, trips }), {
+    return new Response(JSON.stringify({ success: true, trips: trips.map(normalizeTripRecord) }), {
   status: 200,
   headers: { "Cache-Control": "public, max-age=3600" } // ساعة
 });

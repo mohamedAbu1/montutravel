@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import EgyptianBackground from "../../../components/layout/EgyptianBackground";
 import Divider from "@/components/layout/Divider";
+import { resolveTravelImage } from "@/lib/media";
 
 const encodeData = (obj) => btoa(JSON.stringify(obj));
 
@@ -67,13 +68,7 @@ function CategoryCard({ cat, theme, language }) {
           className="absolute inset-0"
         >
           <Image
-            src={
-              cat.images?.[imgIndex]?.startsWith("/")
-                ? cat.images[imgIndex]
-                : cat.images?.[imgIndex]?.startsWith("http")
-                ? cat.images[imgIndex]
-                : "/fallback.jpg"
-            }
+            src={resolveTravelImage(cat.images?.[imgIndex], { kind: "category", label: cat.name, index: imgIndex })}
             alt={displayName}
             fill
             className="object-cover rounded-lg"

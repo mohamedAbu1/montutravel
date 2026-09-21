@@ -10,6 +10,7 @@ import { usePurchase } from "@/context/PurchaseContext";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { usePathname } from "next/navigation";
+import { resolveTravelImage } from "@/lib/media";
 
 const TopTripsSection = () => {
   const { theme, themeName } = useTheme();
@@ -201,7 +202,7 @@ const TopTripsSection = () => {
               <span className="featured-journey-days">{trip.duration || trip.days || 1}<small>days</small></span>
               <div className="relative h-72">
                 <Image
-                  src={trip.cover_image || "/HomePageImage/pexels-adventistasia-25662334.webp"}
+                  src={resolveTravelImage(trip.cover_image, { label: trip.title })}
                   alt={trip.title?.[normalizedLang] || "Trip image"}
                   fill
                   className="object-cover group-hover:scale-110 transition duration-700 rounded-lg"

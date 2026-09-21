@@ -975,9 +975,9 @@ html[data-theme="dark"] .montu-left-glyphs { opacity: .82; }
 .montu-cinematic-intro__mark { width: 5.8rem; height: 5.8rem; margin-bottom: 1.8rem; padding: .9rem; border: 1px solid rgba(240,198,119,.7); border-radius: 50%; box-shadow: 0 0 0 1rem rgba(240,198,119,.06), inset 0 0 1.5rem rgba(240,198,119,.12); animation: montu-intro-mark 1.8s .45s ease both; }
 .montu-cinematic-intro__mark svg { width: 100%; height: 100%; fill: none; stroke: #e8bd70; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.5; }
 .montu-cinematic-intro__eyebrow { margin: 0; color: #d9aa5f; font: 800 .58rem/1.2 Arial,sans-serif; letter-spacing: .34em; }
-.montu-cinematic-intro h1 { display: grid; margin: 1rem 0 .65rem; color: #fff0c9; font: 600 clamp(2.8rem, 8vw, 6rem)/.8 Georgia,serif; letter-spacing: .08em; text-shadow: 0 1rem 3rem rgba(0,0,0,.32); }
-.montu-cinematic-intro h1 span { animation: montu-intro-word 1s .75s ease both; }
-.montu-cinematic-intro h1 em { color: #dca960; font-size: .48em; font-style: normal; letter-spacing: .5em; animation: montu-intro-word 1s 1s ease both; }
+.montu-cinematic-intro__title { display: grid; margin: 1rem 0 .65rem; color: #fff0c9; font: 600 clamp(2.8rem, 8vw, 6rem)/.8 Georgia,serif; letter-spacing: .08em; text-shadow: 0 1rem 3rem rgba(0,0,0,.32); }
+.montu-cinematic-intro__title span { animation: montu-intro-word 1s .75s ease both; }
+.montu-cinematic-intro__title em { color: #dca960; font-size: .48em; font-style: normal; letter-spacing: .5em; animation: montu-intro-word 1s 1s ease both; }
 .montu-cinematic-intro__tagline { margin: 0; color: rgba(255,235,196,.68); font: 400 .76rem/1.5 Arial,sans-serif; letter-spacing: .08em; }
 .montu-cinematic-intro__line { width: 0; height: 1px; margin-top: 2rem; background: linear-gradient(90deg, transparent, #dca960, transparent); animation: montu-intro-line 1.2s 1.3s ease forwards; }
 .montu-cinematic-intro__glyph { position: absolute; z-index: 1; color: rgba(226,174,90,.18); font-size: clamp(4rem, 12vw, 10rem); filter: drop-shadow(0 0 1rem rgba(226,174,90,.2)); }
@@ -993,7 +993,7 @@ html[data-theme="dark"] .montu-left-glyphs { opacity: .82; }
 @keyframes montu-intro-line { to { width: 11rem; } }
 @keyframes montu-intro-float { 0%,100% { transform: translateY(0) rotate(-8deg); } 50% { transform: translateY(-1rem) rotate(4deg); } }
 @keyframes montu-intro-exit { to { opacity: 0; visibility: hidden; transform: scale(1.04); } }
-@media (prefers-reduced-motion: reduce) { .montu-cinematic-intro { animation-duration: .4s; animation-delay: .7s; }.montu-cinematic-intro__sun, .montu-cinematic-intro__content, .montu-cinematic-intro__mark, .montu-cinematic-intro__glyph, .montu-cinematic-intro__horizon { animation-duration: .01ms !important; animation-delay: 0ms !important; }.montu-cinematic-intro h1 span, .montu-cinematic-intro h1 em { animation: none; }.montu-cinematic-intro__line { width: 11rem; animation: none; } }
+@media (prefers-reduced-motion: reduce) { .montu-cinematic-intro { animation-duration: .4s; animation-delay: .7s; }.montu-cinematic-intro__sun, .montu-cinematic-intro__content, .montu-cinematic-intro__mark, .montu-cinematic-intro__glyph, .montu-cinematic-intro__horizon { animation-duration: .01ms !important; animation-delay: 0ms !important; }.montu-cinematic-intro__title span, .montu-cinematic-intro__title em { animation: none; }.montu-cinematic-intro__line { width: 11rem; animation: none; } }
 
 /* Premium authentication experience */
 .montu-auth-dialog { width: min(100%, 58rem); max-width: none !important; display: grid; grid-template-columns: minmax(16rem, .82fr) minmax(24rem, 1.18fr); padding: 0 !important; overflow: hidden !important; border: 1px solid rgba(118, 78, 35, .22); border-radius: 1.75rem !important; background: #fffaf0 !important; box-shadow: 0 2rem 5rem rgba(49, 30, 13, .28) !important; color: #2f2118; }

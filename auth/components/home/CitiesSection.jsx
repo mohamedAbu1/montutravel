@@ -8,6 +8,7 @@ import { useCitiesCategories } from "@/context/CitiesCategoriesContext";
 import DividerWithIcon from "../../../components/layout/DividerWithIcon";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
+import { normalizeImageList } from "@/lib/media";
 
 const encodeData = (obj) => btoa(JSON.stringify(obj));
 
@@ -38,7 +39,7 @@ function CityCard({ city, themeName, theme, language, t }) {
     return () => clearInterval(interval);
   }, []);
 
-  const images = city.images?.slice(0, 2) || ["/fallback.jpg", "/fallback.jpg"];
+  const images = normalizeImageList(city.images, { kind: "destination", label: city.name }).slice(0, 2);
 
   return (
     <motion.div

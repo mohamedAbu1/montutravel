@@ -3,12 +3,13 @@ import { supabase } from "@/lib/supabaseClient";
 import { localQuery } from "@/lib/localDb";
 import { isLocalDbEnabled } from "@/lib/runtimeConfig";
 import { getFallbackCities } from "@/lib/fallbackData";
+import { normalizeCityRecord } from "@/lib/media";
 
 export async function GET() {
   try {
     if (isLocalDbEnabled) {
       const cities = await localQuery("SELECT id, name, images FROM cities ORDER BY id ASC");
-      return Response.json({ success: true, cities }, { headers: { "Cache-Control": "public, max-age=3600" } });
+      return Response.json({ success: true, cities: cities.map(normalizeCityRecord) }, { headers: { "Cache-Control": "public, max-age=3600" } });
     }
     const { data, error } = await supabase
       .from("cities")
@@ -18,7 +19,7 @@ export async function GET() {
     if (error) throw error;
 
     return new Response(
-      JSON.stringify({ success: true, cities: data }),
+      JSON.stringify({ success: true, cities: data.map(normalizeCityRecord) }),
       {
         status: 200,
         headers: {

@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function CinematicIntro() {
   const [visible, setVisible] = useState(false);
+  const introRef = useRef(null);
 
   useEffect(() => {
     const introKey = "montu-cinematic-intro-seen";
@@ -15,11 +16,18 @@ export default function CinematicIntro() {
     setVisible(true);
     document.body.classList.add("montu-intro-active");
 
-    const duration = reduceMotion ? 1200 : 3600;
-    const timer = window.setTimeout(() => setVisible(false), duration);
+    const duration = reduceMotion ? 700 : 2800;
+    const timer = window.setTimeout(dismiss, duration);
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") dismiss();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    window.setTimeout(() => introRef.current?.focus(), 0);
 
     return () => {
       window.clearTimeout(timer);
+      window.removeEventListener("keydown", handleKeyDown);
       document.body.classList.remove("montu-intro-active");
     };
   }, []);
@@ -32,7 +40,7 @@ export default function CinematicIntro() {
   if (!visible) return null;
 
   return (
-    <div className="montu-cinematic-intro" role="dialog" aria-label="Welcome to Montu Travel">
+    <div ref={introRef} tabIndex={-1} className="montu-cinematic-intro" role="dialog" aria-modal="true" aria-labelledby="montu-intro-title">
       <div className="montu-cinematic-intro__grain" aria-hidden="true" />
       <div className="montu-cinematic-intro__sun" aria-hidden="true" />
       <div className="montu-cinematic-intro__horizon" aria-hidden="true" />
@@ -49,7 +57,7 @@ export default function CinematicIntro() {
           </svg>
         </div>
         <p className="montu-cinematic-intro__eyebrow">A NEW WAY TO SEE EGYPT</p>
-        <h1><span>MONTU</span><em>TRAVEL</em></h1>
+        <p id="montu-intro-title" className="montu-cinematic-intro__title" role="heading" aria-level="2"><span>MONTU</span><em>TRAVEL</em></p>
         <p className="montu-cinematic-intro__tagline">Luxury Egyptian journeys, thoughtfully revealed.</p>
         <div className="montu-cinematic-intro__line" aria-hidden="true" />
       </div>
