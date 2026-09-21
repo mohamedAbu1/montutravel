@@ -8,6 +8,7 @@
 
 # Next.js metadata assets must be regular blobs so Vercel can parse them.
 app/icon.png -filter -diff -merge
+public/Siwa/pexels-ast4rk-33661271.webp -filter -diff -merge
 
 # These assets are loaded directly by the deployed Next.js app. Keep the
 # runtime-critical public assets as regular Git blobs so Vercel serves them
