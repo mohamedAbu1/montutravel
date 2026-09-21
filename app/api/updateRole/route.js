@@ -1,16 +1,13 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { supabaseAdmin } from "@/lib/supabaseClient";
 
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+const adminClient = supabaseAdmin();
 
 export async function POST(req) {
   try {
     const { userId, newRole } = await req.json();
 
-    const { error } = await supabaseAdmin.auth.admin.updateUserById(userId, {
+    const { error } = await adminClient.auth.admin.updateUserById(userId, {
       user_metadata: { role: newRole },
     });
 

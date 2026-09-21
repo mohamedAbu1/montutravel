@@ -1,12 +1,7 @@
 // src/app/api/reviews/[id]/route.js
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+import { supabase } from "@/lib/supabaseClient";
 
 // ✅ استخراج المستخدم من كوكيز Supabase
 async function getUserFromCookies() {

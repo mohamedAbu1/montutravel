@@ -1,14 +1,11 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { supabaseAdmin } from "@/lib/supabaseClient";
 
 // ✅ لازم تستخدم Service Role Key هنا
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+const adminClient = supabaseAdmin();
 
 export async function GET() {
-  const { data, error } = await supabaseAdmin.auth.admin.listUsers();
+  const { data, error } = await adminClient.auth.admin.listUsers();
 
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 400 });
