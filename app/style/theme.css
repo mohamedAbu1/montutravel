@@ -995,6 +995,114 @@ html[data-theme="dark"] .montu-left-glyphs { opacity: .82; }
 @keyframes montu-intro-exit { to { opacity: 0; visibility: hidden; transform: scale(1.04); } }
 @media (prefers-reduced-motion: reduce) { .montu-cinematic-intro { animation-duration: .4s; animation-delay: .7s; }.montu-cinematic-intro__sun, .montu-cinematic-intro__content, .montu-cinematic-intro__mark, .montu-cinematic-intro__glyph, .montu-cinematic-intro__horizon { animation-duration: .01ms !important; animation-delay: 0ms !important; }.montu-cinematic-intro__title span, .montu-cinematic-intro__title em { animation: none; }.montu-cinematic-intro__line { width: 11rem; animation: none; } }
 
+/* Trip detail: an editorial destination page with a focused reservation flow. */
+.montu-trip-page { min-height: 100vh; overflow: clip; background: var(--section-light, #efe0c2); }
+.montu-trip-shell { position: relative; z-index: 2; width: min(100% - 2rem, 1240px); margin: 0 auto; padding: 8.5rem 0 6rem; }
+.montu-trip-breadcrumb { display: flex; align-items: center; gap: .65rem; margin-bottom: 1.25rem; color: var(--sub-text); font: 700 .65rem Arial,sans-serif; letter-spacing: .14em; text-transform: uppercase; }
+.montu-trip-breadcrumb svg { font-size: .55rem; color: var(--logo-border); }
+.montu-trip-breadcrumb strong { color: var(--logo-border); }
+.montu-trip-hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(20rem, .85fr); gap: clamp(2rem, 5vw, 5.5rem); align-items: center; margin-bottom: 4rem; }
+.montu-trip-gallery { min-width: 0; }
+.montu-trip-gallery__main { position: relative; min-height: clamp(25rem, 52vw, 40rem); overflow: hidden; border: 1px solid var(--logo-border); border-radius: 2rem 2rem .75rem .75rem; box-shadow: 1rem 1rem 0 color-mix(in srgb,var(--logo-border) 19%,transparent), 0 2rem 5rem rgba(10,25,48,.18); background: var(--card-bg); }
+.montu-trip-gallery__main img { transition: transform .8s ease; }
+.montu-trip-gallery__main:hover img { transform: scale(1.035); }
+.montu-trip-gallery__veil { position: absolute; inset: 0; background: linear-gradient(180deg,transparent 48%,rgba(7,17,30,.72)); pointer-events: none; }
+.montu-trip-gallery__stamp { position: absolute; top: 1.25rem; left: 1.25rem; padding: .55rem .75rem; border: 1px solid rgba(245,217,139,.45); border-radius: 999px; color: #f5d98b; background: rgba(10,25,48,.58); font: 800 .58rem Arial,sans-serif; letter-spacing: .15em; }
+.montu-trip-gallery__count { position: absolute; right: 1.25rem; bottom: 1.2rem; color: #fff4d9; font: 700 .68rem Arial,sans-serif; letter-spacing: .1em; text-transform: uppercase; }
+.montu-trip-gallery__rail { display: grid; grid-template-columns: repeat(3,1fr); gap: .7rem; margin-top: .75rem; }
+.montu-trip-gallery__thumb { position: relative; height: 6rem; overflow: hidden; border: 1px solid var(--card-border); border-radius: .7rem; background: var(--card-bg); }
+.montu-trip-gallery__thumb img { transition: transform .4s ease; }
+.montu-trip-gallery__thumb:hover img { transform: scale(1.08); }
+.montu-trip-hero__copy { max-width: 34rem; }
+.montu-trip-eyebrow { display: inline-flex; align-items: center; gap: .7rem; color: var(--egypt-teal); font: 800 .65rem Arial,sans-serif; letter-spacing: .22em; }
+.montu-trip-eyebrow i { width: 2.5rem; height: 1px; background: var(--logo-border); }
+.montu-trip-hero h1 { margin: 1.25rem 0 1.4rem; color: var(--title); font: 700 clamp(2.5rem, 5vw, 5.2rem)/.98 Georgia,serif; letter-spacing: -.045em; }
+.montu-trip-hero__intro { max-width: 31rem; color: var(--sub-text); font: 400 1.05rem/1.75 Arial,sans-serif; }
+.montu-trip-facts { display: flex; flex-wrap: wrap; gap: .6rem; margin: 2rem 0; }
+.montu-trip-facts span { display: inline-flex; align-items: center; gap: .45rem; padding: .6rem .75rem; border: 1px solid var(--card-border); border-radius: 999px; color: var(--text); background: color-mix(in srgb,var(--card-bg) 78%,transparent); font: 700 .65rem Arial,sans-serif; }
+.montu-trip-facts svg { color: var(--logo-border); }
+.montu-trip-hero__rule { width: 100%; height: 1px; margin: 1.5rem 0; background: linear-gradient(90deg,var(--logo-border),transparent); }
+.montu-trip-hero__quote { color: var(--egypt-gold-deep); font: italic 1rem/1.6 Georgia,serif; }
+.montu-trip-content-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(20rem, 24rem); gap: clamp(1.25rem, 4vw, 4rem); align-items: start; }
+.montu-trip-main-column { display: grid; gap: 1.25rem; min-width: 0; }
+.montu-trip-card, .montu-trip-main-column > section { border: 1px solid var(--card-border) !important; border-radius: 1.5rem !important; background: color-mix(in srgb,var(--card-bg) 84%,transparent) !important; box-shadow: 0 1.25rem 3rem rgba(10,25,48,.08) !important; }
+.montu-trip-story, .montu-trip-highlights { padding: clamp(1.5rem, 4vw, 3rem); }
+.montu-trip-section-heading span { color: var(--egypt-teal); font: 800 .63rem Arial,sans-serif; letter-spacing: .2em; text-transform: uppercase; }
+.montu-trip-section-heading h2 { margin: .6rem 0 1.4rem; color: var(--title); font: 700 clamp(1.8rem, 3vw, 3rem)/1.05 Georgia,serif; letter-spacing: -.035em; }
+.montu-trip-description { color: var(--sub-text); font: 400 1rem/1.8 Arial,sans-serif; }
+.montu-trip-description p + p { margin-top: 1rem; }
+.montu-trip-chip-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .75rem; }
+.montu-trip-chip-grid > div { display: grid; grid-template-columns: auto 1fr; column-gap: .7rem; padding: 1rem; border: 1px solid var(--card-border); border-radius: .9rem; background: color-mix(in srgb,var(--card-bg) 75%,transparent); }
+.montu-trip-chip-grid svg { grid-row: span 2; margin-top: .15rem; color: var(--logo-border); }
+.montu-trip-chip-grid b { color: var(--text); font: 800 .75rem Arial,sans-serif; }
+.montu-trip-chip-grid span { margin-top: .3rem; color: var(--sub-text); font: 400 .75rem/1.4 Arial,sans-serif; }
+.montu-trip-booking-column { position: sticky; top: 6.5rem; display: grid; gap: 1rem; }
+.montu-booking-panel { padding: clamp(1.25rem, 3vw, 2rem); border: 1px solid var(--logo-border); border-radius: 1.5rem; color: var(--text); background: linear-gradient(145deg,color-mix(in srgb,var(--card-bg) 94%,transparent),color-mix(in srgb,var(--section-light) 72%,transparent)); box-shadow: 1rem 1rem 0 color-mix(in srgb,var(--logo-border) 13%,transparent), 0 1.8rem 4rem rgba(10,25,48,.14); }
+.montu-booking-panel__topline { display: flex; justify-content: space-between; align-items: center; color: var(--egypt-teal); font: 800 .6rem Arial,sans-serif; letter-spacing: .18em; }
+.montu-booking-panel__topline svg { color: var(--logo-border); }
+.montu-booking-panel__price { display: flex; align-items: baseline; gap: .45rem; margin: 1.25rem 0 .2rem; color: var(--title); }
+.montu-booking-panel__price strong { font: 700 3.25rem/1 Georgia,serif; }
+.montu-booking-panel__price span { font: 800 .75rem Arial,sans-serif; }
+.montu-booking-panel__price small { color: var(--sub-text); font-weight: 400; }
+.montu-booking-panel__note, .montu-booking-caption { color: var(--sub-text); font: 400 .75rem/1.55 Arial,sans-serif; }
+.montu-booking-form { display: grid; gap: .85rem; margin-top: 1.4rem; }
+.montu-booking-form__dates { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .6rem; }
+.montu-booking-form label > span, .montu-booking-people > div:first-child span { display: flex; align-items: center; gap: .4rem; color: var(--text); font: 800 .68rem Arial,sans-serif; }
+.montu-booking-form label > span svg, .montu-booking-people svg { color: var(--logo-border); }
+.montu-booking-form input[type="date"] { width: 100%; margin-top: .4rem; padding: .8rem .6rem; border: 1px solid var(--card-border); border-radius: .65rem; color: var(--text); background: color-mix(in srgb,var(--card-bg) 75%,transparent); font: 600 .72rem Arial,sans-serif; }
+.montu-booking-people { display: flex; align-items: center; justify-content: space-between; padding: .8rem 0; border-top: 1px solid var(--card-border); }
+.montu-booking-people small { display: block; margin-top: .25rem; color: var(--sub-text); font: 400 .65rem Arial,sans-serif; }
+.montu-booking-people--sub { padding-top: 0; border-top: 0; }
+.montu-stepper { display: flex; align-items: center; gap: .75rem; }
+.montu-stepper button { display: grid; width: 1.8rem; height: 1.8rem; place-items: center; border: 1px solid var(--card-border); border-radius: 50%; color: var(--text); background: transparent; cursor: pointer; }
+.montu-stepper button:hover { color: var(--egypt-navy); background: var(--logo-border); }
+.montu-stepper button svg { font-size: .55rem; }
+.montu-stepper b { min-width: 1rem; text-align: center; }
+.montu-booking-option { display: flex; align-items: center; gap: .7rem; padding: .75rem; border: 1px solid var(--card-border); border-radius: .8rem; cursor: pointer; }
+.montu-booking-option.is-selected { border-color: var(--logo-border); background: color-mix(in srgb,var(--logo-border) 10%,transparent); }
+.montu-booking-option input { accent-color: var(--egypt-teal); }
+.montu-booking-option > span { display: grid !important; flex: 1; grid-template-columns: auto 1fr; }
+.montu-booking-option > span svg { grid-row: span 2; margin: .15rem .55rem 0 0; color: var(--logo-border); }
+.montu-booking-option small { grid-column: 2; margin-top: .25rem; color: var(--sub-text); font: 400 .62rem Arial,sans-serif; }
+.montu-booking-option > strong { color: var(--logo-border); }
+.montu-booking-total { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0 .2rem; border-top: 1px solid var(--card-border); color: var(--sub-text); font: 700 .72rem Arial,sans-serif; }
+.montu-booking-total strong { color: var(--title); font: 700 1.45rem Georgia,serif; }
+.montu-booking-submit { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.1rem; border: 1px solid var(--logo-border); border-radius: .75rem; color: #1c1711; background: linear-gradient(120deg,var(--logo-border),var(--egypt-gold-bright)); font: 800 .73rem Arial,sans-serif; letter-spacing: .06em; text-transform: uppercase; cursor: pointer; }
+.montu-booking-submit:hover { filter: saturate(1.12) brightness(1.05); transform: translateY(-2px); }
+.montu-booking-submit:disabled { cursor: wait; opacity: .65; }
+.montu-booking-trust { display: flex; justify-content: space-between; gap: .5rem; margin-top: 1rem; color: var(--sub-text); font: 700 .58rem Arial,sans-serif; }
+.montu-booking-trust span { display: flex; align-items: center; gap: .3rem; }
+.montu-booking-trust svg { color: var(--egypt-teal); }
+.montu-booking-caption { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--card-border); }
+.montu-booking-caption b { color: var(--text); }
+.montu-trip-reserved { display: flex; align-items: center; gap: .6rem; padding: 1rem; border: 1px solid var(--egypt-teal); border-radius: .85rem; color: var(--egypt-teal); background: color-mix(in srgb,var(--egypt-teal) 10%,transparent); font: 700 .75rem/1.4 Arial,sans-serif; }
+.montu-trip-reserved svg { flex: none; }
+.montu-trip-loading { display: grid; min-height: 70vh; place-content: center; justify-items: center; gap: 1rem; color: var(--sub-text); text-align: center; }
+.montu-trip-loading span { color: var(--logo-border); font-size: 3rem; animation: montu-trip-pulse 2s ease-in-out infinite; }
+.montu-trip-loading h1 { color: var(--title); font: 700 3rem Georgia,serif; }
+.montu-trip-welcome-active { overflow: hidden !important; }
+.montu-trip-welcome { position: fixed; inset: 0; z-index: 10000; display: grid; place-items: center; overflow: hidden; color: #f8dfae; background: radial-gradient(circle at 72% 38%,rgba(213,157,76,.25),transparent 20%),#17100d; animation: montu-trip-welcome-out .65s 1.75s ease both; }
+.montu-trip-welcome__sun { position: absolute; right: 12%; top: 18%; width: 18rem; height: 18rem; border-radius: 50%; background: radial-gradient(circle,#ffe3a0 0 12%,rgba(235,174,82,.23) 42%,transparent 70%); filter: blur(2px); animation: montu-trip-sun 2.2s ease-in-out both; }
+.montu-trip-welcome__line { position: absolute; right: -10%; bottom: 20%; left: -10%; height: 1px; background: linear-gradient(90deg,transparent,#d6a55d,transparent); transform: rotate(-8deg); box-shadow: 0 3rem 0 rgba(214,165,93,.17),0 -3rem 0 rgba(214,165,93,.1); }
+.montu-trip-welcome__glyph { position: absolute; right: 11%; bottom: 13%; color: rgba(240,196,112,.5); font-size: 8rem; animation: montu-trip-float 5s ease-in-out infinite; }
+.montu-trip-welcome__content { position: relative; z-index: 2; display: grid; justify-items: center; max-width: min(90vw,50rem); text-align: center; animation: montu-trip-welcome-in .9s cubic-bezier(.16,1,.3,1) both; }
+.montu-trip-welcome__eyebrow { color: #dda85d; font: 800 .62rem Arial,sans-serif; letter-spacing: .32em; }
+.montu-trip-welcome__destination { margin-top: 1.2rem; color: #fff2ce; font: 400 .8rem Arial,sans-serif; letter-spacing: .26em; text-transform: uppercase; }
+.montu-trip-welcome__title { margin: 1.1rem 0; color: #fff3d1; font: 700 clamp(2rem,5vw,4.8rem)/1 Georgia,serif; letter-spacing: -.04em; text-wrap: balance; }
+.montu-trip-welcome__route { padding-top: 1rem; border-top: 1px solid rgba(231,185,104,.45); color: rgba(255,236,195,.66); font: 700 .58rem Arial,sans-serif; letter-spacing: .24em; }
+.montu-trip-welcome__skip { position: absolute; right: 1.5rem; bottom: 1.4rem; z-index: 3; padding: .65rem .85rem; border: 1px solid rgba(240,198,119,.35); border-radius: 999px; color: rgba(255,235,196,.75); background: transparent; font: 700 .6rem Arial,sans-serif; letter-spacing: .12em; text-transform: uppercase; cursor: pointer; }
+@keyframes montu-trip-welcome-in { from { opacity: 0; transform: translateY(1.5rem) scale(.97); } to { opacity: 1; transform: none; } }
+@keyframes montu-trip-welcome-out { to { opacity: 0; visibility: hidden; transform: scale(1.035); } }
+@keyframes montu-trip-sun { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: scale(1); } }
+@keyframes montu-trip-float { 0%,100% { transform: translateY(0) rotate(-6deg); } 50% { transform: translateY(-1rem) rotate(5deg); } }
+@keyframes montu-trip-pulse { 0%,100% { opacity: .55; transform: scale(.95); } 50% { opacity: 1; transform: scale(1.05); } }
+html[data-theme="dark"] .montu-trip-page { background: #17110f; }
+html[data-theme="dark"] .montu-trip-card, html[data-theme="dark"] .montu-trip-main-column > section { background: color-mix(in srgb,#2a1c17 88%,transparent) !important; }
+html[data-theme="dark"] .montu-trip-hero__intro, html[data-theme="dark"] .montu-trip-description, html[data-theme="dark"] .montu-trip-chip-grid span { color: #d4bda1; }
+@media (max-width: 900px) { .montu-trip-shell { padding-top: 7rem; }.montu-trip-hero, .montu-trip-content-grid { grid-template-columns: 1fr; }.montu-trip-booking-column { position: static; order: -1; }.montu-trip-hero__copy { max-width: none; }.montu-trip-gallery__main { min-height: 27rem; } }
+@media (max-width: 560px) { .montu-trip-shell { width: min(100% - 1.1rem, 1240px); padding-top: 6.5rem; }.montu-trip-breadcrumb { font-size: .55rem; }.montu-trip-gallery__main { min-height: 21rem; border-radius: 1.2rem 1.2rem .6rem .6rem; }.montu-trip-gallery__thumb { height: 4.8rem; }.montu-trip-hero h1 { font-size: 2.65rem; }.montu-trip-chip-grid, .montu-booking-form__dates { grid-template-columns: 1fr; }.montu-trip-facts { gap: .4rem; }.montu-trip-facts span { font-size: .58rem; }.montu-trip-welcome__sun { right: -20%; top: 14%; }.montu-trip-welcome__glyph { right: 4%; bottom: 16%; font-size: 5rem; } }
+@media (prefers-reduced-motion: reduce) { .montu-trip-welcome { animation-duration: .2s; animation-delay: .2s; }.montu-trip-welcome__content, .montu-trip-welcome__sun, .montu-trip-welcome__glyph { animation-duration: .01ms !important; }.montu-trip-loading span { animation: none; } }
+
 /* Premium authentication experience */
 .montu-auth-dialog { width: min(100%, 58rem); max-width: none !important; display: grid; grid-template-columns: minmax(16rem, .82fr) minmax(24rem, 1.18fr); padding: 0 !important; overflow: hidden !important; border: 1px solid rgba(118, 78, 35, .22); border-radius: 1.75rem !important; background: #fffaf0 !important; box-shadow: 0 2rem 5rem rgba(49, 30, 13, .28) !important; color: #2f2118; }
 .montu-auth-visual { position: relative; display: flex; min-height: 35rem; flex-direction: column; justify-content: space-between; overflow: hidden; padding: 2rem; color: #fff7e7; background-position: center; background-size: cover; isolation: isolate; }
